@@ -43,3 +43,46 @@ CREATE TABLE addresses (
 	PRIMARY KEY (number,postCode)
 );
 
+CREATE TABLE appointments (
+	patientID INT,
+	date DATE NOT NULL,
+	startTime TIME NOT NULL,
+	endTime TIME NOT NULL,
+	partner VARCHAR(10) NOT NULL,
+	paid BOOLEAN,
+	PRIMARY KEY (date,startTime,partner)
+);
+
+CREATE TABLE treatment (
+	type VARCHAR(20) NOT NULL,
+	cost DECIMAL(7,2) NOT NULL,
+	PRIMARY KEY (type)
+);
+
+CREATE TABLE healthcarePlan (
+	name VARCHAR(30) NOT NULL,
+	checkups INT NOT NULL,
+	hygiene INT NOT NULL,
+	repairs INT NOT NULL,
+	monthlyCost DECIMAL(6,2) NOT NULL,
+	PRIMARY KEY (name)
+);
+
+CREATE TABLE patientAddressLink (
+	houseNumber VARCHAR(20) NOT NULL,
+	postCode VARCHAR(10) NOT NULL,
+	patientID NOT NULL,
+	PRIMARY KEY (houseNumber, postCode, patientID),
+	FOREIGN KEY (houseNumber) REFERENCES addresses(number),
+	FOREIGN KEY (postCode) REFERENCES addresses(postCode),
+	FOREIGN KEY (patientID) REFERENCES patients(patientID)
+);
+
+CREATE TABLE treatmentAppoinmentsLink (
+	type VARCHAR(20) NOT NULL,
+	date DATE NOT NULL,
+	startTime TIME NOT NULL,
+	endTime TIME NOT NULL,
+	partner VARCHAR(10) NOT NULL,
+	PRIMARY KEY (type,date,startTime,endTime,partner)
+
