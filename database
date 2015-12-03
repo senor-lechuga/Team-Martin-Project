@@ -24,39 +24,13 @@
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
-CREATE TABLE patients (
-	title VARCHAR(5) NOT NULL,
-	firstname VARCHAR(30) NOT NULL,
-	lastname VARCHAR(30) NOT NULL,
-	birthDate DATE NOT NULL,
-	phone BIGINT,
-	patientID INT NOT NULL AUTO_INCREMENT,
-	PRIMARY KEY (patientID)
-);
-
 CREATE TABLE addresses (
 	number VARCHAR(20) NOT NULL,
 	street VARCHAR(30),
 	district VARCHAR(30),
 	city VARCHAR (30),
-	postCode VARCHAR(10) NOT NULL,
+	postCode VARCHAR(8) NOT NULL,
 	PRIMARY KEY (number,postCode)
-);
-
-CREATE TABLE appointments (
-	patientID INT,
-	date DATE NOT NULL,
-	startTime TIME NOT NULL,
-	endTime TIME NOT NULL,
-	partner VARCHAR(10) NOT NULL,
-	paid BOOLEAN,
-	PRIMARY KEY (date,startTime,partner)
-);
-
-CREATE TABLE treatment (
-	type VARCHAR(20) NOT NULL,
-	cost DECIMAL(7,2) NOT NULL,
-	PRIMARY KEY (type)
 );
 
 CREATE TABLE healthcarePlan (
@@ -68,21 +42,60 @@ CREATE TABLE healthcarePlan (
 	PRIMARY KEY (name)
 );
 
+CREATE TABLE patients (
+	title VARCHAR(5) NOT NULL,
+	firstname VARCHAR(30) NOT NULL,
+	lastname VARCHAR(30) NOT NULL,
+	birthDate DATE NOT NULL,
+	phone BIGINT,
+	patientID INT NOT NULL AUTO_INCREMENT,
+	houseNumber VARCHAR(20) NOT NULL,
+	postCode VARCHAR(8) NOT NULL,
+	healthPlan VARCHAR(30) NOT NULL,
+	checkupsHad INT DEFAULT 0,
+	hygienesHad INT DEFAULT 0,
+	repairsHad INT DEFAULT 0,
+	PRIMARY KEY (patientID),
+	FOREIGN KEY (houseNumber, postCode) REFERENCES addresses(number, postCode),
+	FOREIGN KEY (healthPlan) REFERENCES healthcarePlan(name)
+);
+
+CREATE TABLE appointments (
+	patientID INT DEFAULT NULL,
+	date DATE NOT NULL,
+	startTime TIME NOT NULL,
+	endTime TIME NOT NULL,
+	partner VARCHAR(10) NOT NULL,
+	paid BOOLEAN DEFAULT FALSE,
+	PRIMARY KEY (date,startTime,partner)
+);
+
+CREATE TABLE treatments (
+	type VARCHAR(20) NOT NULL,
+	cost DECIMAL(7,2) NOT NULL,
+	PRIMARY KEY (type)
+);
+
+/*
 CREATE TABLE patientAddressLink (
 	houseNumber VARCHAR(20) NOT NULL,
 	postCode VARCHAR(10) NOT NULL,
-	patientID NOT NULL,
+	patientID INT NOT NULL,
 	PRIMARY KEY (houseNumber, postCode, patientID),
-	FOREIGN KEY (houseNumber) REFERENCES addresses(number),
-	FOREIGN KEY (postCode) REFERENCES addresses(postCode),
+	FOREIGN KEY (houseNumber, postCode) REFERENCES addresses(number, postCode)
 	FOREIGN KEY (patientID) REFERENCES patients(patientID)
 );
-
 CREATE TABLE treatmentAppoinmentsLink (
 	type VARCHAR(20) NOT NULL,
 	date DATE NOT NULL,
 	startTime TIME NOT NULL,
 	endTime TIME NOT NULL,
 	partner VARCHAR(10) NOT NULL,
-	PRIMARY KEY (type,date,startTime,endTime,partner)
+	PRIMARY KEY (type,date,startTime,endTime,partner),
+	FOREIGN KEY (type) REFERENCES treatment(type),
+	FOREIGN KEY (date) REFERENCES appoinments(date),
+	FOREIGN KEY (startTime) REFERENCES appointments(startTime),
+	FOREIGN KEY (endTime) REFERENCES appointments(endTime),
+	FOREIGN KEY (partner) REFERENCES appointments(partner)
+);*/
 
