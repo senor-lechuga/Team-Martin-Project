@@ -67,13 +67,24 @@ CREATE TABLE appointments (
 	endTime TIME NOT NULL,
 	partner VARCHAR(10) NOT NULL,
 	paid BOOLEAN DEFAULT FALSE,
-	PRIMARY KEY (date,startTime,partner)
+	PRIMARY KEY (date,startTime,partner)/*,
+	FOREIGN KEY (patientID) patients(patientID)*/
+);
+
+CREATE TABLE treatmentTypes (
+	type VARCHAR(20) NOT NULL,
+	cost DECIMAL(7,2) NOT NULL,
+	PRIMARY KEY (type)
 );
 
 CREATE TABLE treatments (
 	type VARCHAR(20) NOT NULL,
-	cost DECIMAL(7,2) NOT NULL,
-	PRIMARY KEY (type)
+	date DATE NOT NULL,
+	startTime TIME NOT NULL,
+	partner VARCHAR(10) NOT NULL,
+	PRIMARY KEY (type, date, startTime, partner),
+	FOREIGN KEY (type) REFERENCES treatmentTypes(type),
+	FOREIGN KEY (date, startTime, partner) REFERENCES appointments(date, startTime, partner)
 );
 
 /*
