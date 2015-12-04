@@ -4,7 +4,6 @@ import java.awt.event.*;
 
 public class AddHealthPlanDialogue extends JFrame {
 	
-	private Container pane;
 	private JButton createBtn, cancelBtn;
 	private JTextField planNameField;
 	private JSpinner checkupCount, hygienesCount, repairsCount;
@@ -15,7 +14,7 @@ public class AddHealthPlanDialogue extends JFrame {
 		super("Add new Health Plan");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//TODO: Get rid of this, just make it close the window.
 		
-		pane = this.getContentPane();
+		Container pane = this.getContentPane();
 		pane.setLayout(new GridLayout(5,1));
 
 		JPanel planName = new JPanel();
