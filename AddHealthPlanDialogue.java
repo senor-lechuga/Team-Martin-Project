@@ -18,7 +18,7 @@ public class AddHealthPlanDialogue extends JFrame {
 		pane.setLayout(new GridLayout(5,1));
 
 		JPanel planName = new JPanel();
-		planName.setLayout(new GridLayout(2,1));
+		planName.setLayout(new FlowLayout()/* new GridLayout(2,1)*/);
 		planName.add(new JLabel("Plan Name:"));
 		planNameField = new JTextField(30);
 		planName.add(planNameField);
@@ -43,7 +43,7 @@ public class AddHealthPlanDialogue extends JFrame {
 		repairs.add(repairsCount);
 
 		JPanel bottomButtons = new JPanel();
-		bottomButtons.setLayout(new GridLayout(1,2));
+		bottomButtons.setLayout(new FlowLayout()/* new GridLayout(1,2)*/);
 		createBtn = new JButton("Create");
 		cancelBtn = new JButton("Cancel");	
 		bottomButtons.add(createBtn);
