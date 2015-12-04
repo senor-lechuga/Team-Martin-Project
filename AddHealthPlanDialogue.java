@@ -79,7 +79,7 @@ public class AddHealthPlanDialogue extends JFrame {
 			//Perform pre-evaluation here to make sure entered fields are correct
 //			String escapedPlanName = planName.getText();  Apparently escaping is not needed when using prepared statements, as I think we are?
 			if(planNameField.getText().equals(""))
-				JOptionPane.showMessageDialog(null, "Please enter a name for this healthcare plan.", "Alert", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null, "Please enter a name for this healthcare plan.", "Plan name missing", JOptionPane.WARNING_MESSAGE);
 			else
 			{
 				//Perform SQL stuff here to create the new entry
