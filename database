@@ -24,6 +24,7 @@
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
+/* Table of addresses */
 CREATE TABLE addresses (
 	number VARCHAR(20) NOT NULL,
 	street VARCHAR(30),
@@ -33,6 +34,7 @@ CREATE TABLE addresses (
 	PRIMARY KEY (number,postCode)
 );
 
+/* Table of different healthecare plans */
 CREATE TABLE healthcarePlan (
 	name VARCHAR(30) NOT NULL,
 	checkups INT NOT NULL,
@@ -42,6 +44,7 @@ CREATE TABLE healthcarePlan (
 	PRIMARY KEY (name)
 );
 
+/* Table of unique patients */
 CREATE TABLE patients (
 	title VARCHAR(5) NOT NULL,
 	firstname VARCHAR(30) NOT NULL,
@@ -60,6 +63,9 @@ CREATE TABLE patients (
 	FOREIGN KEY (healthPlan) REFERENCES healthcarePlan(name)
 );
 
+/* Table of unique appointments. Note that patientID is not a foriegn key. Perhaps this could be designed around and fixed?
+   At the moment it has to be like that as here it defaults to NULL, whereas in the patients table, it has to be NOT NULL,
+   resulting in an error if it is set as a foreign key */
 CREATE TABLE appointments (
 	patientID INT DEFAULT NULL,
 	date DATE NOT NULL,
@@ -67,46 +73,24 @@ CREATE TABLE appointments (
 	endTime TIME NOT NULL,
 	partner VARCHAR(10) NOT NULL,
 	paid BOOLEAN DEFAULT FALSE,
-	PRIMARY KEY (date,startTime,partner)/*,
-	FOREIGN KEY (patientID) patients(patientID)*/
+	PRIMARY KEY (date,startTime,partner)
 );
 
+/* Table of individually different types of treatments and their costs, they are to treatments what healthecarePlan
+   is to patients */
 CREATE TABLE treatmentTypes (
 	type VARCHAR(20) NOT NULL,
 	cost DECIMAL(7,2) NOT NULL,
 	PRIMARY KEY (type)
 );
 
+/* Table of instances of treatments that exist within appointments. Here, many treatments of the same type may be linked to various appointments.*/
 CREATE TABLE treatments (
 	type VARCHAR(20) NOT NULL,
 	date DATE NOT NULL,
 	startTime TIME NOT NULL,
 	partner VARCHAR(10) NOT NULL,
-	PRIMARY KEY (type, date, startTime, partner),
+	PRIMARY KEY (date, startTime, partner),
 	FOREIGN KEY (type) REFERENCES treatmentTypes(type),
 	FOREIGN KEY (date, startTime, partner) REFERENCES appointments(date, startTime, partner)
 );
-
-/*
-CREATE TABLE patientAddressLink (
-	houseNumber VARCHAR(20) NOT NULL,
-	postCode VARCHAR(10) NOT NULL,
-	patientID INT NOT NULL,
-	PRIMARY KEY (houseNumber, postCode, patientID),
-	FOREIGN KEY (houseNumber, postCode) REFERENCES addresses(number, postCode)
-	FOREIGN KEY (patientID) REFERENCES patients(patientID)
-);
-CREATE TABLE treatmentAppoinmentsLink (
-	type VARCHAR(20) NOT NULL,
-	date DATE NOT NULL,
-	startTime TIME NOT NULL,
-	endTime TIME NOT NULL,
-	partner VARCHAR(10) NOT NULL,
-	PRIMARY KEY (type,date,startTime,endTime,partner),
-	FOREIGN KEY (type) REFERENCES treatment(type),
-	FOREIGN KEY (date) REFERENCES appoinments(date),
-	FOREIGN KEY (startTime) REFERENCES appointments(startTime),
-	FOREIGN KEY (endTime) REFERENCES appointments(endTime),
-	FOREIGN KEY (partner) REFERENCES appointments(partner)
-);*/
-
