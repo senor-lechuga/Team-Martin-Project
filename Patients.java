@@ -1,10 +1,12 @@
 import java.util.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 public class Patients {
 	private String title;
 	private String firstName;
 	private String lastName;
 	private Date birthDate;
-	private int phone;
+	private String phone;
 	private int patientID;
 	private String houseNumber;
 	private String postCode;
@@ -52,10 +54,10 @@ public class Patients {
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
 	}
-	public int getPhone() {
+	public String getPhone() {
 		return phone;
 	}
-	public void setPhone(int phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 	public int getPatientID() {
@@ -101,4 +103,9 @@ public class Patients {
 		this.repairsHad = repairsHad;
 	}
 
+	public String dateToString (){
+		SimpleDateFormat dForm = new SimpleDateFormat("dd/MMM/yyyy");
+		String dString = dForm.format(birthDate);
+		return dString;
+	}
 }
