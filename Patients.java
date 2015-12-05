@@ -20,8 +20,6 @@ public class Patients {
 		birthDate = bD;
 		phone = phone;
 		patientID = pID;
-	  houseNumber = houseNum;
-		postCode = postC;
 		healthPlan = healthP;
 		checkUpsHad = cuh;
 		hygienesHad = hh;
