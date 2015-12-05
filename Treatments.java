@@ -1,7 +1,7 @@
 import java.util.Date;
 public class Treatments {
-	private String treatmentType;
-	private double cost;
+	public String treatmentType;
+	public double cost;
 	public Treatments (String type,double c) {
 		treatmentType = type;
 		cost = c;
@@ -18,5 +18,5 @@ public class Treatments {
 	public void setCost(double cost) {
 		this.cost = cost;
 	}
-	
+
 }
