@@ -1,29 +1,32 @@
+import java.util.*;
 public class Patients {
 	private String title;
 	private String firstName;
 	private String lastName;
-	private String birthDate;
+	private Date birthDate;
 	private int phone;
-	private int patientID; 
+	private int patientID;
 	private String houseNumber;
 	private String postCode;
 	private String healthPlan;
 	private int checkUpsHad;
 	private int hygienesHad;
 	private int repairsHad;
-	public Patients (String t, String fN, String lN, String bD, int phone, int pID, String houseNum, String postC, String healthP, int cuh, int hh, int rh){
+	private HealthcarePlan plan;
+	public Patients (String t, String fN, String lN, Date bD, int phone, int pID, String houseNum, String postC, String healthP, int cuh, int hh, int rh, Address a, HealthcarePlan h){
 		title = title;
 		firstName = fN;
 		lastName = lN;
 		birthDate = bD;
 		phone = phone;
-		patientID = pID; 
-	    houseNumber = houseNum;
-		postCode = postC;
+		patientID = pID;
 		healthPlan = healthP;
 		checkUpsHad = cuh;
 		hygienesHad = hh;
 		repairsHad = rh;
+		houseNumber = a.getHouseNumber();
+		postCode = a.getPostCode();
+		plan = h;
 	}
 	public String getTitle() {
 		return title;
@@ -43,10 +46,10 @@ public class Patients {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public String getBirthDate() {
+	public Date getBirthDate() {
 		return birthDate;
 	}
-	public void setBirthDate(String birthDate) {
+	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
 	}
 	public int getPhone() {
@@ -97,6 +100,5 @@ public class Patients {
 	public void setRepairsHad(int repairsHad) {
 		this.repairsHad = repairsHad;
 	}
-	
+
 }
-	

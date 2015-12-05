@@ -1,8 +1,9 @@
-public class TreatmentTypes {
-	private String treatmentType;
-	private double cost;
-	public TreatmentTypes (String treatment,double c) {
-		treatmentType = treatment;
+import java.util.Date;
+public class Treatments {
+	public String treatmentType;
+	public double cost;
+	public Treatments (String type,double c) {
+		treatmentType = type;
 		cost = c;
 	}
 	public String getTreatmentType() {
@@ -17,4 +18,5 @@ public class TreatmentTypes {
 	public void setCost(double cost) {
 		this.cost = cost;
 	}
+
 }

@@ -12,7 +12,7 @@ public class Main{
 			String dB="jdbc:mysql://stusql.dcs.shef.ac.uk/team017?user=team017&password=33b55883";
 			con = DriverManager.getConnection(dB);
 
-			String addAddress = "INSERT INTO addresses (number,street,district,city,postCode)" 
+			String addAddress = "INSERT INTO addresses (number,street,district,city,postCode)"
 						+ "VALUES (?,?,?,?,?)";
 
 			PreparedStatement preparedStmt = con.prepareStatement(addAddress);
@@ -22,18 +22,11 @@ public class Main{
 			preparedStmt.setString (4, "Sheffield");
 			preparedStmt.setString (5, "S3 7Gb");
 		        preparedStmt.execute();
-	      
+
 		        con.close();
 		}
 		catch (SQLException ex) {
 			ex.printStackTrace();
 		}
-		
-		
-			
-		
-		//Address address1 = new Address("15a","Edward Street","Sheffield","Sheffield","S3 7GA");
-		
-		
 	}
 }
