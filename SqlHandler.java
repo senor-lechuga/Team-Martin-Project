@@ -32,7 +32,7 @@ public class SqlHandler {
 	}
 	public void setTreatmentType (TreatmentTypes t) throws SQLException{
 		PreparedStatement statement;
-		if (t.getTreatmentType == null)
+		if (t.getTreatmentType() == null)
 		{
 			statement = con.prepareStatement("INSERT INTO treatmentTypes (type, cost) VALUES (?,?)");
 			statement.setString(1, t.getTreatmentType());
@@ -59,21 +59,21 @@ public class SqlHandler {
 		statement.execute();
 	}
 
-	public void addPatient (Patient p) throws SQLException {
+	public void addPatient (Patients p) throws SQLException {
 		PreparedStatement statement;
 		String add = "INSERT INTO patients (title,firstName,lastName,dob,phone,)"
 					+ "VALUES (?,?,?,?,?)";
 
 		statement = con.prepareStatement(add);
-		statement.setString (1, t.getTitle());
-		statement.setString (2, t.getFirstName());
-		statement.setString (3, t.getLastName());
-		statement.setString (4, t.dateToString());
-		statement.setString (5, a.getPhone());
+		statement.setString (1, p.getTitle());
+		statement.setString (2, p.getFirstName());
+		statement.setString (3, p.getLastName());
+		statement.setString (4, p.dateToString());
+		statement.setString (5, p.getPhone());
 		statement.execute();
 	}
 
-	public void closeConnection()
+	public void closeConnection () throws SQLException
 	{
 		if(con != null)
 			con.close();
