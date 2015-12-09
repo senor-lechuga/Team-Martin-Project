@@ -7,9 +7,12 @@ public class AddHealthPlanDialogue extends JFrame {
 	private JButton createBtn, cancelBtn;
 	private JTextField planNameField;
 	private JSpinner checkupCount, hygienesCount, repairsCount;
+	private SqlHandler handler;
 
-	public AddHealthPlanDialogue ()
+	public AddHealthPlanDialogue (SqlHandler h)
 	{
+		//Set up sql handler
+		handler = h;
 		//Set up the panel
 		super("Add new Health Plan");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//TODO: Get rid of this, just make it close the window.
