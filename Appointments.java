@@ -76,11 +76,4 @@ public class Appointments {
 		String dString = dForm.format(time);
 		return dString;
 	}
-
-	public static void main (String [] args) {
-		Date date = new Date();
-		SimpleDateFormat dForm = new SimpleDateFormat("HH:mm:ss");
-		String dString = dForm.format(date);
-		System.out.print(dString);
-	}
 }
