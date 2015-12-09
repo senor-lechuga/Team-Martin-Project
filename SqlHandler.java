@@ -61,7 +61,7 @@ public class SqlHandler {
 
 	public void addPatient (Patients p) throws SQLException {
 		PreparedStatement statement;
-		String add = "INSERT INTO patients (title,firstName,lastName,dob,phone,)"
+		String add = "INSERT INTO patients (title,firstName,lastName,dob,phone)"
 					+ "VALUES (?,?,?,?,?)";
 
 		statement = con.prepareStatement(add);
@@ -72,6 +72,21 @@ public class SqlHandler {
 		statement.setString (5, p.getPhone());
 		statement.execute();
 	}
+	
+	public void createAppointment(Appointments a) throws SQLException{
+		PreparedStatement statement;
+		String add = "INSERT INTO appointments (patientId,date,startTime,endTime,partner,paid)"
+					+ "VALUES (?,?,?,?,?,?)";
+		
+		statement = con.prepareStatement(add);
+		statement.setInt (1, a.getPatientID());
+		statement.setString (2, a.getDate());
+		statement.setString(3, a.getStartTime());
+		statement.setString (4, a.getEndTime());
+		statement.setString (5, a.getPartner());
+		statement.setBool (6, a.isPaid());
+		statement.execute();
+	}	
 
 	public void closeConnection () throws SQLException
 	{
