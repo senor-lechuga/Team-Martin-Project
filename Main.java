@@ -5,21 +5,23 @@ import java.sql.*;
 //import Address;
 
 public class Main{
+
 	public static void main (String [] args){
 
+		Address a = new Address("15a", "eggstreet", "14a", "14a", "14a");
 
-		SqlHandler h = new SqlHandler();
-//               EXAMPLE BELOW
+		Connection con = null;       //   EXAMPLE BELOW
 		try{
-		h.addAddress("15a", "eggstreet",
-		catch(){
-
+		SqlHandler h = new SqlHandler();
+			h.addAddress (a);}
+		catch(SQLException ex){
+      ex.printStackTrace();
+		//	con.close();
 		}
 // END EXAMPLE
 
 		//MAKE THE GUI FOR MAIN WINDOW.....
 
-		Connection con = null;
 		try {
 			//Class.forName("org.gjt.mm.mysql.Driver");
 			String dB="jdbc:mysql://stusql.dcs.shef.ac.uk/team017?user=team017&password=33b55883";
@@ -27,8 +29,11 @@ public class Main{
 		}
 		catch (SQLException ex) {
 			ex.printStackTrace();
-		}finally{
+		}try{
 			con.close();
+		}
+		catch(SQLException ex){
+			ex.printStackTrace();
 		}
 	}
 }
