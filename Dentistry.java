@@ -38,6 +38,7 @@ public class Dentistry extends JFrame {
 		// Add all elements to the panel
 		pane.add(displayCalendarBtn);
 		pane.add(createUserBtn);
+		pane.add(testAddressAdd);
 		this.pack();
 		setLocationRelativeTo(null);// Display in the centre of the screen
 
@@ -59,7 +60,7 @@ public class Dentistry extends JFrame {
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-		//	AddAddressDialogue d = new AddAddressDialogue(handler);
+			AddAddressDialogue d = new AddAddressDialogue(handler);
 		}
 	};
 	private void closeWindow()

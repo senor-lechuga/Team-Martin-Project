@@ -6,11 +6,15 @@ public class AddAddressDialogue extends JFrame {
 	
 	private JButton createBtn, cancelBtn;
 	private JTextField number, street, district, city, postCode;
+	private SqlHandler handler;
 
-	public AddAddressDialogue ()
+	public AddAddressDialogue (SqlHandler h)
 	{
-		//Set up the panel
 		super("Add new treatment type");
+		//Set up the SQL stuff
+		handler = h;
+
+		//Set up the panel
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//TODO: Get rid of this, just make it close the window.
 		
 		Container pane = this.getContentPane();
@@ -105,6 +109,6 @@ public class AddAddressDialogue extends JFrame {
 
 	public static void main(String[] args)
 	{
-		AddAddressDialogue d = new AddAddressDialogue();
+		AddAddressDialogue d = new AddAddressDialogue(null);
 	}
 }
