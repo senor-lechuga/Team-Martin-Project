@@ -9,7 +9,7 @@ public class Main{
 
 	public static void main (String [] args){
 
-		Address a = new Address("15b", "eggstreet", "14a", "14a", "14a");
+		Address a = new Address("17b", "eggstreet", "14a", "14a", "14a");
 
 		Connection con = null;       //   EXAMPLE BELOW
 		try{
