@@ -15,13 +15,12 @@ public class Patient {
 	private int hygienesHad;
 	private int repairsHad;
 	private HealthcarePlan plan;
-	public Patient (String t, String fN, String lN, Date bD, int phone, int pID, String houseNum, String postC, String healthP, Address a, HealthcarePlan h){
+	public Patient (String t, String fN, String lN, Date bD, int phone, String houseNum, String postC, String healthP, Address a, HealthcarePlan h){
 		title = title;
 		firstName = fN;
 		lastName = lN;
 		birthDate = bD;
 		phone = phone;
-		patientID = pID;
 		healthPlan = healthP;
 		checkUpsHad = 0;
 		hygienesHad = 0;

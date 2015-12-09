@@ -59,7 +59,7 @@ public class SqlHandler {
 		statement.execute();
 	}
 
-	public void addPatient (Patients p) throws SQLException {
+	public void addPatient (Patient p) throws SQLException {
 		PreparedStatement statement;
 		String add = "INSERT INTO patients (title,firstName,lastName,dob,phone)"
 					+ "VALUES (?,?,?,?,?)";
@@ -88,7 +88,7 @@ public class SqlHandler {
 		statement.execute();
 	}
 
-	public createTreatment(Treatements t) throws SQLException{
+	/*public void createTreatment() throws SQLException{
 		PreparedStatement statement;
 		String add = "INSERT INTO treatments (treatmentType,cost)"
 					+ "VALUES (?,?)";
@@ -97,7 +97,7 @@ public class SqlHandler {
 		statement.setInt (1, t.getTreatmentType());
 		statement.setString (2, t.getCost());
 		statement.execute();
-	}
+	}*/
 
 	public void closeConnection () throws SQLException
 	{
