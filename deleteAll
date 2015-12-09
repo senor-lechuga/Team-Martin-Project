@@ -1,6 +1,6 @@
 DROP TABLE patients;
 DROP TABLE addresses;
-DROP TABLE healthcarePlan;
-DROP TABLE treatment;
+DROP TABLE healthcarePlans;
+DROP TABLE treatments;
 DROP TABLE treatmentTypes;
 DROP TABLE appointments;

@@ -88,14 +88,23 @@ public class AddAddressDialogue extends JFrame {
 		{
 			//Perform pre-evaluation here to make sure entered fields are correct
 //			String escapedPlanName = planName.getText();  Apparently escaping is not needed when using prepared statements, as I think we are?
+			String sPostCode = postCode.getText().replaceAll("\\s+","");// Strip spaces out of the postCode
 			if(number.getText().equals("") || postCode.getText().equals(""))
 				JOptionPane.showMessageDialog(null, "Please enter at least a house number and post code.", "Data missing", JOptionPane.WARNING_MESSAGE);
 			else
 			{
 				//Perform SQL stuff here to create the new entry
-				System.out.println("Add a new address with these details:");
+				
+				Address a = new Address(number.getText(), street.getText(), district.getText(), city.getText(), sPostCode);
+				try{
+					handler.addAddress(a);
+				}catch(Exception ex){
+					System.out.println("An error occured:");
+					ex.printStackTrace();
+				}
+			/*	System.out.println("Add a new address with these details:");
 				System.out.println("|Number: " + number.getText() + "\n|Street Name: " + street.getText() + "\n|District: " + district.getText() + "\n|City: " + city.getText() + "\n|Post Code: " + postCode.getText().replaceAll("\\s+",""));
-				//Finally, close the window:
+			*/	//Finally, close the window:
 				closeWindow();
 			}
 		}

@@ -35,7 +35,7 @@ CREATE TABLE addresses (
 );
 
 /* Table of different healthecare plans */
-CREATE TABLE healthcarePlan (
+CREATE TABLE healthcarePlans (
 	name VARCHAR(30) NOT NULL,
 	checkups INT NOT NULL,
 	hygiene INT NOT NULL,
@@ -60,7 +60,7 @@ CREATE TABLE patients (
 	repairsHad INT DEFAULT 0,
 	PRIMARY KEY (patientID),
 	FOREIGN KEY (houseNumber, postCode) REFERENCES addresses(number, postCode),
-	FOREIGN KEY (healthPlan) REFERENCES healthcarePlan(name)
+	FOREIGN KEY (healthPlan) REFERENCES healthcarePlans(name)
 );
 
 /* Table of unique appointments. Note that patientID is not a foriegn key. Perhaps this could be designed around and fixed?

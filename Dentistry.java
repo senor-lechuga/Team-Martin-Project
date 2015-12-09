@@ -19,9 +19,6 @@ public class Dentistry extends JFrame {
 			e.printStackTrace();
 			System.out.println("The system will now shut down.");
 			System.exit(0);
-		}finally{
-			if(handler != null)
-				handler.closeConnection();
 		}
 
 		//Set up the panel

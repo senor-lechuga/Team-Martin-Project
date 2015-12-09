@@ -18,7 +18,7 @@ public class SqlHandler {
 	 * Attempts to get an instance of a treatment type from the database, given a treatment type name.
 	 * @return TreatmentType	the wanted treatment type, or null if not found.
 	*/
-	public TreatmentTypes getTreatmentType (String name) throws SQLException
+	public Treatment getTreatmentType (String name) throws SQLException
 	{
 		// Construct SQL command below to get a list of all treatment types of that name (should be one):
 		String getData = "SELECT (type, cost) FROM treatmentTypes WHERE type = ?";
@@ -28,10 +28,10 @@ public class SqlHandler {
 		if(res.getFetchSize() == 0)
 			return null;
 		else{
-			return (new TreatmentTypes(res.getString("type"), res.getDouble("cost")));
+			return (new Treatment(res.getString("type"), res.getDouble("cost")));
 		}
 	}
-	public void setTreatmentType (TreatmentTypes t) throws SQLException{
+	public void setTreatmentType (Treatment t) throws SQLException{
 		PreparedStatement statement;
 		if (t.getTreatmentType() == null)
 		{

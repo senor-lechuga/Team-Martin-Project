@@ -1,7 +1,7 @@
-public class TreatmentTypes {
+public class Treatment {
 	private String treatmentType;
 	private double cost;
-	public TreatmentTypes (String treatment,double c) {
+	public Treatment (String treatment,double c) {
 		treatmentType = treatment;
 		cost = c;
 	}
