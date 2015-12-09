@@ -87,9 +87,19 @@ public class SqlHandler {
 		statement.setBoolean (6, a.isPaid());
 		statement.execute();
 	}
-
-
-	public void addHealcarePlan(HealthcarePlan hp) throws SQLException{
+	
+	public void removeAppointment(Appointments a) throws SQLException{
+		String removeApp = "DELETE FROM appointments WHERE type = (?,?,?)";
+		
+		PreparedStatement statement = con.prepareStatement(removeApp);
+		statment.setString (1, a.dateToString());
+		statement.setString(2, a.timeToString(a.getStartTime()));
+		statement.setString(3, a.getPartner());
+		statement.execute();
+	}
+		
+		
+	public void addHealthcarePlan(HealthcarePlan hp) throws SQLException{
 		PreparedStatement statement;
 		String add = "INSERT INTO healthcarePlan (name,checkups,hygiene,repairs,monthlyCost)"
 					+ "VALUES (?,?,?,?,?)";
