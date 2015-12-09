@@ -11,10 +11,10 @@ public class AddPatientDialogue extends JFrame {
 
 	public AddPatientDialogue (SqlHandler h)
 	{
+		super("Register a new user");
 		//Set up sql handler
 		handler = h;
 		//Set up the panel
-		super("Register a new user");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//TODO: Get rid of this, just make it close the window.
 		
 		Container pane = this.getContentPane();

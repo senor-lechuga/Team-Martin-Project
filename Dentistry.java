@@ -1,6 +1,7 @@
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.sql.SQLException;
 
 public class Dentistry extends JFrame {
 	
@@ -11,7 +12,14 @@ public class Dentistry extends JFrame {
 	{
 		super("Dentistry");
 		//Set up SQL connection
-		handler = new SqlHandler();
+		try {
+			handler = new SqlHandler();
+		}catch(SQLException e){
+			System.out.println("Error: Database connection failed:");
+			e.printStackTrace();
+			System.out.println("The system will now shut down.");
+			System.exit(0);
+		}
 
 		//Set up the panel
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//TODO: ???
@@ -40,7 +48,7 @@ public class Dentistry extends JFrame {
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			AddPatientDialogue d = new AddPatientDialogue(handler);
+		//	AddPatientDialogue d = new AddPatientDialogue(handler);
 		}
 	};
 
@@ -48,7 +56,7 @@ public class Dentistry extends JFrame {
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			AddAddressDialogue d = new AddAddressDialogue(handler);
+		//	AddAddressDialogue d = new AddAddressDialogue(handler);
 		}
 	};
 	private void closeWindow()

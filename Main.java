@@ -13,10 +13,11 @@ public class Main{
 
 		Connection con = null;       //   EXAMPLE BELOW
 		try{
-		SqlHandler h = new SqlHandler();
-			h.addAddress (a);}
+			SqlHandler h = new SqlHandler();
+			h.addAddress (a);
+		}
 		catch(SQLException ex){
-      ex.printStackTrace();
+		      ex.printStackTrace();
 		//	con.close();
 		}
 // END EXAMPLE
