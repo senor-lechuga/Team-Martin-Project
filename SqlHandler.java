@@ -80,7 +80,7 @@ public class SqlHandler {
 		
 		statement = con.prepareStatement(add);
 		statement.setInt (1, a.getPatientID());
-		statement.setString (2, a.getDate());
+		statement.setString (2, a.dateToString());
 		statement.setString(3, a.getStartTime());
 		statement.setString (4, a.getEndTime());
 		statement.setString (5, a.getPartner());
