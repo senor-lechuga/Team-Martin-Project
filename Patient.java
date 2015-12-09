@@ -1,7 +1,7 @@
 import java.util.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-public class Patients {
+public class Patient {
 	private String title;
 	private String firstName;
 	private String lastName;
@@ -15,7 +15,7 @@ public class Patients {
 	private int hygienesHad;
 	private int repairsHad;
 	private HealthcarePlan plan;
-	public Patients (String t, String fN, String lN, Date bD, int phone, int pID, String houseNum, String postC, String healthP, int cuh, int hh, int rh, Address a, HealthcarePlan h){
+	public Patient (String t, String fN, String lN, Date bD, int phone, int pID, String houseNum, String postC, String healthP, Address a, HealthcarePlan h){
 		title = title;
 		firstName = fN;
 		lastName = lN;
@@ -23,9 +23,9 @@ public class Patients {
 		phone = phone;
 		patientID = pID;
 		healthPlan = healthP;
-		checkUpsHad = cuh;
-		hygienesHad = hh;
-		repairsHad = rh;
+		checkUpsHad = 0;
+		hygienesHad = 0;
+		repairsHad = 0;
 		houseNumber = a.getHouseNumber();
 		postCode = a.getPostCode();
 		plan = h;
