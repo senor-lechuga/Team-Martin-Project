@@ -61,7 +61,7 @@ public class SqlHandler {
 
 	public void addPatient (Patient p) throws SQLException {
 		PreparedStatement statement;
-		String add = "INSERT INTO patients (title,firstName,lastName,dob,phone)"
+		String add = "INSERT INTO patients (title,firstName,lastName,birthDate,phone)"
 					+ "VALUES (?,?,?,?,?)";
 
 		statement = con.prepareStatement(add);
@@ -84,20 +84,26 @@ public class SqlHandler {
 		statement.setString(3, a.timeToString(a.getStartTime()));
 		statement.setString (4, a.timeToString(a.getEndTime()));
 		statement.setString (5, a.getPartner());
-		statement.setBool (6, a.isPaid());
+		statement.setBoolean (6, a.isPaid());
 		statement.execute();
 	}
 
-	/*public void createTreatment() throws SQLException{
+
+	public void addHealcarePlan(HealthcarePlan hp) throws SQLException{
 		PreparedStatement statement;
-		String add = "INSERT INTO treatments (treatmentType,cost)"
-					+ "VALUES (?,?)";
+		String add = "INSERT INTO healthcarePlan (name,checkups,hygiene,repairs,monthlyCost)"
+					+ "VALUES (?,?,?,?,?)";
 
 		statement = con.prepareStatement(add);
-		statement.setInt (1, t.getTreatmentType());
-		statement.setString (2, t.getCost());
+		statement.setString (1, hp.getName());
+		statement.setInt (2, hp.getCheckups());
+		statement.setInt (3, hp.getHygiene());
+		statement.setInt (4, hp.getRepair());
+		statement.setDouble (5,hp.getMonthlyCost());
 		statement.execute();
-	}*/
+	}
+
+
 
 	public void closeConnection () throws SQLException
 	{
