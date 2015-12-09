@@ -10,6 +10,7 @@ public class SqlHandler {
 
 	public SqlHandler () throws SQLException
 	{
+		//Class.forName("com.mysql.jdbc.Driver");
 		con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team017?user=team017&password=33b55883");
 	}
 
@@ -105,9 +106,17 @@ public class SqlHandler {
 
 
 
-	public void closeConnection () throws SQLException
+	public void closeConnection ()
 	{
 		if(con != null)
-			con.close();
+		{
+			try{
+				con.close();
+			}catch(SQLException e){
+				System.out.println("Fatal error:");
+				e.printStackTrace();
+				System.exit(0);
+			}
+		}
 	}
 }

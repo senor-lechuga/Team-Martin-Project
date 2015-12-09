@@ -6,7 +6,7 @@ import java.sql.SQLException;
 public class Dentistry extends JFrame {
 	
 	private JButton createUserBtn, displayCalendarBtn;
-	private SqlHandler handler;
+	private SqlHandler handler = null;
 
 	public Dentistry ()
 	{
@@ -19,6 +19,9 @@ public class Dentistry extends JFrame {
 			e.printStackTrace();
 			System.out.println("The system will now shut down.");
 			System.exit(0);
+		}finally{
+			if(handler != null)
+				handler.closeConnection();
 		}
 
 		//Set up the panel
@@ -61,11 +64,7 @@ public class Dentistry extends JFrame {
 	};
 	private void closeWindow()
 	{
-		try{
-			handler.closeConnection();
-		}catch(SQLException e){
-			e.printStackTrace();
-		}
+		handler.closeConnection();
 		this.setVisible(false);
 		this.dispose();
 	}
