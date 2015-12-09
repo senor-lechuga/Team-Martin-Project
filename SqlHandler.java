@@ -93,7 +93,7 @@ public class SqlHandler {
 		String removeApp = "DELETE FROM appointments WHERE type = (?,?,?)";
 		
 		PreparedStatement statement = con.prepareStatement(removeApp);
-		statment.setString (1, a.dateToString());
+		statement.setString (1, a.dateToString());
 		statement.setString(2, a.timeToString(a.getStartTime()));
 		statement.setString(3, a.getPartner());
 		statement.execute();
