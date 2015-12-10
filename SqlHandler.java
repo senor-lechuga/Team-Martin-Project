@@ -48,16 +48,21 @@ public class SqlHandler {
 	
 	public Address getAddress(Address a) throws SQLException {
 		PreparedStatement statement;
-		String getData = "SELECT (number,street,district,city,postCode) FROM addresses WHERE number = ? AND postCode = ?";
+		String getData = "SELECT * FROM addresses WHERE number = ? AND postCode = ?";
 		statement = con.prepareStatement(getData);
 		statement.setString (1, a.getHouseNumber());
 		statement.setString (2, a.getPostCode());
+		System.out.println("house: " + a.getHouseNumber());
+		System.out.println("postCode: " + a.getPostCode());
 		ResultSet res = statement.executeQuery();
-		if(res.getFetchSize() == 0){
+		/*if(res.getFetchSize() == 0){
+			System.out.println(res.getFetchSize());
+			System.out.println("here");			
 			return null;
-		}else{
+		}else{*/
+			res.first();
 			return (new Address(res.getString("number"), res.getString("street"),res.getString("district"),res.getString("city"),res.getString("postCode")));
-		}	
+		//}	
 	}
 
 	public Address[] getAllAddresses() throws SQLException {
@@ -173,6 +178,36 @@ public class SqlHandler {
 		}
 		return result.toArray(new HealthcarePlan[result.size()]);
 	}
+		
+	public HealthcarePlan getHealthcarePlan(String healthcarePlanName) throws SQLException{
+		PreparedStatement statement;
+		String getData = "SELECT (name,checkups,hygiene,repairs,monthlyCost) FROM healthcarePlans WHERE name =?";
+		statement = con.prepareStatement(getData);
+		statement.setString(1, healthcarePlanName);
+		ResultSet res = statement.executeQuery();
+		if(res.getFetchSize() == 0){
+			return null;
+		}else{
+			return (new HealthcarePlan(res.getString("name"),res.getInt("checkups"),res.getInt("hygiene"),res.getInt("repairs"),res.getFloat("monthlyCost")));
+		}
+	}
+
+	/*public <HealthcarePlan> getAllHealthcarePlans() throws SQLException {
+		PreparedStatement statment;
+		String getData = "SELECT * FROM healthcarePlans";
+		statement = con.prepareStatement(getData);
+		ResultSet res = statement.executeQuery();
+		if(res.getFetchSize() ==0){
+			return null;
+		}else{
+			return
+	} */
+	
+	
+	
+	//get all array of healthcarePlan
+		// get appointments pass patient - and returns list of associated appointments
+		
 	public void addHealthcarePlan(HealthcarePlan hp) throws SQLException{
 		PreparedStatement statement;
 		String add = "INSERT INTO healthcarePlan (name,checkups,hygiene,repairs,monthlyCost)"
@@ -202,5 +237,18 @@ public class SqlHandler {
 				System.exit(0);
 			}
 		}
+	}
+	
+	public static void main (String[]args){
+	
+	Address address = new Address("egg","poop","eggs","poop","eggs");
+	
+	try{
+	Address test = new SqlHandler().getAddress(address);
+	System.out.println(test);
+	}catch (SQLException ex){
+	ex.printStackTrace();
+	System.out.println("error"+ ex);
+	}
 	}
 }
