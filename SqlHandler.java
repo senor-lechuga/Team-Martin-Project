@@ -177,6 +177,7 @@ public class SqlHandler {
 		{
 			try{
 				con.close();
+				System.out.println("SQL database connection closed.");
 			}catch(SQLException e){
 				System.out.println("Fatal error:");
 				e.printStackTrace();
