@@ -151,6 +151,10 @@ public class SqlHandler {
 	}
 		*/
 		
+	public HealthcarePlan getHealthcarePlan(HealthcarePlan hp) throws SQLException{
+		
+	}
+		
 	public void addHealthcarePlan(HealthcarePlan hp) throws SQLException{
 		PreparedStatement statement;
 		String add = "INSERT INTO healthcarePlan (name,checkups,hygiene,repairs,monthlyCost)"

@@ -4,8 +4,8 @@ public class HealthcarePlan {
 	private int hygiene;
 	private int repair;
 	private double monthlyCost;
-	public HealthcarePlan (String streetName,int checks,int hygienes,int repairs, double cost) {
-		streetName = name;
+	public HealthcarePlan (String name,int checks,int hygienes,int repairs, double cost) {
+		name = name;
 		checks = checkups;
 		hygienes = hygiene;
 		repairs= repair;
