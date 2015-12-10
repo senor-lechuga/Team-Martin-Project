@@ -79,10 +79,14 @@ public class AddPatientDialogue extends JFrame {
 		try {
 			planObjects = handler.getAllHealthcarePlans();
 		}catch(SQLException e){
-			planObjects = new Address[0];
+			planObjects = new HealthcarePlan[0];
 		}
+		String[] plans = new String[planObjects.length];
+		for(int i = 0; i<planObjects.length; i++)
+			plans[i] = planObjects[i].getName();
 		//~~~~~~~~~~~~~~~~~~~~~~~~~
 		healthcarePlan = new JComboBox(plans);
+		planPanel.add(healthcarePlan);
 		addPlanBtn = new JButton("Add/Edit");
 		planPanel.add(addPlanBtn);
 		

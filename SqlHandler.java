@@ -174,7 +174,7 @@ public class SqlHandler {
 		ArrayList<HealthcarePlan> result = new ArrayList<HealthcarePlan>();
 		while(rs.next())
 		{
-			result.add(new HealthcarePlan());
+			result.add(new HealthcarePlan(rs.getString("name"), rs.getInt("checkups"), rs.getInt("hygiene"), rs.getInt("repairs"), rs.getDouble("monthlyCost")));
 		}
 		return result.toArray(new HealthcarePlan[result.size()]);
 	}
