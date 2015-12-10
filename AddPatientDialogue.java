@@ -1,6 +1,7 @@
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.sql.SQLException;
 
 public class AddPatientDialogue extends JFrame {
 	
@@ -54,6 +55,13 @@ public class AddPatientDialogue extends JFrame {
 		JPanel addressPanel = new JPanel();
 		addressPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		addressPanel.add(new JLabel("Address:"));
+		Address[] addresses;
+		try{
+			addresses = handler.getAllAddresses();
+		}catch(SQLException e){
+			addresses = new Address[0];
+		}
+		System.out.println(addresses);
 		String[] places = {"Placetown","Townplace","townsville"};
 		address = new JComboBox(places);
 		addAddressBtn = new JButton("Add/Edit");
