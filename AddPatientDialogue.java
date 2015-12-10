@@ -5,7 +5,7 @@ import java.sql.SQLException;
 
 public class AddPatientDialogue extends JFrame {
 	
-	private JButton createBtn, cancelBtn, addAddressBtn;
+	private JButton createBtn, cancelBtn, addAddressBtn, addPlanBtn;
 	private JTextField title, firstName, lastName;
 	private JSpinner birthDay, birthMonth, birthYear;
 	private JComboBox address, healthcarePlan;
@@ -55,18 +55,36 @@ public class AddPatientDialogue extends JFrame {
 		JPanel addressPanel = new JPanel();
 		addressPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		addressPanel.add(new JLabel("Address:"));
+		// ~~~~~~~~~~~~~ FUNCTION?
 		Address[] addresses;
 		try{
 			addresses = handler.getAllAddresses();
 		}catch(SQLException e){
 			addresses = new Address[0];
 		}
-		System.out.println(addresses);
-		String[] places = {"Placetown","Townplace","townsville"};
+		String[] places = new String[addresses.length];
+		for(int i = 0; i<addresses.length; i++)
+			places[i] = addresses[i].getHouseNumber() + ", " + addresses[i].getStreetName() + ": " +addresses[i].getPostCode();
 		address = new JComboBox(places);
+		// ~~~~~~~~~~~~~~~~~~~~~~~
 		addAddressBtn = new JButton("Add/Edit");
 		addressPanel.add(address);
 		addressPanel.add(addAddressBtn);
+
+		JPanel planPanel = new JPanel();
+		planPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		planPanel.add(new JLabel("Healthcare Plan:"));
+		//~~~~~~~~~~~~~~~ FUNCTION?
+		HealthcarePlan[] planObjects;
+		try {
+			planObjects = handler.getAllHealthcarePlans();
+		}catch(SQLException e){
+			planObjects = new Address[0];
+		}
+		//~~~~~~~~~~~~~~~~~~~~~~~~~
+		healthcarePlan = new JComboBox(plans);
+		addPlanBtn = new JButton("Add/Edit");
+		planPanel.add(addPlanBtn);
 		
 		JPanel bottomButtons = new JPanel();
 		bottomButtons.setLayout(new FlowLayout());
@@ -81,6 +99,7 @@ public class AddPatientDialogue extends JFrame {
 		pane.add(lastNamePanel);
 		pane.add(birthPanel);
 		pane.add(addressPanel);
+		pane.add(planPanel);
 		pane.add(bottomButtons);
 		this.pack();
 		setLocationRelativeTo(null);// Display in the centre of the screen
