@@ -151,9 +151,20 @@ public class SqlHandler {
 	}
 		*/
 		
-	public HealthcarePlan getHealthcarePlan(HealthcarePlan hp) throws SQLException{
-		
+	public HealthcarePlan getHealthcarePlan(String healthcarePlanName) throws SQLException{
+		PreparedStatement statement;
+		String getData = "SELECT (name,checkups,hygiene,repairs,monthlyCost) FROM addresses WHERE name =?";
+		statement = con.prepareStatement(getData);
+		statement.setString(1, healthcarePlanName);
+		ResultSet res = statement.executeQuery();
+		if(res.getFetchSize() == 0){
+			return null;
+		}else{
+			return (new HealthcarePlan(res.getString("name"),res.getInt("checkups"),res.getInt("hygiene"),res.getInt("repairs"),res.getFloat("monthlyCost")));
+		}
 	}
+	//get all array of healthcarePlan
+		// get appointments pass patient - and returns list of associated appointments
 		
 	public void addHealthcarePlan(HealthcarePlan hp) throws SQLException{
 		PreparedStatement statement;
