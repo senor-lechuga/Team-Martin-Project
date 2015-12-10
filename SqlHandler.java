@@ -45,19 +45,45 @@ public class SqlHandler {
 		}
 		statement.execute();
 	}
-
-	public void addAddress (Address a) throws SQLException {
+	
+	public Address getAddress(Address a) throws SQLException {
 		PreparedStatement statement;
-		String add = "INSERT INTO addresses (number,street,district,city,postCode)"
-					+ "VALUES (?,?,?,?,?)";
-
-		statement = con.prepareStatement(add);
+		String getData = "SELECT (number,street,district,city,postCode) FROM addresses WHERE number = ? AND postCode = ?";
+		statement = con.prepareStatement(getData);
 		statement.setString (1, a.getHouseNumber());
-		statement.setString (2, a.getStreetName());
-		statement.setString (3, a.getDistrict());
-		statement.setString (4, a.getCity());
-		statement.setString (5, a.getPostCode());
-		statement.execute();
+		statement.setString (2, a.getPostCode());
+		ResultSet res = statement.executeQuery();
+		if(res.getFetchSize() == 0){
+			return null;
+		}else{
+			return (new Address(res.getString("number"), res.getString("street"),res.getString("district"),res.getString("city"),res.getString("postCode")));
+		}	
+	}
+
+	public void setAddress (Address a) throws SQLException {
+		PreparedStatement statement;
+		if (getAddress(a) == null)
+		{
+			String add = "INSERT INTO addresses (number,street,district,city,postCode)"
+					+ "VALUES (?,?,?,?,?)";
+			statement = con.prepareStatement(add);
+			statement.setString (1, a.getHouseNumber());
+			statement.setString (2, a.getStreetName());
+			statement.setString (3, a.getDistrict());
+			statement.setString (4, a.getCity());
+			statement.setString (5, a.getPostCode());
+			statement.execute();
+		}else{
+			String update = "UPDATE`addresses` SET number = ?, street = ?, district = ?, city = ?,  postCode = ? WHERE name = ? AND postCode = ?";
+			statement = con.prepareStatement(update);
+			statement.setString (1, a.getHouseNumber());
+			statement.setString (2, a.getStreetName());
+			statement.setString (3, a.getDistrict());
+			statement.setString (4, a.getCity());
+			statement.setString (5, a.getPostCode());
+			statement.setString (6, a.getHouseNumber());
+			statement.setString (7, a.getPostCode());
+		}
 	}
 
 	public void addPatient (Patient p) throws SQLException {
