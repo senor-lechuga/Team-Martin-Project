@@ -39,7 +39,7 @@ public class SqlHandler {
 			statement.setString(1, t.getTreatmentType());
 			statement.setDouble(2, t.getCost());
 		}else{
-			statement = con.prepareStatement("UPDATE TABLE treatmentTypes (cost) VALUES (?) WHERE type = ?");
+			statement = con.prepareStatement("UPDATE treatmentTypes SET (cost) = ? WHERE type = ?");
 			statement.setDouble(1, t.getCost());
 			statement.setString(2, t.getTreatmentType());
 		}
@@ -74,13 +74,13 @@ public class SqlHandler {
 		statement.execute();
 	}
 
-	public void createAppointment(Appointments a) throws SQLException{
+	public void addAppointment(Appointment a) throws SQLException {
 		PreparedStatement statement;
-		String add = "INSERT INTO appointments (patientId,date,startTime,endTime,partner,paid)"
+		String add = "INSERT INTO appointments (patientID,date,startTime,endTime,partner,paid)" 
 					+ "VALUES (?,?,?,?,?,?)";
 
 		statement = con.prepareStatement(add);
-		statement.setInt (1, a.getPatientID());
+		statement.setInt (1, a.getPatient().getPatientID());
 		statement.setString (2, a.dateToString());
 		statement.setString(3, a.timeToString(a.getStartTime()));
 		statement.setString (4, a.timeToString(a.getEndTime()));
@@ -89,7 +89,7 @@ public class SqlHandler {
 		statement.execute();
 	}
 	
-	public void removeAppointment(Appointments a) throws SQLException{
+	public void removeAppointment(Appointment a) throws SQLException{
 		String removeApp = "DELETE FROM appointments WHERE type = (?,?,?)";
 		
 		PreparedStatement statement = con.prepareStatement(removeApp);
@@ -98,7 +98,32 @@ public class SqlHandler {
 		statement.setString(3, a.getPartner());
 		statement.execute();
 	}
-		
+	
+	/*public ArrayList<Appointment> getAppointments (String patientName) throws SQLException
+	{
+		String getPID = "SELECT (patientID) FROM patient Where type = ?";
+		PreparedStatement statement1 = con.prepareStatement(getPID);
+		statement1.setString(1,patientName);
+		Result resID = statement.executeQuery();
+		if(resID.getFetchSize() == 0)
+			return null;
+		else{
+			String getData = "SELECT (patientID, date, startTime, endTime, partner, paid,) FROM appointments NATURAL JOIN treatments NATURAL JOIN treatmentTypes  WHERE type = (?)";
+			PreparedStatement statement = con.prepareStatement(getData);
+			statement.setString(1, resID.getInt("patientID"));
+			ResultSet resData = statement.executeQuery();
+			if(resData.getFetchSize() == 0)
+				return null;
+			else{
+			ArrayList <String> result = new ArrayList<String>();
+				while (rs.next()){
+					result.add( new Appointment(res.getDate("date"), res.getDate("startTime"),res.getDate("endTime"),res.getString("partner"),res.getBool("paid"),res.get));
+				}
+			return result;
+			}	
+		}
+	}
+		*/
 		
 	public void addHealthcarePlan(HealthcarePlan hp) throws SQLException{
 		PreparedStatement statement;
