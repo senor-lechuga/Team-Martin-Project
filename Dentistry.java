@@ -22,7 +22,7 @@ public class Dentistry extends JFrame {
 		}
 
 		//Set up the panel
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//TODO: ???
+		this.addWindowListener(quitListener);
 		
 		Container pane = this.getContentPane();
 		pane.setLayout(new GridLayout(3,1));
@@ -49,15 +49,28 @@ public class Dentistry extends JFrame {
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-		//	AddPatientDialogue d = new AddPatientDialogue(handler);
+			AddPatientDialogue d = new AddPatientDialogue(handler);
 		}
 	};
-
 	private ActionListener displayAddGUI = new ActionListener()
 	{
 		public void actionPerformed(ActionEvent e)
 		{
 			AddAddressDialogue d = new AddAddressDialogue(handler);
+		}
+	};
+
+	private WindowListener quitListener = new WindowAdapter()
+	{
+		public void windowClosing(WindowEvent e)
+		{
+			//int warning = JOptionPane.showOptionDialog(null, "Do you really want to quit?", "Quit", JOptionPane.YES_NO_OPTION,
+								   //JOptionPane.QUESTION_MESSAGE, null, null, null); 
+			//if(warning == 0)
+			//{
+				handler.closeConnection();
+				System.exit(0);
+			//}
 		}
 	};
 	private void closeWindow()

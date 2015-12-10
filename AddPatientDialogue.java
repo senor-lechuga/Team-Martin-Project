@@ -4,9 +4,10 @@ import java.awt.event.*;
 
 public class AddPatientDialogue extends JFrame {
 	
-	private JButton createBtn, cancelBtn;
-	private JTextField planNameField;
-	private JSpinner checkupCount, hygienesCount, repairsCount;
+	private JButton createBtn, cancelBtn, addAddressBtn;
+	private JTextField title, firstName, lastName;
+	private JSpinner birthDay, birthMonth, birthYear;
+	private JComboBox address, healthcarePlan;
 	private SqlHandler handler;
 
 	public AddPatientDialogue (SqlHandler h)
@@ -14,37 +15,51 @@ public class AddPatientDialogue extends JFrame {
 		super("Register a new user");
 		//Set up sql handler
 		handler = h;
-		//Set up the panel
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//TODO: Get rid of this, just make it close the window.
-		
+
+		//Set up the panel	
 		Container pane = this.getContentPane();
-		pane.setLayout(new GridLayout(5,1));
+		pane.setLayout(new GridLayout(7,1));
 
-		JPanel planName = new JPanel();
-		planName.setLayout(new FlowLayout());
-		planName.add(new JLabel("Plan Name:"));
-		planNameField = new JTextField(30);
-		planName.add(planNameField);
+		JPanel titlePanel = new JPanel();
+		titlePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		titlePanel.add(new JLabel("Title:"));
+		title = new JTextField(5);
+		titlePanel.add(title);
 		
-		SpinnerModel sm = new SpinnerNumberModel(0, 0, 365, 1);
-		JPanel checkUps = new JPanel();
-		checkUps.setLayout(new FlowLayout());
-		checkUps.add(new JLabel("Number of checkup visits:"));
-		checkupCount = new JSpinner(new SpinnerNumberModel(0, 0, 365, 1));
-		checkUps.add(checkupCount);
+		JPanel firstNamePanel = new JPanel();
+		firstNamePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		firstNamePanel.add(new JLabel("Forename:"));
+		firstName = new JTextField(30);
+		firstNamePanel.add(firstName);
 
-		JPanel hygienes = new JPanel();
-		hygienes.setLayout(new FlowLayout());
-		hygienes.add(new JLabel("Number of hygiene visits:"));
-		hygienesCount = new JSpinner(new SpinnerNumberModel(0, 0, 365, 1));
-		hygienes.add(hygienesCount);
+		JPanel lastNamePanel = new JPanel();
+		lastNamePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		lastNamePanel.add(new JLabel("Surname:"));
+		lastName = new JTextField(30);
+		lastNamePanel.add(lastName);
 
-		JPanel repairs = new JPanel();
-		repairs.setLayout(new FlowLayout());
-		repairs.add(new JLabel("Number of repair visits:"));
-		repairsCount = new JSpinner(new SpinnerNumberModel(0, 0, 365, 1));
-		repairs.add(repairsCount);
-
+		JPanel birthPanel = new JPanel();
+		birthPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		birthPanel.add(new JLabel("Birth Date (dd/mm/yyyy):"));
+		JPanel datePanel = new JPanel();
+		datePanel.setLayout(new GridLayout(1,3));
+		birthDay = new JSpinner(new SpinnerNumberModel(1,1,31,1));
+		birthMonth = new JSpinner(new SpinnerNumberModel(1,1,12,1));
+		birthYear = new JSpinner(new SpinnerNumberModel(2015, 1800, 2015, 1));//TODO: Make the upper bound of this spinner to be the current year.
+		datePanel.add(birthDay);
+		datePanel.add(birthMonth);
+		datePanel.add(birthYear);
+		birthPanel.add(datePanel);
+		
+		JPanel addressPanel = new JPanel();
+		addressPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+		addressPanel.add(new JLabel("Address:"));
+		String[] places = {"Placetown","Townplace","townsville"};
+		address = new JComboBox(places);
+		addAddressBtn = new JButton("Add/Edit");
+		addressPanel.add(address);
+		addressPanel.add(addAddressBtn);
+		
 		JPanel bottomButtons = new JPanel();
 		bottomButtons.setLayout(new FlowLayout());
 		createBtn = new JButton("Create");
@@ -53,10 +68,11 @@ public class AddPatientDialogue extends JFrame {
 		bottomButtons.add(cancelBtn);
 
 		// Add all elements to the panel
-		pane.add(planName);
-		pane.add(checkUps);
-		pane.add(hygienes);
-		pane.add(repairs);
+		pane.add(titlePanel);
+		pane.add(firstNamePanel);
+		pane.add(lastNamePanel);
+		pane.add(birthPanel);
+		pane.add(addressPanel);
 		pane.add(bottomButtons);
 		this.pack();
 		setLocationRelativeTo(null);// Display in the centre of the screen
@@ -79,18 +95,6 @@ public class AddPatientDialogue extends JFrame {
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			//Perform pre-evaluation here to make sure entered fields are correct
-//			String escapedPlanName = planName.getText();  Apparently escaping is not needed when using prepared statements, as I think we are?
-			if(planNameField.getText().equals(""))
-				JOptionPane.showMessageDialog(null, "Please enter a name for this healthcare plan.", "Plan name missing", JOptionPane.WARNING_MESSAGE);
-			else
-			{
-				//Perform SQL stuff here to create the new entry
-				System.out.println("Add a new healthcare plan with these details:");
-				System.out.println("|Name: " + planNameField.getText() + "\n|# of Checkups: " + checkupCount.getValue() + "\n|# of Hygiene checks: " + hygienesCount.getValue() + "\n|# of repairs: " + repairsCount.getValue());
-				//Finally, close the window:
-				closeWindow();
-			}
 		}
 	};
 
@@ -102,6 +106,6 @@ public class AddPatientDialogue extends JFrame {
 
 	public static void main(String[] args)
 	{
-		AddPatientDialogue d = new AddPatientDialogue();
+		AddPatientDialogue d = new AddPatientDialogue(null);
 	}
 }
