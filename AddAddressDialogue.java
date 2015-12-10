@@ -15,7 +15,6 @@ public class AddAddressDialogue extends JFrame {
 		handler = h;
 
 		//Set up the panel
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//TODO: Get rid of this, just make it close the window.
 		
 		Container pane = this.getContentPane();
 		pane.setLayout(new GridLayout(6,1));
@@ -97,7 +96,7 @@ public class AddAddressDialogue extends JFrame {
 				
 				Address a = new Address(number.getText(), street.getText(), district.getText(), city.getText(), sPostCode);
 				try{
-					handler.addAddress(a);
+					handler.setAddress(a);
 				}catch(Exception ex){
 					System.out.println("An error occured:");
 					ex.printStackTrace();
