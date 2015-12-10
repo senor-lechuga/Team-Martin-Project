@@ -63,14 +63,12 @@ public class SqlHandler {
 	public Address[] getAllAddresses() throws SQLException {
 		PreparedStatement statement = con.prepareStatement("SELECT * FROM addresses");
 		ResultSet rs = statement.executeQuery();
-		System.out.println("Length: " + rs.getFetchSize());
-		Address[] result = new Address[rs.getFetchSize()];
-		int index = 0;
+		ArrayList<Address> result = new ArrayList<Address>();
 		while(rs.next())
 		{
-			result[index] = new Address(rs.getString("number"), rs.getString("street"), rs.getString("district"), rs.getString("city"), rs.getString("postCode"));
+			result.add(new Address(rs.getString("number"), rs.getString("street"), rs.getString("district"), rs.getString("city"), rs.getString("postCode")));
 		}
-		return result;
+		return result.toArray(new Address[result.size()]);
 	}
 		
 
