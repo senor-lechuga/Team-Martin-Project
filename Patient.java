@@ -1,11 +1,12 @@
 import java.util.*;
+import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 public class Patient {
 	private String title;
 	private String firstName;
 	private String lastName;
-	private Date birthDate;
+	private java.util.Date birthDate;
 	private String phone;
 	private int patientID;
 	private String houseNumber;
@@ -15,7 +16,7 @@ public class Patient {
 	private int hygienesHad;
 	private int repairsHad;
 	private HealthcarePlan plan;
-	public Patient (String t, String fN, String lN, Date bD, int phone, String houseNum, String postC, String healthP, Address a, HealthcarePlan h){
+	public Patient (String t, String fN, String lN, java.util.Date bD, int phone, String houseNum, String postC, String healthP, Address a, HealthcarePlan h){
 		title = title;
 		firstName = fN;
 		lastName = lN;
@@ -47,10 +48,10 @@ public class Patient {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public Date getBirthDate() {
+	public java.util.Date getBirthDate() {
 		return birthDate;
 	}
-	public void setBirthDate(Date birthDate) {
+	public void setBirthDate(java.util.Date birthDate) {
 		this.birthDate = birthDate;
 	}
 	public String getPhone() {
@@ -102,10 +103,12 @@ public class Patient {
 		this.repairsHad = repairsHad;
 	}
 
-	public String dateToString (){
-		SimpleDateFormat dForm = new SimpleDateFormat("dd/MMM/yyyy");
-		String dString = dForm.format(birthDate);
-		return dString;
+	public java.sql.Date formatDate (){
+		//SimpleDateFormat dForm = new SimpleDateFormat("dd/MMM/yyyy");
+		//Date date = dForm.format(birthDate);
+		//java.sql.Date sqlDate = new java.sql.Date(birthDate);
+		//return sqlDate;
+		return new java.sql.Date(birthDate.getTime());
 	}
-	
+
 }
