@@ -8,26 +8,23 @@ public class Patient {
 	private Date birthDate;
 	private String phone;
 	private int patientID;
-	private String houseNumber;
-	private String postCode;
 	private String healthPlan;
+	private Address address;
 	private int checkUpsHad;
 	private int hygienesHad;
 	private int repairsHad;
 	private HealthcarePlan plan;
-	public Patient (String t, String fN, String lN, Date bD, int phone, String houseNum, String postC, String healthP, Address a, HealthcarePlan h){
+	public Patient (String title, String firstName, String lastName, Date birthDate, int phone, String healthP, Address address, HealthcarePlan healthPlan){
 		title = title;
-		firstName = fN;
-		lastName = lN;
-		birthDate = bD;
+		firstName = firstName;
+		lastName = lastName;
+		birthDate = birthDate;
 		phone = phone;
-		healthPlan = healthP;
+		address = address;
+		healthPlan = healthPlan;
 		checkUpsHad = 0;
 		hygienesHad = 0;
 		repairsHad = 0;
-		houseNumber = a.getHouseNumber();
-		postCode = a.getPostCode();
-		plan = h;
 	}
 	public String getTitle() {
 		return title;
@@ -65,23 +62,17 @@ public class Patient {
 	public void setPatientID(int patientID) {
 		this.patientID = patientID;
 	}
-	public String getHouseNumber() {
-		return houseNumber;
-	}
-	public void setHouseNumber(String houseNumber) {
-		this.houseNumber = houseNumber;
-	}
-	public String getPostCode() {
-		return postCode;
-	}
-	public void setPostCode(String postCode) {
-		this.postCode = postCode;
-	}
 	public String getHealthPlan() {
 		return healthPlan;
 	}
 	public void setHealthPlan(String healthPlan) {
 		this.healthPlan = healthPlan;
+	}
+	public Address getAddress(){
+		return address;
+	}
+	public void setAddress(Address address){
+		this.address = address;
 	}
 	public int getCheckUpsHad() {
 		return checkUpsHad;
