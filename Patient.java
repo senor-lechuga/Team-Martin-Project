@@ -6,15 +6,14 @@ public class Patient {
 	private String firstName;
 	private String lastName;
 	private Date birthDate;
-	private String phone;
+	private int phone;
 	private int patientID;
 	private String healthPlan;
 	private Address address;
 	private int checkUpsHad;
 	private int hygienesHad;
 	private int repairsHad;
-	private HealthcarePlan plan;
-	public Patient (String title, String firstName, String lastName, Date birthDate, int phone, String healthP, Address address, HealthcarePlan healthPlan){
+	public Patient (String title, String firstName, String lastName, Date birthDate, int phone, String healthPlan, Address address){
 		title = title;
 		firstName = firstName;
 		lastName = lastName;
@@ -50,10 +49,10 @@ public class Patient {
 	public void setBirthDate(Date birthDate) {
 		this.birthDate = birthDate;
 	}
-	public String getPhone() {
+	public int getPhone() {
 		return phone;
 	}
-	public void setPhone(String phone) {
+	public void setPhone(int phone) {
 		this.phone = phone;
 	}
 	public int getPatientID() {
@@ -62,10 +61,10 @@ public class Patient {
 	public void setPatientID(int patientID) {
 		this.patientID = patientID;
 	}
-	public String getHealthPlan() {
+	public String getHealthcarePlan() {
 		return healthPlan;
 	}
-	public void setHealthPlan(String healthPlan) {
+	public void setHealthcarePlan(String healthPlan) {
 		this.healthPlan = healthPlan;
 	}
 	public Address getAddress(){
