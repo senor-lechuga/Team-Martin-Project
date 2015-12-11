@@ -6,7 +6,7 @@ public class Patient {
 	private String title;
 	private String firstName;
 	private String lastName;
-	private Date birthDate;
+	private java.util.Date birthDate;
 	private int phone;
 	private int patientID;
 	private String healthPlan;
@@ -14,7 +14,7 @@ public class Patient {
 	private int checkUpsHad;
 	private int hygienesHad;
 	private int repairsHad;
-	public Patient (String title, String firstName, String lastName, Date birthDate, int phone, String healthPlan, Address address){
+	public Patient (String title, String firstName, String lastName, java.util.Date birthDate, int phone, String healthPlan, Address address){
 		title = title;
 		firstName = firstName;
 		lastName = lastName;
@@ -101,4 +101,14 @@ public class Patient {
 		return new java.sql.Date(birthDate.getTime());
 	}
 
+	/*public static void main (String [] args)
+	          throws SQLException,NullPointerException{
+	  java.util.Date date = new java.util.Date();
+	  Address a = null;
+	  HealthcarePlan h = null;
+	  Patient p = new Patient("Mr.","Rafael","C",date,2345,"51a",
+	                                  "S1 3GF","Basic",a,h);
+	  SqlHandler handler = new SqlHandler();
+	  handler.addPatient(p);
+  }*/
 }

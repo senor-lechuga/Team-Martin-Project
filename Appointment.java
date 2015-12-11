@@ -5,14 +5,14 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 public class Appointment {
 	private Patient patient;
-	private Date date;
-	private Date startTime, endTime;
+	private java.util.Date date;
+	private java.util.Date startTime, endTime;
 	private String partner;
 	private boolean paid;
 	private String type;
 	private ArrayList<Treatment> treatments;
 
-	public Appointment (Patient p, Date dates,Date sTime,Date eTime, String partners, boolean paid, ArrayList<Treatment> ts) {
+	public Appointment (Patient p, java.util.Date dates,java.util.Date sTime,java.util.Date eTime, String partners, boolean paid, ArrayList<Treatment> ts) {
 		patient = p;
 		date = dates;
 		startTime = sTime;
@@ -39,22 +39,22 @@ public class Appointment {
 		this.treatments.add(t);
 	}
 
-	public Date getDate() {
+	public java.util.Date getDate() {
 		return date;
 	}
-	public void setDate(Date date) {
+	public void setDate(java.util.Date date) {
 		this.date = date;
 	}
-	public Date getStartTime() {
+	public java.util.Date getStartTime() {
 		return startTime;
 	}
-	public void setStartTime(Date startTime) {
+	public void setStartTime(java.util.Date startTime) {
 		this.startTime = startTime;
 	}
-	public Date getEndTime() {
+	public java.util.Date getEndTime() {
 		return endTime;
 	}
-	public void setEndTime(Date endTime) {
+	public void setEndTime(java.util.Date endTime) {
 		this.endTime = endTime;
 	}
 	public String getPartner() {
@@ -82,9 +82,23 @@ public class Appointment {
 		return new java.sql.Date(date.getTime());
 	}
 
-	public String timeToString(Date time){
-		SimpleDateFormat dForm = new SimpleDateFormat("HH:mm:ss");
-		String dString = dForm.format(time);
-		return dString;
+	public java.sql.Date formatTime(java.util.Date time){
+	//	SimpleDateFormat dForm = new SimpleDateFormat("HH:mm:ss");
+		//java.util.Date formDate = dForm.parse(time);
+		return new java.sql.Date(time.getTime());
+	}
+
+	public static void main (String [] args)
+						throws SQLException,NullPointerException{
+		java.util.Date date = new java.util.Date();
+		java.util.Date start = new java.util.Date();
+		java.util.Date end = new java.util.Date();
+
+		Patient p = null;
+		ArrayList <Treatment> ls = new ArrayList<Treatment>();
+
+		Appointment a = new Appointment(p,date,start,end,"Dentist",false,ls);
+		SqlHandler handler = new SqlHandler();
+		handler.addAppointment(a);
 	}
 }
