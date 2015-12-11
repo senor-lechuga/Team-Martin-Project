@@ -17,9 +17,8 @@ public class AddHealthPlanDialogue extends JFrame {
 
 	public AddHealthPlanDialogue (SqlHandler h)
 	{
-		//Set up the panel
 		super("Add new Health Plan");
-
+		//Set up the panel	
 		handler = h;
 
 		Container pane = this.getContentPane();
@@ -134,6 +133,6 @@ public class AddHealthPlanDialogue extends JFrame {
 
 	public static void main(String[] args) throws SQLException
 	{
-		AddHealthPlanDialogue d = new AddHealthPlanDialogue();
+		AddHealthPlanDialogue d = new AddHealthPlanDialogue(null);
 	}
 }

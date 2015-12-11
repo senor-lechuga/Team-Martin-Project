@@ -97,6 +97,7 @@ public class AddPatientDialogue extends JFrame {
 
 		// Add function listeners
 		addAddressBtn.addActionListener(addressPopup);
+		addPlanBtn.addActionListener(planPopup);
 		cancelBtn.addActionListener(cancelListener);
 		createBtn.addActionListener(createListener);
 		this.setVisible( true );
@@ -143,7 +144,7 @@ public class AddPatientDialogue extends JFrame {
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			AddHealthPlanDialogue d= new AddHealthPlanDialogue(handler);
+			AddHealthPlanDialogue d = new AddHealthPlanDialogue(handler);
 			d.addPatientReference(AddPatientDialogue.this);
 		}
 	};
@@ -153,7 +154,6 @@ public class AddPatientDialogue extends JFrame {
 		{
 			//Close the window
 			closeWindow();
-			//this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 		}
 	};
 	private ActionListener createListener = new ActionListener()
