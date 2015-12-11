@@ -1,15 +1,15 @@
 public class HealthcarePlan {
 	private String name;
 	private int checkups;
-	private int hygiene;
-	private int repair;
+	private int hygienes;
+	private int repairs;
 	private double monthlyCost;
-	public HealthcarePlan (String name,int checks,int hygienes,int repairs, double cost) {
-		name = name;
-		checks = checkups;
-		hygienes = hygiene;
-		repairs= repair;
-		cost = monthlyCost;
+	public HealthcarePlan (String name,int checkups,int hygienes,int repairs, double monthlyCost) {
+		this.name = name;
+		this.checkups = checkups;
+		this.hygienes = hygienes;
+		this.repairs = repairs;
+		this.monthlyCost = monthlyCost;
 	}
 
 	public String getName() {
@@ -24,17 +24,17 @@ public class HealthcarePlan {
 	public void setCheckups(int checkups) {
 		this.checkups = checkups;
 	}
-	public int getHygiene() {
-		return hygiene;
+	public int getHygienes() {
+		return hygienes;
 	}
-	public void setHygiene(int hygiene) {
-		this.hygiene = hygiene;
+	public void setHygienes(int hygiene) {
+		this.hygienes = hygienes;
 	}
-	public int getRepair() {
-		return repair;
+	public int getRepairs() {
+		return repairs;
 	}
-	public void setRepair(int repair) {
-		this.repair = repair;
+	public void setRepairs(int repair) {
+		this.repairs = repairs;
 	}
 	public double getMonthlyCost() {
 		return monthlyCost;
