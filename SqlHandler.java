@@ -45,24 +45,27 @@ public class SqlHandler {
 		}
 		statement.execute();
 	}
-	
+
 	public Address getAddress(Address a) throws SQLException {
 		PreparedStatement statement;
 		String getData = "SELECT * FROM addresses WHERE number = ? AND postCode = ?";
 		statement = con.prepareStatement(getData);
 		statement.setString (1, a.getHouseNumber());
 		statement.setString (2, a.getPostCode());
-		System.out.println("house: " + a.getHouseNumber());
-		System.out.println("postCode: " + a.getPostCode());
 		ResultSet res = statement.executeQuery();
-		/*if(res.getFetchSize() == 0){
-			System.out.println(res.getFetchSize());
-			System.out.println("here");			
+		String getCount = "SELECT COUNT(*) AS count FROM addresses WHERE number = ? AND postCode = ?";
+		PreparedStatement countState;
+		countState = con.prepareStatement(getCount);
+		countState.setString (1, a.getHouseNumber());
+		countState.setString (2, a.getPostCode());
+		ResultSet count = countState.executeQuery();	
+		count.first();
+		if(count.getInt("count") == 0){		
 			return null;
-		}else{*/
+		}else{
 			res.first();
 			return (new Address(res.getString("number"), res.getString("street"),res.getString("district"),res.getString("city"),res.getString("postCode")));
-		//}	
+		}	
 	}
 
 	public Address[] getAllAddresses() throws SQLException {
@@ -180,6 +183,8 @@ public class SqlHandler {
 			return (new HealthcarePlan(res.getString("name"),res.getInt("checkups"),res.getInt("hygiene"),res.getInt("repairs"),res.getFloat("monthlyCost")));
 		}
 	}
+// 
+
 
 	/*public <HealthcarePlan> getAllHealthcarePlans() throws SQLException {
 		PreparedStatement statment;
@@ -228,9 +233,9 @@ public class SqlHandler {
 		}
 	}
 	
-	public static void main (String[]args){
+	/*public static void main (String[]args){
 	
-	Address address = new Address("egg","poop","eggs","poop","eggs");
+	Address address = new Address("fat","poop","eggs","poop","eggs");
 	
 	try{
 	Address test = new SqlHandler().getAddress(address);
@@ -239,5 +244,5 @@ public class SqlHandler {
 	ex.printStackTrace();
 	System.out.println("error"+ ex);
 	}
-	}
+	}*/
 }
