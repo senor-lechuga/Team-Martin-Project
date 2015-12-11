@@ -1,12 +1,14 @@
 import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
+import java.sql.SQLException;
 
 public class AddAddressDialogue extends JFrame {
 	
 	private JButton createBtn, cancelBtn;
 	private JTextField number, street, district, city, postCode;
 	private SqlHandler handler;
+	private AddPatientDialogue patientCreator;
 
 	public AddAddressDialogue (SqlHandler h)
 	{
@@ -15,7 +17,6 @@ public class AddAddressDialogue extends JFrame {
 		handler = h;
 
 		//Set up the panel
-		
 		Container pane = this.getContentPane();
 		pane.setLayout(new GridLayout(6,1));
 
@@ -72,13 +73,18 @@ public class AddAddressDialogue extends JFrame {
 		createBtn.addActionListener(createListener);
 		this.setVisible( true );
 	}
+
+	public void addPatientReference(AddPatientDialogue d)
+	{
+		patientCreator = d;
+	}
+
 	private ActionListener cancelListener = new ActionListener()
 	{
 		public void actionPerformed(ActionEvent e)
 		{
 			//Close the window
 			closeWindow();
-			//this.dispatchEvent(new WindowEvent(this, WindowEvent.WINDOW_CLOSING));
 		}
 	};
 	private ActionListener createListener = new ActionListener()
@@ -97,13 +103,13 @@ public class AddAddressDialogue extends JFrame {
 				Address a = new Address(number.getText(), street.getText(), district.getText(), city.getText(), sPostCode);
 				try{
 					handler.setAddress(a);
-				}catch(Exception ex){
+					if(patientCreator != null)
+						patientCreator.setupAddressBox();
+				}catch(SQLException ex){
 					System.out.println("An error occured:");
 					ex.printStackTrace();
 				}
-			/*	System.out.println("Add a new address with these details:");
-				System.out.println("|Number: " + number.getText() + "\n|Street Name: " + street.getText() + "\n|District: " + district.getText() + "\n|City: " + city.getText() + "\n|Post Code: " + postCode.getText().replaceAll("\\s+",""));
-			*/	//Finally, close the window:
+				//Finally, close the window:
 				closeWindow();
 			}
 		}

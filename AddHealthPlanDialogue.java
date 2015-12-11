@@ -2,6 +2,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.sql.*;
+import java.sql.SQLExcption;
 
 public class AddHealthPlanDialogue extends JFrame {
 
@@ -11,13 +12,15 @@ public class AddHealthPlanDialogue extends JFrame {
 	private String name;
 	private int checkup,hygiene,repairs;
 	private double cost;
-	private HealthcarePlan plan=null;
+	private AddPatientDialogue patientCreator;
+	private SqlHandler handler;
 
-	public AddHealthPlanDialogue ()
+	public AddHealthPlanDialogue (SqlHandler h)
 	{
 		//Set up the panel
-		//super("Add new Health Plan");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//TODO: Get rid of this, just make it close the window.
+		super("Add new Health Plan");
+
+		handler = h;
 
 		Container pane = this.getContentPane();
 		pane.setLayout(new GridLayout(6,1));
@@ -60,8 +63,6 @@ public class AddHealthPlanDialogue extends JFrame {
 		bottomButtons.add(createBtn);
 		bottomButtons.add(cancelBtn);
 
-
-
 		// Add all elements to the panel
 		pane.add(planName);
 		pane.add(checkUps);
@@ -81,6 +82,11 @@ public class AddHealthPlanDialogue extends JFrame {
 	public HealthcarePlan getPlan(){
 		return plan;
 	}
+	
+	public addPatientReference(AddPatientDialogue p)
+	{
+		patientCreator = p;
+	}
 
 	private ActionListener cancelListener = new ActionListener()
 	{
@@ -96,21 +102,28 @@ public class AddHealthPlanDialogue extends JFrame {
 		public void actionPerformed(ActionEvent e)
 		{
 			//Perform pre-evaluation here to make sure entered fields are correct
-//			String escapedPlanName = planName.getText();  Apparently escaping is not needed when using prepared statements, as I think we are?
 			if(planNameField.getText().equals(""))
 				JOptionPane.showMessageDialog(null, "Please enter a name for this healthcare plan.", "Plan name missing", JOptionPane.WARNING_MESSAGE);
 			else
 			{
 				//Perform SQL stuff here to create the new entry
-				System.out.println("Add a new healthcare plan with these details:");
-				System.out.println("|Name: " + planNameField.getText() + "\n|# of Checkups: " + checkupCount.getValue() + "\n|# of Hygiene checks: " + hygienesCount.getValue() + "\n|# of repairs: " + repairsCount.getValue() + "\n|Monthly cost: " + costCount.getText());
+				/*System.out.println("Add a new healthcare plan with these details:");
+				System.out.println("|Name: " + planNameField.getText() + "\n|# of Checkups: " + checkupCount.getValue() + "\n|# of Hygiene checks: " + hygienesCount.getValue() + "\n|# of repairs: " + repairsCount.getValue() + "\n|Monthly cost: " + costCount.getText());*/
 				//Creates Healthplan object
 				name = planNameField.getText();
 				checkup = Integer.valueOf((Integer)checkupCount.getValue());
 				hygiene = Integer.valueOf((Integer)hygienesCount.getValue());
 				repairs = Integer.valueOf((Integer)repairsCount.getValue());
 				cost = Double.parseDouble(costCount.getText());
-				plan = new HealthcarePlan(name,checkup,hygiene,repairs,cost);
+				HealthcarePlan plan = new HealthcarePlan(name,checkup,hygiene,repairs,cost);
+				try{
+					handler.addHealthcarePlan(plan);
+					if(patientCreator != null)
+						patientCreator.setupHealthPlanBox();
+				}catch(SQLException ex){
+					System.out.println("An error occured:");
+					ex.printStackTrace();
+				}
 				//Finally, close the window:
 				closeWindow();
 			}
