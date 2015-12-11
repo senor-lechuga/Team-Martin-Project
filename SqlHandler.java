@@ -170,6 +170,17 @@ public class SqlHandler {
 		}
 	}
 		*/
+	
+	public HealthcarePlan[] getAllHealthcarePlans() throws SQLException {
+		PreparedStatement statement = con.prepareStatement("SELECT * FROM healthcarePlans");
+		ResultSet rs = statement.executeQuery();
+		ArrayList<HealthcarePlan> result = new ArrayList<HealthcarePlan>();
+		while(rs.next())
+		{
+			result.add(new HealthcarePlan(rs.getString("name"), rs.getInt("checkups"), rs.getInt("hygiene"), rs.getInt("repairs"), rs.getDouble("monthlyCost")));
+		}
+		return result.toArray(new HealthcarePlan[result.size()]);
+	}
 		
 	public HealthcarePlan getHealthcarePlan(String healthcarePlanName) throws SQLException{
 		PreparedStatement statement;
