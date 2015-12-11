@@ -2,10 +2,8 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.sql.SQLException;
-import calendarchoice.*;
 
 public class Dentistry extends JFrame {
-	
 	private JButton createUserBtn, displayCalendarBtn;
 	private SqlHandler handler = null;
 
@@ -66,7 +64,7 @@ public class Dentistry extends JFrame {
 		public void actionPerformed(ActionEvent e)
 		{
 			//CalendarChoice d = new CalendarChoice();
-			UserCalendars calendar = new UserCalendars();
+			UserCalendars calendar = new UserCalendars(handler);
 	        calendar.setVisible(true);
 		}
 	};
