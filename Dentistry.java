@@ -2,6 +2,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.sql.SQLException;
+import calendarchoice.*;
 
 public class Dentistry extends JFrame {
 	
@@ -42,6 +43,7 @@ public class Dentistry extends JFrame {
 		// Add function listeners
 		createUserBtn.addActionListener(startUserCreation);
 		testAddressAdd.addActionListener(displayAddGUI);
+		displayCalendarBtn.addActionListener(displayCalendar);
 		this.setVisible( true );
 	}
 
@@ -57,6 +59,15 @@ public class Dentistry extends JFrame {
 		public void actionPerformed(ActionEvent e)
 		{
 			AddAddressDialogue d = new AddAddressDialogue(handler);
+		}
+	};
+	private ActionListener displayCalendar = new ActionListener()
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			//CalendarChoice d = new CalendarChoice();
+			UserCalendars calendar = new UserCalendars();
+	        calendar.setVisible(true);
 		}
 	};
 

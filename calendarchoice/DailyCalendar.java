@@ -53,8 +53,6 @@ public class DailyCalendar extends javax.swing.JFrame {
         jCheckBox25 = new javax.swing.JCheckBox();
         jButton1 = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-
         jCheckBox1.setText("9:00-9:20");
 
         jCheckBox2.setBackground(new java.awt.Color(153, 153, 153));
@@ -69,6 +67,11 @@ public class DailyCalendar extends javax.swing.JFrame {
 
         jCheckBox6.setBackground(new java.awt.Color(153, 153, 153));
         jCheckBox6.setText("10:40-11:00");
+        jCheckBox6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckBox6ActionPerformed(evt);
+            }
+        });
 
         jCheckBox7.setText("11:00-11:20");
 
@@ -220,6 +223,10 @@ public class DailyCalendar extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jCheckBox6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox6ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jCheckBox6ActionPerformed
 
     /**
      * @param args the command line arguments
