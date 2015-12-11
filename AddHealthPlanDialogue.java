@@ -2,7 +2,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.sql.*;
-import java.sql.SQLExcption;
+import java.sql.SQLException;
 
 public class AddHealthPlanDialogue extends JFrame {
 
@@ -78,12 +78,8 @@ public class AddHealthPlanDialogue extends JFrame {
 		createBtn.addActionListener(createListener);
 		this.setVisible( true );
 	}
-
-	public HealthcarePlan getPlan(){
-		return plan;
-	}
 	
-	public addPatientReference(AddPatientDialogue p)
+	public void addPatientReference(AddPatientDialogue p)
 	{
 		patientCreator = p;
 	}
@@ -139,7 +135,5 @@ public class AddHealthPlanDialogue extends JFrame {
 	public static void main(String[] args) throws SQLException
 	{
 		AddHealthPlanDialogue d = new AddHealthPlanDialogue();
-		SqlHandler h = new SqlHandler();
-		h.addHealcarePlan(d.getPlan());
 	}
 }
