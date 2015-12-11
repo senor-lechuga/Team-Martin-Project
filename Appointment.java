@@ -1,4 +1,5 @@
 import java.util.Date;
+import java.sql.*;
 import java.util.ArrayList;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -21,23 +22,23 @@ public class Appointment {
 		type = null;
 		treatments = ts;
 	}
-	
+
 	public Patient getPatient(){
 		return patient;
 	}
-	
+
 	public void setPatient(Patient patient) {
 		this.patient = patient;
 	}
-		
+
 	public ArrayList<Treatment> getTreatments(){
 		return treatments;
 	}
-	
+
 	public void addTreatment(Treatment t){
 		this.treatments.add(t);
 	}
-	
+
 	public Date getDate() {
 		return date;
 	}
@@ -73,10 +74,12 @@ public class Appointment {
 		this.type = type;
 	}
 
-	public String dateToString (){
-		SimpleDateFormat dForm = new SimpleDateFormat("dd/MMM/yyyy");
-		String dString = dForm.format(date);
-		return dString;
+	public java.sql.Date formatDate (){
+		//SimpleDateFormat dForm = new SimpleDateFormat("dd/MMM/yyyy");
+		//Date date = dForm.format(birthDate);
+		//java.sql.Date sqlDate = new java.sql.Date(birthDate);
+		//return sqlDate;
+		return new java.sql.Date(date.getTime());
 	}
 
 	public String timeToString(Date time){

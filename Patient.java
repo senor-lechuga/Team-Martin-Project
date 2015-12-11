@@ -1,4 +1,5 @@
 import java.util.*;
+import java.sql.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 public class Patient {
@@ -6,28 +7,24 @@ public class Patient {
 	private String firstName;
 	private String lastName;
 	private Date birthDate;
-	private String phone;
+	private int phone;
 	private int patientID;
-	private String houseNumber;
-	private String postCode;
 	private String healthPlan;
+	private Address address;
 	private int checkUpsHad;
 	private int hygienesHad;
 	private int repairsHad;
-	private HealthcarePlan plan;
-	public Patient (String t, String fN, String lN, Date bD, int phone, String houseNum, String postC, String healthP, Address a, HealthcarePlan h){
+	public Patient (String title, String firstName, String lastName, Date birthDate, int phone, String healthPlan, Address address){
 		title = title;
-		firstName = fN;
-		lastName = lN;
-		birthDate = bD;
+		firstName = firstName;
+		lastName = lastName;
+		birthDate = birthDate;
 		phone = phone;
-		healthPlan = healthP;
+		address = address;
+		healthPlan = healthPlan;
 		checkUpsHad = 0;
 		hygienesHad = 0;
 		repairsHad = 0;
-		houseNumber = a.getHouseNumber();
-		postCode = a.getPostCode();
-		plan = h;
 	}
 	public String getTitle() {
 		return title;
@@ -47,16 +44,16 @@ public class Patient {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public Date getBirthDate() {
+	public java.util.Date getBirthDate() {
 		return birthDate;
 	}
-	public void setBirthDate(Date birthDate) {
+	public void setBirthDate(java.util.Date birthDate) {
 		this.birthDate = birthDate;
 	}
-	public String getPhone() {
+	public int getPhone() {
 		return phone;
 	}
-	public void setPhone(String phone) {
+	public void setPhone(int phone) {
 		this.phone = phone;
 	}
 	public int getPatientID() {
@@ -65,23 +62,17 @@ public class Patient {
 	public void setPatientID(int patientID) {
 		this.patientID = patientID;
 	}
-	public String getHouseNumber() {
-		return houseNumber;
-	}
-	public void setHouseNumber(String houseNumber) {
-		this.houseNumber = houseNumber;
-	}
-	public String getPostCode() {
-		return postCode;
-	}
-	public void setPostCode(String postCode) {
-		this.postCode = postCode;
-	}
-	public String getHealthPlan() {
+	public String getHealthcarePlan() {
 		return healthPlan;
 	}
-	public void setHealthPlan(String healthPlan) {
+	public void setHealthcarePlan(String healthPlan) {
 		this.healthPlan = healthPlan;
+	}
+	public Address getAddress(){
+		return address;
+	}
+	public void setAddress(Address address){
+		this.address = address;
 	}
 	public int getCheckUpsHad() {
 		return checkUpsHad;
@@ -102,10 +93,12 @@ public class Patient {
 		this.repairsHad = repairsHad;
 	}
 
-	public String dateToString (){
-		SimpleDateFormat dForm = new SimpleDateFormat("dd/MMM/yyyy");
-		String dString = dForm.format(birthDate);
-		return dString;
+	public java.sql.Date formatDate (){
+		//SimpleDateFormat dForm = new SimpleDateFormat("dd/MMM/yyyy");
+		//Date date = dForm.format(birthDate);
+		//java.sql.Date sqlDate = new java.sql.Date(birthDate);
+		//return sqlDate;
+		return new java.sql.Date(birthDate.getTime());
 	}
-	
+
 }

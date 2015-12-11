@@ -3,6 +3,8 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.*;
 import java.util.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 public class SqlHandler {
 
@@ -58,14 +60,14 @@ public class SqlHandler {
 		countState = con.prepareStatement(getCount);
 		countState.setString (1, a.getHouseNumber());
 		countState.setString (2, a.getPostCode());
-		ResultSet count = countState.executeQuery();	
+		ResultSet count = countState.executeQuery();
 		count.first();
-		if(count.getInt("count") == 0){		
+		if(count.getInt("count") == 0){
 			return null;
 		}else{
 			res.first();
 			return (new Address(res.getString("number"), res.getString("street"),res.getString("district"),res.getString("city"),res.getString("postCode")));
-		}	
+		}
 	}
 
 	public Address[] getAllAddresses() throws SQLException {
@@ -78,7 +80,7 @@ public class SqlHandler {
 		}
 		return result.toArray(new Address[result.size()]);
 	}
-		
+
 
 	public void setAddress (Address a) throws SQLException {
 		PreparedStatement statement;
@@ -106,23 +108,29 @@ public class SqlHandler {
 		}
 	}
 
-	public void addPatient (Patient p) throws SQLException {
+	/*public void addPatient (Patient p) throws SQLException {
 		PreparedStatement statement;
-		String add = "INSERT INTO patients (title,firstName,lastName,birthDate,phone)"
-					+ "VALUES (?,?,?,?,?)";
+		String add = "INSERT INTO patients (title,firstName,lastName,birthDate,phone,houseNumber,postCode,healthPlan)"
+					+ "VALUES (?,?,?,?,?,?,?,?)";
 
 		statement = con.prepareStatement(add);
 		statement.setString (1, p.getTitle());
 		statement.setString (2, p.getFirstName());
 		statement.setString (3, p.getLastName());
-		statement.setString (4, p.dateToString());
+		statement.setDate (4, p.getBirthDate());
+		statement.setInt (5, p.getPhone());
+		statement.setString (6, p.getAddress().getHouseNumber());
+		statement.setString	(7, p.getAddress().getPostCode());
+		statement.setString (8, p.getHealthcarePlan());
+		statement.setDate (4, p.formatDate());
 		statement.setString (5, p.getPhone());
 		statement.execute();
-	}
-
+	}*/
+	
+	//add can't overlap apppointments
 	public void addAppointment(Appointment a) throws SQLException {
 		PreparedStatement statement;
-		String add = "INSERT INTO appointments (patientID,date,startTime,endTime,partner,paid)" 
+		String add = "INSERT INTO appointments (patientID,date,startTime,endTime,partner,paid)"
 					+ "VALUES (?,?,?,?,?,?)";
 
 		statement = con.prepareStatement(add);
@@ -134,17 +142,17 @@ public class SqlHandler {
 		statement.setBoolean (6, a.isPaid());
 		statement.execute();
 	}
-	
+
 	public void removeAppointment(Appointment a) throws SQLException{
 		String removeApp = "DELETE FROM appointments WHERE type = (?,?,?)";
-		
+
 		PreparedStatement statement = con.prepareStatement(removeApp);
 		statement.setString (1, a.dateToString());
 		statement.setString(2, a.timeToString(a.getStartTime()));
 		statement.setString(3, a.getPartner());
 		statement.execute();
 	}
-	
+
 	/*public ArrayList<Appointment> getAppointments (String patientName) throws SQLException
 	{
 		String getPID = "SELECT (patientID) FROM patient Where type = ?";
@@ -166,11 +174,11 @@ public class SqlHandler {
 					result.add( new Appointment(res.getDate("date"), res.getDate("startTime"),res.getDate("endTime"),res.getString("partner"),res.getBool("paid"),res.get));
 				}
 			return result;
-			}	
+			}
 		}
 	}
 		*/
-	
+
 	public HealthcarePlan[] getAllHealthcarePlans() throws SQLException {
 		PreparedStatement statement = con.prepareStatement("SELECT * FROM healthcarePlans");
 		ResultSet rs = statement.executeQuery();
@@ -181,50 +189,60 @@ public class SqlHandler {
 		}
 		return result.toArray(new HealthcarePlan[result.size()]);
 	}
-		
-	public HealthcarePlan getHealthcarePlan(String healthcarePlanName) throws SQLException{
+	
+	public HealthcarePlan getHealthcarePlan(String planName) throws SQLException{
 		PreparedStatement statement;
-		String getData = "SELECT (name,checkups,hygiene,repairs,monthlyCost) FROM healthcarePlans WHERE name =?";
+		String getData = "SELECT name,checkups,hygiene,repairs,monthlyCost FROM healthcarePlans WHERE name = ? ";
 		statement = con.prepareStatement(getData);
-		statement.setString(1, healthcarePlanName);
+		statement.setString(1, planName);
 		ResultSet res = statement.executeQuery();
-		if(res.getFetchSize() == 0){
+		
+		PreparedStatement countState;
+		String getCount = "SELECT COUNT(*) AS count FROM healthcarePlans WHERE name = ?";
+		countState = con.prepareStatement(getCount);
+		countState.setString(1, planName);
+		ResultSet count = countState.executeQuery();
+		
+		count.first();
+		if(count.getInt("count") == 0){
 			return null;
 		}else{
+		res.first();
 			return (new HealthcarePlan(res.getString("name"),res.getInt("checkups"),res.getInt("hygiene"),res.getInt("repairs"),res.getFloat("monthlyCost")));
 		}
 	}
-// 
 
-
-	/*public <HealthcarePlan> getAllHealthcarePlans() throws SQLException {
-		PreparedStatement statment;
-		String getData = "SELECT * FROM healthcarePlans";
-		statement = con.prepareStatement(getData);
-		ResultSet res = statement.executeQuery();
-		if(res.getFetchSize() ==0){
-			return null;
-		}else{
-			return
-	} */
 	
-	
-	
-	//get all array of healthcarePlan
 		// get appointments pass patient - and returns list of associated appointments
+		//function to change healthCareplan and update amount of check ups had etc...
 		
+		// get appointments pass patient - and returns list of associated appointments
+
 	public void addHealthcarePlan(HealthcarePlan hp) throws SQLException{
 		PreparedStatement statement;
-		String add = "INSERT INTO healthcarePlan (name,checkups,hygiene,repairs,monthlyCost)"
+		if (getHealthcarePlan(hp.getName()) == null)
+		{
+			String add = "INSERT INTO healthcarePlans (name,checkups,hygiene,repairs,monthlyCost)"
 					+ "VALUES (?,?,?,?,?)";
-
-		statement = con.prepareStatement(add);
-		statement.setString (1, hp.getName());
-		statement.setInt (2, hp.getCheckups());
-		statement.setInt (3, hp.getHygiene());
-		statement.setInt (4, hp.getRepair());
-		statement.setDouble (5,hp.getMonthlyCost());
-		statement.execute();
+			statement = con.prepareStatement(add);
+			statement.setString (1, hp.getName());
+			statement.setInt (2, hp.getCheckups());
+			statement.setInt (3, hp.getHygienes());
+			statement.setInt (4, hp.getRepairs());
+			statement.setDouble (5,hp.getMonthlyCost());
+			statement.execute();
+		}else{
+			String update = "UPDATE healthcarePlans SET name = ?, checkups = ?, hygiene = ?, repairs = ?, monthlyCost = ? WHERE name = ?";
+			statement = con.prepareStatement(update);
+			statement.setString (1, hp.getName());
+			statement.setInt (2, hp.getCheckups());
+			statement.setInt (3, hp.getHygienes());
+			statement.setInt (4, hp.getRepairs());
+			statement.setDouble (5,hp.getMonthlyCost());
+			statement.setString(6, hp.getName());
+			statement.execute();
+			
+		}
 	}
 
 
@@ -243,14 +261,23 @@ public class SqlHandler {
 			}
 		}
 	}
-	
+
 	/*public static void main (String[]args){
-	
+
 	Address address = new Address("fat","poop","eggs","poop","eggs");
+
+	HealthcarePlan plan = new HealthcarePlan("NHS",6,5,6,50.00);
+	
+	//(String name,int checks,int hygienes,int repairs, double cost)
+	//Patient patient = new Patient("Miss","Piggy","Frog",(1994/05/06),"12345678910","plan",address);
+	
+	//(String title, String firstName, String lastName, Date birthDate, int phone, String healthPlan, Address address)
 	
 	try{
-	Address test = new SqlHandler().getAddress(address);
-	System.out.println(test);
+	//HealthcarePlan test = (new SqlHandler().getHealthcarePlan("NHS"));
+	new SqlHandler().addHealthcarePlan(plan);
+	//Patient test = new SqlHandler().addPatient(patient);
+	//System.out.println(test);
 	}catch (SQLException ex){
 	ex.printStackTrace();
 	System.out.println("error"+ ex);
