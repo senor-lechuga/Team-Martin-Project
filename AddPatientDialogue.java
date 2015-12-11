@@ -160,6 +160,7 @@ public class AddPatientDialogue extends JFrame {
 	{
 		public void actionPerformed(ActionEvent e)
 		{
+			//Push a new user here
 		}
 	};
 
