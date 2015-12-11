@@ -99,6 +99,6 @@ public class Appointment {
 
 		Appointment a = new Appointment(p,date,start,end,"Dentist",false,ls);
 		SqlHandler handler = new SqlHandler();
-		handler.addAppointment(a);
+		handler.addAppointment(p);
 	}
 }

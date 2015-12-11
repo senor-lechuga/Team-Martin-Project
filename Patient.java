@@ -94,10 +94,6 @@ public class Patient {
 	}
 
 	public java.sql.Date formatDate (){
-		//SimpleDateFormat dForm = new SimpleDateFormat("dd/MMM/yyyy");
-		//Date date = dForm.format(birthDate);
-		//java.sql.Date sqlDate = new java.sql.Date(birthDate);
-		//return sqlDate;
 		return new java.sql.Date(birthDate.getTime());
 	}
 

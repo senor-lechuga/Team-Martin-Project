@@ -136,8 +136,8 @@ public class SqlHandler {
 		statement = con.prepareStatement(add);
 		statement.setInt (1, a.getPatient().getPatientID());
 		statement.setDate (2, a.formatDate());
-		statement.setDate(3, a.formatTime(a.getStartTime()));
-		statement.setDate (4, a.formatTime(a.getEndTime()));
+		statement.setDate(3, a.formatTime(a.getStartTime()).getTime());
+		statement.setDate (4, a.formatTime(a.getEndTime()).getTime());
 		statement.setString (5, a.getPartner());
 		statement.setBoolean (6, a.isPaid());
 		statement.execute();
@@ -148,7 +148,7 @@ public class SqlHandler {
 
 		PreparedStatement statement = con.prepareStatement(removeApp);
 		statement.setDate (1, a.formatDate());
-		statement.setDate(2, a.formatTime(a.getStartTime()));
+		statement.setDate(2, a.formatTime(a.getStartTime()).getTime()));
 		statement.setString(3, a.getPartner());
 		statement.execute();
 	}
