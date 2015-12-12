@@ -117,7 +117,7 @@ public class SqlHandler {
 		statement.setString (1, p.getTitle());
 		statement.setString (2, p.getFirstName());
 		statement.setString (3, p.getLastName());
-		statement.setDate (4, p.getBirthDate());
+		statement.setDate (4, p.formatDate()));
 		statement.setInt (5, p.getPhone());
 		statement.setString (6, p.getAddress().getHouseNumber());
 		statement.setString	(7, p.getAddress().getPostCode());
@@ -126,7 +126,7 @@ public class SqlHandler {
 		statement.setString (5, p.getPhone());
 		statement.execute();
 	}*/
-	
+
 	//add can't overlap apppointments
 	public void addAppointment(Appointment a) throws SQLException {
 		PreparedStatement statement;
@@ -135,9 +135,9 @@ public class SqlHandler {
 
 		statement = con.prepareStatement(add);
 		statement.setInt (1, a.getPatient().getPatientID());
-		statement.setString (2, a.dateToString());
-		statement.setString(3, a.timeToString(a.getStartTime()));
-		statement.setString (4, a.timeToString(a.getEndTime()));
+		statement.setDate (2, a.formatDate());
+		statement.setDate(3, a.formatTime(a.getStartTime()).getTime());
+		statement.setDate (4, a.formatTime(a.getEndTime()).getTime());
 		statement.setString (5, a.getPartner());
 		statement.setBoolean (6, a.isPaid());
 		statement.execute();
@@ -147,8 +147,8 @@ public class SqlHandler {
 		String removeApp = "DELETE FROM appointments WHERE type = (?,?,?)";
 
 		PreparedStatement statement = con.prepareStatement(removeApp);
-		statement.setString (1, a.dateToString());
-		statement.setString(2, a.timeToString(a.getStartTime()));
+		statement.setDate (1, a.formatDate());
+		statement.setDate(2, a.formatTime(a.getStartTime()).getTime()));
 		statement.setString(3, a.getPartner());
 		statement.execute();
 	}
@@ -189,20 +189,20 @@ public class SqlHandler {
 		}
 		return result.toArray(new HealthcarePlan[result.size()]);
 	}
-	
+
 	public HealthcarePlan getHealthcarePlan(String planName) throws SQLException{
 		PreparedStatement statement;
 		String getData = "SELECT name,checkups,hygiene,repairs,monthlyCost FROM healthcarePlans WHERE name = ? ";
 		statement = con.prepareStatement(getData);
 		statement.setString(1, planName);
 		ResultSet res = statement.executeQuery();
-		
+
 		PreparedStatement countState;
 		String getCount = "SELECT COUNT(*) AS count FROM healthcarePlans WHERE name = ?";
 		countState = con.prepareStatement(getCount);
 		countState.setString(1, planName);
 		ResultSet count = countState.executeQuery();
-		
+
 		count.first();
 		if(count.getInt("count") == 0){
 			return null;
@@ -212,10 +212,10 @@ public class SqlHandler {
 		}
 	}
 
-	
+
 		// get appointments pass patient - and returns list of associated appointments
 		//function to change healthCareplan and update amount of check ups had etc...
-		
+
 		// get appointments pass patient - and returns list of associated appointments
 
 	public void addHealthcarePlan(HealthcarePlan hp) throws SQLException{
@@ -241,7 +241,7 @@ public class SqlHandler {
 			statement.setDouble (5,hp.getMonthlyCost());
 			statement.setString(6, hp.getName());
 			statement.execute();
-			
+
 		}
 	}
 
@@ -267,12 +267,12 @@ public class SqlHandler {
 	Address address = new Address("fat","poop","eggs","poop","eggs");
 
 	HealthcarePlan plan = new HealthcarePlan("NHS",6,5,6,50.00);
-	
+
 	//(String name,int checks,int hygienes,int repairs, double cost)
 	//Patient patient = new Patient("Miss","Piggy","Frog",(1994/05/06),"12345678910","plan",address);
-	
+
 	//(String title, String firstName, String lastName, Date birthDate, int phone, String healthPlan, Address address)
-	
+
 	try{
 	//HealthcarePlan test = (new SqlHandler().getHealthcarePlan("NHS"));
 	new SqlHandler().addHealthcarePlan(plan);
