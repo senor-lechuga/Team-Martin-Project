@@ -88,7 +88,7 @@ public class Appointment {
 		return new java.sql.Date(time.getTime());
 	}
 
-	public static void main (String [] args)
+	/*public static void main (String [] args)
 						throws SQLException,NullPointerException{
 		java.util.Date date = new java.util.Date();
 		java.util.Date start = new java.util.Date();
@@ -100,5 +100,5 @@ public class Appointment {
 		Appointment a = new Appointment(p,date,start,end,"Dentist",false,ls);
 		SqlHandler handler = new SqlHandler();
 		handler.addAppointment(p);
-	}
+	}*/
 }

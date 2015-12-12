@@ -108,24 +108,30 @@ public class SqlHandler {
 		}
 	}
 
-	/*public void addPatient (Patient p) throws SQLException {
+	public void addPatient (Patient p) throws SQLException {
 		PreparedStatement statement;
 		String add = "INSERT INTO patients (title,firstName,lastName,birthDate,phone,houseNumber,postCode,healthPlan)"
 					+ "VALUES (?,?,?,?,?,?,?,?)";
-
+		System.out.println(p.getTitle());
+		System.out.println(p.getFirstName());
+		System.out.println(p.getLastName());
+		System.out.println(p.getBirthDate());
+		System.out.println(p.getPhone());
+		System.out.println(p.getAddress().getHouseNumber());
+		System.out.println(p.getAddress().getPostCode());
+		System.out.println(p.getHealthcarePlan());
 		statement = con.prepareStatement(add);
 		statement.setString (1, p.getTitle());
 		statement.setString (2, p.getFirstName());
 		statement.setString (3, p.getLastName());
-		statement.setDate (4, p.formatDate()));
-		statement.setInt (5, p.getPhone());
+		statement.setDate (4, p.getBirthDate());
+		statement.setLong (5, p.getPhone());
 		statement.setString (6, p.getAddress().getHouseNumber());
 		statement.setString	(7, p.getAddress().getPostCode());
-		statement.setString (8, p.getHealthcarePlan());
-		statement.setDate (4, p.formatDate());
-		statement.setString (5, p.getPhone());
+		statement.setString (8, p.getHealthcarePlan().getName());
+	
 		statement.execute();
-	}*/
+	}
 
 	//add can't overlap apppointments
 	public void addAppointment(Appointment a) throws SQLException {
@@ -136,8 +142,8 @@ public class SqlHandler {
 		statement = con.prepareStatement(add);
 		statement.setInt (1, a.getPatient().getPatientID());
 		statement.setDate (2, a.formatDate());
-		statement.setDate(3, a.formatTime(a.getStartTime()).getTime());
-		statement.setDate (4, a.formatTime(a.getEndTime()).getTime());
+		statement.setDate(3, a.formatTime(a.getStartTime()));
+		statement.setDate (4, a.formatTime(a.getEndTime()));
 		statement.setString (5, a.getPartner());
 		statement.setBoolean (6, a.isPaid());
 		statement.execute();
@@ -148,7 +154,7 @@ public class SqlHandler {
 
 		PreparedStatement statement = con.prepareStatement(removeApp);
 		statement.setDate (1, a.formatDate());
-		statement.setDate(2, a.formatTime(a.getStartTime()).getTime()));
+		statement.setDate(2, a.formatTime(a.getStartTime()));
 		statement.setString(3, a.getPartner());
 		statement.execute();
 	}
@@ -262,25 +268,27 @@ public class SqlHandler {
 		}
 	}
 
-	/*public static void main (String[]args){
+	public static void main (String[]args){
 
-	Address address = new Address("fat","poop","eggs","poop","eggs");
+	Address address = new Address("egg","poop","eggs","poop","eggs");
 
 	HealthcarePlan plan = new HealthcarePlan("NHS",6,5,6,50.00);
+	java.sql.Date date = new java.sql.Date(1994,06,05);
+	System.out.println(date);
 
 	//(String name,int checks,int hygienes,int repairs, double cost)
-	//Patient patient = new Patient("Miss","Piggy","Frog",(1994/05/06),"12345678910","plan",address);
+	Patient patient = new Patient("Miss","Piggy","Frog",date,12345678910L,plan,address);
 
 	//(String title, String firstName, String lastName, Date birthDate, int phone, String healthPlan, Address address)
 
 	try{
 	//HealthcarePlan test = (new SqlHandler().getHealthcarePlan("NHS"));
-	new SqlHandler().addHealthcarePlan(plan);
-	//Patient test = new SqlHandler().addPatient(patient);
+	//new SqlHandler().addHealthcarePlan(plan);
+	new SqlHandler().addPatient(patient);
 	//System.out.println(test);
 	}catch (SQLException ex){
 	ex.printStackTrace();
 	System.out.println("error"+ ex);
 	}
-	}*/
+	}
 }
