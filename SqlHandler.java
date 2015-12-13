@@ -15,7 +15,11 @@ public class SqlHandler {
 		//Class.forName("com.mysql.jdbc.Driver");
 		con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team017?user=team017&password=33b55883");
 	}
-
+	
+	
+	
+//----------------------TREATMENT METHODS---------------------------------------
+	
 	/**
 	 * Attempts to get an instance of a treatment type from the database, given a treatment type name.
 	 * @return TreatmentType	the wanted treatment type, or null if not found.
@@ -47,6 +51,24 @@ public class SqlHandler {
 		}
 		statement.execute();
 	}
+
+	public ArrayList<Treatment> getTreatmentByTimeDatePartner(java.sql.Time time,java.sql.Date date, String partner) throws SQLException {
+		PreparedStatement statement;
+		String getTreatments = "SELECT * FROM treatments NATURAL JOIN treatmentTypes WHERE date = ? AND startTime = ? AND partner = ?";
+		statement = con.prepareStatement(getTreatments);
+		statement.setDate(1, date);
+		statement.setTime(2, time);
+		statement.setString(3, partner);
+		ResultSet res = statement.executeQuery();
+		ArrayList<Treatment> result = new ArrayList<Treatment>();
+		while(res.next())
+		{
+			result.add(new Treatment(res.getString("type"),res.getDouble("cost")));
+		}
+		return result;
+	}
+
+//---------------------------ADDRESS METHODS-----------------------------------
 
 	public Address getAddress(Address a) throws SQLException {
 		PreparedStatement statement;
@@ -129,7 +151,7 @@ public class SqlHandler {
 			return (new Address(res.getString("number"), res.getString("street"),res.getString("district"),res.getString("city"),res.getString("postCode")));
 		}
 	}
-
+//-----------------------------PATIENT METHODS-----------------------------------
 	public void addPatient (Patient p) throws SQLException {
 		PreparedStatement statement;
 		String add = "INSERT INTO patients (title,firstName,lastName,birthDate,phone,houseNumber,postCode,healthPlan)"
@@ -166,14 +188,9 @@ public class SqlHandler {
 				return( new Patient(res.getString("title"),res.getString("firstname"),res.getString("lastname"),res.getDate("birthDate"),res.getLong("phone"),getHealthcarePlan(res.getString("healthPlan")),getAddressNumPC(res.getString("houseNumber"),res.getString("postCode")),res.getInt("patientID")));	
 		}
 	}
+//---------------------APPOINTMENTS METHODS-----------------------------------
 
-	/*public getPatient (String patientName) throws SQLException {
-		PreparedStatement statement;
-		String getDate = "SElECT * FROM patient WHERE 
-	}*/
-	
-	
-	//add can't overlap apppointments
+	//maybe add can't overlap appointments
 	public void addAppointment(Appointment a) throws SQLException {
 		PreparedStatement statement;
 		String add = "INSERT INTO appointments (patientID,date,startTime,endTime,partner,paid)"
@@ -198,7 +215,8 @@ public class SqlHandler {
 		statement.setString(3, a.getPartner());
 		statement.execute();
 	}
-	
+
+
 	public Appointment[] getAppointmentsByDay(java.sql.Date date) throws SQLException {
 		PreparedStatement statement;
 		String getAppointments = "SELECT * FROM appointments WHERE date = ?";
@@ -217,22 +235,6 @@ public class SqlHandler {
 		return result.toArray(new Appointment[result.size()]);
 	}
 	
-	public ArrayList<Treatment> getTreatmentByTimeDatePartner(java.sql.Time time,java.sql.Date date, String partner) throws SQLException {
-		PreparedStatement statement;
-		String getTreatments = "SELECT * FROM treatments NATURAL JOIN treatmentTypes WHERE date = ? AND startTime = ? AND partner = ?";
-		statement = con.prepareStatement(getTreatments);
-		statement.setDate(1, date);
-		statement.setTime(2, time);
-		statement.setString(3, partner);
-		ResultSet res = statement.executeQuery();
-		ArrayList<Treatment> result = new ArrayList<Treatment>();
-		while(res.next())
-		{
-			result.add(new Treatment(res.getString("type"),res.getDouble("cost")));
-		}
-		return result;
-	}
-	
 	public Appointment[] getAppointmentsByPatientID(int patientID) throws SQLException {
 		PreparedStatement statement;
 		String getAppointments = "SELECT * FROM appointments WHERE patientID = ?";
@@ -246,8 +248,23 @@ public class SqlHandler {
 		}
 		return result.toArray(new Appointment[result.size()]);
 	}
-		
 	
+	public Appointment[] getAppointmentsByDayPartner() throws SQLException {
+		PreparedStatement statement;
+		String getAppointments = "SELECT * FROM appointments WHERE patientID = ?";
+		statement = con.prepareStatement(getAppointments);
+		statement.setInt(1, patientID);
+		ResultSet res = statement.executeQuery();
+		ArrayList<Appointment> result = new ArrayList<Appointment>();
+		while(res.next())
+		{		
+			result.add(new Appointment(getPatientById(res.getInt("patientID")),res.getDate("date"),res.getTime("startTime"),res.getTime("endTime"),res.getString("partner"),res.getBoolean("paid"),getTreatmentByTimeDatePartner(res.getTime("startTime"),res.getDate("date"),res.getString("partner"))));
+		}
+		return result.toArray(new Appointment[result.size()]);
+	}
+	
+	
+//---------------------HEALTHCAREPLAN METHODS-----------------------------------
 
 	public HealthcarePlan[] getAllHealthcarePlans() throws SQLException {
 		PreparedStatement statement = con.prepareStatement("SELECT * FROM healthcarePlans");
@@ -282,11 +299,7 @@ public class SqlHandler {
 		}
 	}
 
-
-		// get appointments pass patient - and returns list of associated appointments
 		//function to change healthCareplan and update amount of check ups had etc...
-
-		// get appointments pass patient - and returns list of associated appointments
 
 	public void addHealthcarePlan(HealthcarePlan hp) throws SQLException{
 		PreparedStatement statement;
