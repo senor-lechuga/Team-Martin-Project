@@ -5,21 +5,19 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 public class Appointment {
 	private Patient patient;
-	private java.util.Date date;
-	private java.util.Date startTime, endTime;
+	private java.sql.Date date;
+	private java.sql.Time startTime, endTime;
 	private String partner;
 	private boolean paid;
-	private String type;
 	private ArrayList<Treatment> treatments;
 
-	public Appointment (Patient p, java.util.Date dates,java.util.Date sTime,java.util.Date eTime, String partners, boolean paid, ArrayList<Treatment> ts) {
+	public Appointment (Patient p, java.sql.Date dates,java.sql.Time sTime,java.sql.Time eTime, String partners, boolean paid, ArrayList<Treatment> ts) {
 		patient = p;
 		date = dates;
 		startTime = sTime;
 		endTime = eTime;
 		partner = partners;
 		paid = paid;
-		type = null;
 		treatments = ts;
 	}
 
@@ -39,22 +37,22 @@ public class Appointment {
 		this.treatments.add(t);
 	}
 
-	public java.util.Date getDate() {
+	public java.sql.Date getDate() {
 		return date;
 	}
-	public void setDate(java.util.Date date) {
+	public void setDate(java.sql.Date date) {
 		this.date = date;
 	}
-	public java.util.Date getStartTime() {
+	public java.sql.Time getStartTime() {
 		return startTime;
 	}
-	public void setStartTime(java.util.Date startTime) {
+	public void setStartTime(java.sql.Time startTime) {
 		this.startTime = startTime;
 	}
-	public java.util.Date getEndTime() {
+	public java.sql.Time getEndTime() {
 		return endTime;
 	}
-	public void setEndTime(java.util.Date endTime) {
+	public void setEndTime(java.sql.Time endTime) {
 		this.endTime = endTime;
 	}
 	public String getPartner() {
@@ -70,11 +68,20 @@ public class Appointment {
 		this.paid = paid;
 	}
 
-	public void setType(String type){
-		this.type = type;
+	public String toString() {
+	String str = "";
+	str += this.patient + " , ";
+	str += this.date + " , ";
+	str += this.startTime + " , ";
+	str += this.endTime + " , ";
+	str += this.partner+ " , ";
+	str += this.paid + " , ";
+	str += this.treatments;
+	
+	return str;
 	}
 
-	public java.sql.Date formatDate (){
+	/*public java.sql.Date formatDate (){
 		//SimpleDateFormat dForm = new SimpleDateFormat("dd/MMM/yyyy");
 		//Date date = dForm.format(birthDate);
 		//java.sql.Date sqlDate = new java.sql.Date(birthDate);
@@ -86,7 +93,7 @@ public class Appointment {
 	//	SimpleDateFormat dForm = new SimpleDateFormat("HH:mm:ss");
 		//java.util.Date formDate = dForm.parse(time);
 		return new java.sql.Date(time.getTime());
-	}
+	}*/
 
 	/*public static void main (String [] args)
 						throws SQLException,NullPointerException{

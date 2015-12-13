@@ -14,7 +14,7 @@ public class Patient {
 	private int checkUpsHad;
 	private int hygienesHad;
 	private int repairsHad;
-	public Patient (String title, String firstName, String lastName, java.sql.Date birthDate, long phone, HealthcarePlan healthPlan, Address address){
+	public Patient (String title, String firstName, String lastName, java.sql.Date birthDate, long phone, HealthcarePlan healthPlan, Address address,int patientID){
 		this.title = title;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -22,10 +22,16 @@ public class Patient {
 		this.phone = phone;
 		this.address = address;
 		this.healthPlan = healthPlan;
+		this.patientID = patientID;
 		checkUpsHad = 0;
 		hygienesHad = 0;
 		repairsHad = 0;
 	}
+	
+	public Patient (String title, String firstName, String lastName, java.sql.Date birthDate, long phone, HealthcarePlan healthPlan, Address address){
+		this(title,firstName,lastName,birthDate,phone,healthPlan,address,0);
+	}
+	
 	public String getTitle() {
 		return title;
 	}
@@ -93,10 +99,20 @@ public class Patient {
 		this.repairsHad = repairsHad;
 	}
 
-	//public java.sql.Date formatDate (){
-	//	return new java.sql.Date(birthDate.getTime());
-	//}
-
+	public java.sql.Date formatDate (){
+		return new java.sql.Date(birthDate.getTime());
+	}
+	
+	public String toString() {
+	String str = "";
+	str += this.title + " , ";
+	str += this.firstName + " , ";
+	str += this.lastName + " , ";
+	str += this.birthDate;
+	
+	return str;
+	}
+	
 	/*public static void main (String [] args)
 	          throws SQLException,NullPointerException{
 	  java.util.Date date = new java.util.Date();
