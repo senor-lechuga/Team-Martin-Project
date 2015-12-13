@@ -212,8 +212,6 @@ public class SqlHandler {
 		System.out.println("result " +result);
 		while(res.next())
 		{
-			System.out.println("treatment: " + getTreatmentByTimeDatePartner(res.getTime("startTime"),res.getDate("date"),res.getString("partner")));
-			
 			result.add(new Appointment(getPatientById(res.getInt("patientID")),res.getDate("date"),res.getTime("startTime"),res.getTime("endTime"),res.getString("partner"),res.getBoolean("paid"),getTreatmentByTimeDatePartner(res.getTime("startTime"),res.getDate("date"),res.getString("partner"))));
 		}
 		return result.toArray(new Appointment[result.size()]);
@@ -234,39 +232,22 @@ public class SqlHandler {
 		}
 		return result;
 	}
-		
-		//Treatment (String treatment,double c)
-		
-	//(Patient p, java.sql.Date dates,java.sql.Time sTime,java.sql.Time eTime, String partners, boolean paid, ArrayList<Treatment> ts)
-
-	//Appointment (Patient p, java.sql.Date dates,java.sql.Time sTime,java.sql.Time eTime, String partners, boolean paid, ArrayList<Treatment> ts)
 	
-	
-	/*public ArrayList<Appointment> getAppointments (String patientName) throws SQLException
-	{
-		String getPID = "SELECT (patientID) FROM patient Where type = ?";
-		PreparedStatement statement1 = con.prepareStatement(getPID);
-		statement1.setString(1,patientName);
-		Result resID = statement.executeQuery();
-		if(resID.getFetchSize() == 0)
-			return null;
-		else{
-			String getData = "SELECT (patientID, date, startTime, endTime, partner, paid,) FROM appointments NATURAL JOIN treatments NATURAL JOIN treatmentTypes  WHERE type = (?)";
-			PreparedStatement statement = con.prepareStatement(getData);
-			statement.setString(1, resID.getInt("patientID"));
-			ResultSet resData = statement.executeQuery();
-			if(resData.getFetchSize() == 0)
-				return null;
-			else{
-			ArrayList <String> result = new ArrayList<String>();
-				while (rs.next()){
-					result.add( new Appointment(res.getDate("date"), res.getDate("startTime"),res.getDate("endTime"),res.getString("partner"),res.getBool("paid"),res.get));
-				}
-			return result;
-			}
+	public Appointment[] getAppointmentsByPatientID(int patientID) throws SQLException {
+		PreparedStatement statement;
+		String getAppointments = "SELECT * FROM appointments WHERE patientID = ?";
+		statement = con.prepareStatement(getAppointments);
+		statement.setInt(1, patientID);
+		ResultSet res = statement.executeQuery();
+		ArrayList<Appointment> result = new ArrayList<Appointment>();
+		while(res.next())
+		{		
+			result.add(new Appointment(getPatientById(res.getInt("patientID")),res.getDate("date"),res.getTime("startTime"),res.getTime("endTime"),res.getString("partner"),res.getBoolean("paid"),getTreatmentByTimeDatePartner(res.getTime("startTime"),res.getDate("date"),res.getString("partner"))));
 		}
+		return result.toArray(new Appointment[result.size()]);
 	}
-		*/
+		
+	
 
 	public HealthcarePlan[] getAllHealthcarePlans() throws SQLException {
 		PreparedStatement statement = con.prepareStatement("SELECT * FROM healthcarePlans");
@@ -357,8 +338,8 @@ public class SqlHandler {
 
 	//HealthcarePlan plan = new HealthcarePlan("NHS",6,5,6,50.00);
 	//java.sql.Date date = new java.sql.Date(1994,06,05);
-	java.sql.Date date1 = new java.sql.Date(2015,12,01);
-	System.out.println(date1);
+	//java.sql.Date date1 = new java.sql.Date(2015,12,01);
+	//System.out.println(date1);
 	
 	//(String name,int checks,int hygienes,int repairs, double cost)
 	//Patient patient = new Patient("Miss","Piggy","Frog",date,87881402011L,plan,address);
@@ -368,7 +349,7 @@ public class SqlHandler {
 	//HealthcarePlan test = (new SqlHandler().getHealthcarePlan("NHS"));
 	//new SqlHandler().addHealthcarePlan(plan);
 	//new SqlHandler().addPatient(patient);
-	Appointment[] a = new SqlHandler().getAppointmentsByDay(date1);
+	Appointment[] a = new SqlHandler().getAppointmentsByPatientID(7);
 	System.out.println(a[0]);
 	System.out.println(a[1]);
 	//System.out.println(test);
