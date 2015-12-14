@@ -4,7 +4,7 @@ import java.awt.event.*;
 import java.sql.SQLException;
 
 public class Dentistry extends JFrame {
-	private JButton createUserBtn, displayCalendarBtn;
+	private JButton createUserBtn, displayCalendarBtn, exitBtn;
 	private SqlHandler handler = null;
 
 	public Dentistry ()
@@ -24,22 +24,24 @@ public class Dentistry extends JFrame {
 		this.addWindowListener(quitListener);
 		
 		Container pane = this.getContentPane();
-		pane.setLayout(new GridLayout(2,1));
+		pane.setLayout(new GridLayout(3,1));
 
 		createUserBtn = new JButton("Register a new patient");
 		displayCalendarBtn = new JButton("Display practice calendar");
-		
+		exitBtn = new JButton("Exit");
 		
 		// Add all elements to the panel
 		pane.add(displayCalendarBtn);
 		pane.add(createUserBtn);
+		pane.add(exitBtn);
 		this.pack();
 		setLocationRelativeTo(null);// Display in the centre of the screen
 
 		// Add function listeners
 		createUserBtn.addActionListener(startUserCreation);
 		displayCalendarBtn.addActionListener(displayCalendar);
-		this.setVisible( true );
+		exitBtn.addActionListener(exitSystem); 
+		this.setVisible(true);
 	}
 
 	private ActionListener startUserCreation = new ActionListener()
@@ -58,20 +60,16 @@ public class Dentistry extends JFrame {
 	        	calendar.setVisible(true);
 		}
 	};
-
-	private WindowListener quitListener = new WindowAdapter()
+	private ActionListener exitSystem = new ActionListener()
 	{
-		public void windowClosing(WindowEvent e)
+		public void actionPerformed(ActionEvent e)
 		{
-			//int warning = JOptionPane.showOptionDialog(null, "Do you really want to quit?", "Quit", JOptionPane.YES_NO_OPTION,
-								   //JOptionPane.QUESTION_MESSAGE, null, null, null); 
-			//if(warning == 0)
-			//{
-				handler.closeConnection();
-				System.exit(0);
-			//}
+			int warn = JOptionPane.showOptionDialog(null, "Do you really want to quit?", "Quit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null); 
+			if(warn == 0)
+				closeWindow();
 		}
 	};
+
 	private void closeWindow()
 	{
 		handler.closeConnection();

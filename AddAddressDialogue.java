@@ -12,7 +12,7 @@ public class AddAddressDialogue extends JFrame {
 
 	public AddAddressDialogue (SqlHandler h)
 	{
-		super("Add new treatment type");
+		super("Add new address");
 		//Set up the SQL stuff
 		handler = h;
 
