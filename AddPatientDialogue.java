@@ -2,6 +2,7 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.sql.SQLException;
+import java.sql.*;
 import java.util.Date;
 import java.text.*;
 
@@ -48,7 +49,7 @@ public class AddPatientDialogue extends JFrame {
 		datePanel.setLayout(new GridLayout(1,3));
 		birthDay = new JSpinner(new SpinnerNumberModel(1,1,31,1));
 		birthMonth = new JSpinner(new SpinnerNumberModel(1,1,12,1));
-		Date currentD = new Date();
+		java.util.Date currentD = new java.util.Date();
 		birthYear = new JSpinner(new SpinnerNumberModel(2015, 1800, currentD.getYear()+1900, 1));
 		datePanel.add(birthDay);
 		datePanel.add(birthMonth);
@@ -114,10 +115,7 @@ public class AddPatientDialogue extends JFrame {
 		}catch(SQLException e){
 			addresses = new Address[0];
 		}
-		String[] places = new String[addresses.length];
-		for(int i = 0; i<addresses.length; i++)
-			places[i] = addresses[i].getHouseNumber() + ", " + addresses[i].getStreetName() + ": " +addresses[i].getPostCode();
-		DefaultComboBoxModel model = new DefaultComboBoxModel(places);
+		DefaultComboBoxModel model = new DefaultComboBoxModel(addresses);
 		address.setModel(model);
 	}
 	public void setupHealthPlanBox()
@@ -128,10 +126,7 @@ public class AddPatientDialogue extends JFrame {
 		}catch(SQLException e){
 			planObjects = new HealthcarePlan[0];
 		}
-		String[] plans = new String[planObjects.length];
-		for(int i = 0; i<planObjects.length; i++)
-			plans[i] = planObjects[i].getName();
-		DefaultComboBoxModel model = new DefaultComboBoxModel(plans);
+		DefaultComboBoxModel model = new DefaultComboBoxModel(planObjects);
 		healthcarePlan.setModel(model);
 	}
 
@@ -179,13 +174,13 @@ public class AddPatientDialogue extends JFrame {
 			try{
 				DateFormat date = new SimpleDateFormat("dd-MM-yyyy");
 				date.setLenient(false);
-				Date formattedDate = date.parse(dateString);
+				java.util.Date formattedDate = date.parse(dateString);
 				long ageMillis = System.currentTimeMillis() - formattedDate.getTime();
 				if(ageMillis <= 0)
 					errorMessage += "\nYou are not negative years old.";
-				Date age = new Date(ageMillis);
-				if(age.getYear() - 70 < 18)
-					healthcarePlan.setSelectedItem("NHS");
+				java.util.Date age = new java.util.Date(ageMillis);
+				if(age.getYear() - 70 >= 18 && ((HealthcarePlan)healthcarePlan.getSelectedItem()).getName().equals("NHS"))
+					errorMessage += "\nYou are not eligible for an NHS free plan.";
 			}catch(ParseException ex) {
 				errorMessage += "\nPlease enter a valid birth day.";
 			}
@@ -193,7 +188,21 @@ public class AddPatientDialogue extends JFrame {
 				JOptionPane.showMessageDialog(null, errorMessage.substring(1), "Incorrect Data", JOptionPane.WARNING_MESSAGE);
 			else{
 				// Make a new patient here
+				int intBirthYear = Integer.valueOf(String.valueOf(birthYear.getValue()));
+				int intBirthMonth = Integer.valueOf(String.valueOf(birthMonth.getValue()));
+				int intBirthDay = Integer.valueOf(String.valueOf(birthDay.getValue()));
+				java.sql.Date sqlBirthDate = new java.sql.Date(intBirthYear, intBirthMonth, intBirthDay);
+				HealthcarePlan hp = (HealthcarePlan)healthcarePlan.getSelectedItem();
+				Address add = (Address)address.getSelectedItem();
+				Patient p = new Patient(String.valueOf(title.getSelectedItem()), sFirstName, sLastName, sqlBirthDate, sPhoneNumber, hp, add);
+				try {
+					handler.addPatient(p);
+				}catch(SQLException ex){
+					JOptionPane.showMessageDialog(null, "Error registering patient.", "ERROR", JOptionPane.ERROR_MESSAGE);
+				}
+				closeWindow();
 			}
+
 			
 		}
 	};
