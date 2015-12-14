@@ -4,7 +4,6 @@ import java.awt.event.*;
 import java.sql.SQLException;
 
 public class Dentistry extends JFrame {
-	
 	private JButton createUserBtn, displayCalendarBtn;
 	private SqlHandler handler = null;
 
@@ -40,6 +39,7 @@ public class Dentistry extends JFrame {
 
 		// Add function listeners
 		createUserBtn.addActionListener(startUserCreation);
+		displayCalendarBtn.addActionListener(displayCalendar);
 		this.setVisible( true );
 	}
 
@@ -48,6 +48,15 @@ public class Dentistry extends JFrame {
 		public void actionPerformed(ActionEvent e)
 		{
 			AddPatientDialogue d = new AddPatientDialogue(handler);
+		}
+	};
+	private ActionListener displayCalendar = new ActionListener()
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			//CalendarChoice d = new CalendarChoice();
+			UserCalendars calendar = new UserCalendars(handler);
+	        calendar.setVisible(true);
 		}
 	};
 

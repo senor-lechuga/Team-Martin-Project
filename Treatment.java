@@ -17,4 +17,12 @@ public class Treatment {
 	public void setCost(double cost) {
 		this.cost = cost;
 	}
+	
+	public String toString() {
+	String str = "";
+	str += this.treatmentType + " , ";
+	str += this.cost;
+	
+	return str;
+	}
 }

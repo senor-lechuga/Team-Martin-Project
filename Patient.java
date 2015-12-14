@@ -6,26 +6,32 @@ public class Patient {
 	private String title;
 	private String firstName;
 	private String lastName;
-	private java.util.Date birthDate;
-	private int phone;
+	private java.sql.Date birthDate;
+	private long phone;
 	private int patientID;
-	private String healthPlan;
+	private HealthcarePlan healthPlan;
 	private Address address;
 	private int checkUpsHad;
 	private int hygienesHad;
 	private int repairsHad;
-	public Patient (String title, String firstName, String lastName, java.util.Date birthDate, int phone, String healthPlan, Address address){
-		title = title;
-		firstName = firstName;
-		lastName = lastName;
-		birthDate = birthDate;
-		phone = phone;
-		address = address;
-		healthPlan = healthPlan;
+	public Patient (String title, String firstName, String lastName, java.sql.Date birthDate, long phone, HealthcarePlan healthPlan, Address address,int patientID){
+		this.title = title;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.birthDate = birthDate;
+		this.phone = phone;
+		this.address = address;
+		this.healthPlan = healthPlan;
+		this.patientID = patientID;
 		checkUpsHad = 0;
 		hygienesHad = 0;
 		repairsHad = 0;
 	}
+	
+	public Patient (String title, String firstName, String lastName, java.sql.Date birthDate, long phone, HealthcarePlan healthPlan, Address address){
+		this(title,firstName,lastName,birthDate,phone,healthPlan,address,0);
+	}
+	
 	public String getTitle() {
 		return title;
 	}
@@ -44,16 +50,16 @@ public class Patient {
 	public void setLastName(String lastName) {
 		this.lastName = lastName;
 	}
-	public java.util.Date getBirthDate() {
+	public java.sql.Date getBirthDate() {
 		return birthDate;
 	}
-	public void setBirthDate(java.util.Date birthDate) {
+	public void setBirthDate(java.sql.Date birthDate) {
 		this.birthDate = birthDate;
 	}
-	public int getPhone() {
+	public long getPhone() {
 		return phone;
 	}
-	public void setPhone(int phone) {
+	public void setPhone(long phone) {
 		this.phone = phone;
 	}
 	public int getPatientID() {
@@ -62,10 +68,10 @@ public class Patient {
 	public void setPatientID(int patientID) {
 		this.patientID = patientID;
 	}
-	public String getHealthcarePlan() {
+	public HealthcarePlan getHealthcarePlan() {
 		return healthPlan;
 	}
-	public void setHealthcarePlan(String healthPlan) {
+	public void setHealthcarePlan(HealthcarePlan healthPlan) {
 		this.healthPlan = healthPlan;
 	}
 	public Address getAddress(){
@@ -94,11 +100,27 @@ public class Patient {
 	}
 
 	public java.sql.Date formatDate (){
-		//SimpleDateFormat dForm = new SimpleDateFormat("dd/MMM/yyyy");
-		//Date date = dForm.format(birthDate);
-		//java.sql.Date sqlDate = new java.sql.Date(birthDate);
-		//return sqlDate;
 		return new java.sql.Date(birthDate.getTime());
 	}
-
+	
+	public String toString() {
+	String str = "";
+	str += this.title + " , ";
+	str += this.firstName + " , ";
+	str += this.lastName + " , ";
+	str += this.birthDate;
+	
+	return str;
+	}
+	
+	/*public static void main (String [] args)
+	          throws SQLException,NullPointerException{
+	  java.util.Date date = new java.util.Date();
+	  Address a = null;
+	  HealthcarePlan h = null;
+	  Patient p = new Patient("Mr.","Rafael","C",date,2345,"51a",
+	                                  "S1 3GF","Basic",a,h);
+	  SqlHandler handler = new SqlHandler();
+	  handler.addPatient(p);
+  }*/
 }
