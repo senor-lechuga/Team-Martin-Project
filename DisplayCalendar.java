@@ -11,7 +11,7 @@ public class DisplayCalendar extends JFrame{
   public DisplayCalendar(){
     // Main panel
     Container pane = this.getContentPane();
-		pane.setLayout(new BorderLayout());
+    pane.setLayout(new BorderLayout());
 
     // Week selection panl
     JPanel weekSelect = new JPanel(new BorderLayout());
@@ -23,11 +23,11 @@ public class DisplayCalendar extends JFrame{
     weekSelect.add(currentWeek,BorderLayout.CENTER);
 
     // Calendar display panel
-    JPanel weekDispaly = new JPanel();
-    table = new JTable(getWeeklyApps(),days);
-    table.setPreferredScrollableViewportSize(new Dimension(500,70));
-    table.setFillsViewportHeight(true);
-    weekDispaly.add(table,BorderLayout.CENTER);
+    JPanel weekDisplay = new JPanel();
+    JTable table = new JTable(getWeeklyApps(),days);
+    table.setPreferredSize(new Dimension(600,600));
+    JScrollPane scrollPane = new JScrollPane(table);
+    weekDisplay.add(scrollPane);
 
     // Exit button display button
     JPanel exitPanel = new JPanel(new BorderLayout());
@@ -36,7 +36,7 @@ public class DisplayCalendar extends JFrame{
 
     // Adds everything to main panel
     pane.add(weekSelect,BorderLayout.NORTH);
-    pane.add(weekDispaly,BorderLayout.CENTER);
+    pane.add((new JScrollPane(weekDisplay)),BorderLayout.CENTER);
     pane.add(exitPanel,BorderLayout.SOUTH);
     this.pack();
 		setLocationRelativeTo(null);// Display in the centre of the screen
@@ -44,6 +44,7 @@ public class DisplayCalendar extends JFrame{
     //Adds action listeners
     exitButton.addActionListener(exitListener);
     this.setVisible(true);
+    setDefaultCloseOperation(EXIT_ON_CLOSE);
   }
 
   // Method to get weekly information
@@ -54,9 +55,9 @@ public class DisplayCalendar extends JFrame{
     String thursday = "";
     String friday = "";
     String [] apps = {monday,tuesday,wednesday,thursday,friday};
-    String [][] weekDays = new String [1][5];
+    String [][] weekDays = new String [2][5];
     for(int i=0;i<5;i++)
-      weekDays[0][i] = apps[i];
+      weekDays[1][i] = apps[i];
     return weekDays;
   }
 
