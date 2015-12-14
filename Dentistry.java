@@ -55,7 +55,6 @@ public class Dentistry extends JFrame {
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			//CalendarChoice d = new CalendarChoice();
 			UserCalendars calendar = new UserCalendars(handler);
 	        	calendar.setVisible(true);
 		}
@@ -70,6 +69,14 @@ public class Dentistry extends JFrame {
 		}
 	};
 
+	private WindowListener quitListener = new WindowAdapter()
+	{
+		public void windowClosing(WindowEvent e)
+		{
+			handler.closeConnection();
+			System.exit(0);
+		}
+	};
 	private void closeWindow()
 	{
 		handler.closeConnection();
