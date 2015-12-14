@@ -33,7 +33,6 @@ public class Dentistry extends JFrame {
 		// Add all elements to the panel
 		pane.add(displayCalendarBtn);
 		pane.add(createUserBtn);
-		pane.add(testAddressAdd);
 		this.pack();
 		setLocationRelativeTo(null);// Display in the centre of the screen
 
@@ -56,7 +55,7 @@ public class Dentistry extends JFrame {
 		{
 			//CalendarChoice d = new CalendarChoice();
 			UserCalendars calendar = new UserCalendars(handler);
-	        calendar.setVisible(true);
+	        	calendar.setVisible(true);
 		}
 	};
 

@@ -13,16 +13,9 @@ public class UserCalendars extends javax.swing.JFrame {
     /**
      * Creates new form NewJFrame
      */
-    public UserCalendars() {
+    public UserCalendars(SqlHandler h) {
+        handler = h;
         initComponents();
-        try {
-            handler = new SqlHandler();
-        }catch(SQLException e){
-            System.out.println("Error: Database connection failed:");
-            e.printStackTrace();
-            System.out.println("The system will now shut down.");
-            System.exit(0);
-        }
     }
 
     /**
@@ -151,7 +144,7 @@ public class UserCalendars extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new UserCalendars().setVisible(true);
+                new UserCalendars(null).setVisible(true);
             }
         });
     }

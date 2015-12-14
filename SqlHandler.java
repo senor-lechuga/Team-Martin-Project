@@ -249,7 +249,8 @@ public class SqlHandler {
 		return result.toArray(new Appointment[result.size()]);
 	}
 	
-	public Appointment[] getAppointmentsByDayPartner() throws SQLException {
+	// Note to Rebecca: This method is trying to use patientID, which is not defined within it's scope. Should you be passing partner name and date, and then use that in the where statement?
+	/*public Appointment[] getAppointmentsByDayPartner() throws SQLException {
 		PreparedStatement statement;
 		String getAppointments = "SELECT * FROM appointments WHERE patientID = ?";
 		statement = con.prepareStatement(getAppointments);
@@ -261,7 +262,7 @@ public class SqlHandler {
 			result.add(new Appointment(getPatientById(res.getInt("patientID")),res.getDate("date"),res.getTime("startTime"),res.getTime("endTime"),res.getString("partner"),res.getBoolean("paid"),getTreatmentByTimeDatePartner(res.getTime("startTime"),res.getDate("date"),res.getString("partner"))));
 		}
 		return result.toArray(new Appointment[result.size()]);
-	}
+	}*/
 	
 	
 //---------------------HEALTHCAREPLAN METHODS-----------------------------------

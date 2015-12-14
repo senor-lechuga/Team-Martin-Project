@@ -6,9 +6,9 @@ import java.sql.SQLException;
 public class AddPatientDialogue extends JFrame {
 	
 	private JButton createBtn, cancelBtn, addAddressBtn, addPlanBtn;
-	private JTextField firstName, lastName, phoneNumber, title;
+	private JTextField firstName, lastName, phoneNumber;
 	private JSpinner birthDay, birthMonth, birthYear;
-	private JComboBox address, healthcarePlan;//, title;
+	private JComboBox address, healthcarePlan, title;
 	private SqlHandler handler;
 
 	public AddPatientDialogue (SqlHandler h)
@@ -24,8 +24,7 @@ public class AddPatientDialogue extends JFrame {
 		JPanel titlePanel = new JPanel();
 		titlePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		titlePanel.add(new JLabel("Title:"));
-		//address = new JComboBox(new String[]{"Mr", "Mrs", "Ms", "Miss", "Master", "Mx", "Dr", "Prof"});
-		title = new JTextField(6);
+		title = new JComboBox(new String[]{"Mr", "Mrs", "Ms", "Miss", "Master", "Mx", "Dr", "Prof"});
 		titlePanel.add(title);
 		
 		JPanel firstNamePanel = new JPanel();
@@ -161,7 +160,12 @@ public class AddPatientDialogue extends JFrame {
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			//Push a new user here
+			String sFirstName = firstName.getText().replaceAll("\\s+", "");
+			String sLastName = lastName.getText().replaceAll("\\s+", "");
+			String sPhoneNumber = phoneNumber.getText().replaceAll("\\s+", "");
+			if(sPhoneNumber.length > 3 && sPhoneNumber.substring(0,3) == "+44")
+				System.out.println("+44 detected");
+			//if(sPhoneNumber.length() == 11 
 		}
 	};
 
