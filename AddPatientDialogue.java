@@ -48,7 +48,8 @@ public class AddPatientDialogue extends JFrame {
 		datePanel.setLayout(new GridLayout(1,3));
 		birthDay = new JSpinner(new SpinnerNumberModel(1,1,31,1));
 		birthMonth = new JSpinner(new SpinnerNumberModel(1,1,12,1));
-		birthYear = new JSpinner(new SpinnerNumberModel(2015, 1800, 2015, 1));//TODO: Make the upper bound of this spinner to be the current year.
+		Date currentD = new Date();
+		birthYear = new JSpinner(new SpinnerNumberModel(2015, 1800, currentD.getYear()+1900, 1));//TODO: Make the upper bound of this spinner to be the current year.
 		datePanel.add(birthDay);
 		datePanel.add(birthMonth);
 		datePanel.add(birthYear);
@@ -166,41 +167,34 @@ public class AddPatientDialogue extends JFrame {
 			String sFirstName = firstName.getText().replaceAll("\\s+", "");
 			String sLastName = lastName.getText().replaceAll("\\s+", "");
 			String sPhoneNumber = phoneNumber.getText().replaceAll("\\s+", "");
+			if(sFirstName.equals("") || sLastName.equals(""))
+				errorMessage += "\nPlease enter both a first and last name.";
 			if(sPhoneNumber.length() > 3 && sPhoneNumber.substring(0,3).equals("+44"))
 				sPhoneNumber = "0"+sPhoneNumber.substring(3);
-			if(sPhoneNumber.length() == 11 && sPhoneNumber.matches("[0-9]+"))
-				System.out.println("The phoneNumber is Valid");
-			else if(sPhoneNumber.length() != 11)
+			if(sPhoneNumber.length() != 11)
 				errorMessage += "\nThe phone number is not the correct length.";
-			else
+			else if(!sPhoneNumber.matches("[0-9]+"))
 				errorMessage +="\nThe phone number contains non-numbers.";
-			String dateString = String.valueOf(birthDay.getValue()) + String.valueOf(birthMonth.getValue()) + String.valueOf(birthYear.getValue());
-			if(!isValid(dateString))
-			{
+			String dateString = String.valueOf(birthDay.getValue()) + "-" + String.valueOf(birthMonth.getValue()) + "-" + String.valueOf(birthYear.getValue());
+			try{
+				DateFormat date = new SimpleDateFormat("dd-MM-yyyy");
+				date.setLenient(false);
+				Date formattedDate = date.parse(dateString);
+				long ageMillis = System.currentTimeMillis() - formattedDate.getTime();
+				if(ageMillis <= 0)
+					errorMessage += "\nYou are not negative years old.";
+				Date age = new Date(ageMillis);
+				if(age.getYear() - 70 < 18)
+					healthcarePlan.setSelectedItem("NHS");
+			}catch(ParseException ex) {
 				errorMessage += "\nPlease enter a valid birth day.";
-				/*try{
-					DateFormat date = new SimpleDateFormat(DATE_FORMAT);
-					Date formattedDate = date.parse(dateString);
-					long ageMillis = System.currentTimeMillis() - formattedDate.getTime();*/
-					
 			}
 			if(errorMessage != "")// There is a formatting error
-				JOptionPane.showMessageDialog(null, errorMessage, "Incorrect Data", JOptionPane.WARNING_MESSAGE);
+				JOptionPane.showMessageDialog(null, errorMessage.substring(1), "Incorrect Data", JOptionPane.WARNING_MESSAGE);
 			else{
 				// Make a new patient here
 			}
 			
-		}
-		private boolean isValid(String dateString) 
-		{
-			try {
-			    DateFormat date = new SimpleDateFormat();
-			    date.setLenient(false);
-			    date.parse(dateString);
-			    return true;
-			} catch (ParseException e) {
-			    return false;
-			}
 		}
 	};
 
