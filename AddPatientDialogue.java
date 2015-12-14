@@ -6,9 +6,9 @@ import java.sql.SQLException;
 public class AddPatientDialogue extends JFrame {
 	
 	private JButton createBtn, cancelBtn, addAddressBtn, addPlanBtn;
-	private JTextField title, firstName, lastName, phoneNumber;
+	private JTextField firstName, lastName, phoneNumber, title;
 	private JSpinner birthDay, birthMonth, birthYear;
-	private JComboBox address, healthcarePlan;
+	private JComboBox address, healthcarePlan;//, title;
 	private SqlHandler handler;
 
 	public AddPatientDialogue (SqlHandler h)
@@ -24,7 +24,8 @@ public class AddPatientDialogue extends JFrame {
 		JPanel titlePanel = new JPanel();
 		titlePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		titlePanel.add(new JLabel("Title:"));
-		title = new JTextField(5);
+		//address = new JComboBox(new String[]{"Mr", "Mrs", "Ms", "Miss", "Master", "Mx", "Dr", "Prof"});
+		title = new JTextField(6);
 		titlePanel.add(title);
 		
 		JPanel firstNamePanel = new JPanel();

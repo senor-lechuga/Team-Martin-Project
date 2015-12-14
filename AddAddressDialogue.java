@@ -21,31 +21,31 @@ public class AddAddressDialogue extends JFrame {
 		pane.setLayout(new GridLayout(6,1));
 
 		JPanel numberPanel = new JPanel();
-		numberPanel.setLayout(new FlowLayout());
+		numberPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		numberPanel.add(new JLabel("House Number/Name:"));
 		number = new JTextField(20);
 		numberPanel.add(number);
 
 		JPanel streetPanel = new JPanel();
-		streetPanel.setLayout(new FlowLayout());
+		streetPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		streetPanel.add(new JLabel("Street:"));
 		street = new JTextField(30);
 		streetPanel.add(street);
 	
 		JPanel districtPanel = new JPanel();
-		districtPanel.setLayout(new FlowLayout());
+		districtPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		districtPanel.add(new JLabel("District:"));
 		district = new JTextField(30);
 		districtPanel.add(district);
 
 		JPanel cityPanel = new JPanel();
-		cityPanel.setLayout(new FlowLayout());
+		cityPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		cityPanel.add(new JLabel("City:"));
 		city = new JTextField(30);
 		cityPanel.add(city);
 
 		JPanel postCodePanel = new JPanel();
-		postCodePanel.setLayout(new FlowLayout());
+		postCodePanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		postCodePanel.add(new JLabel("Post Code:"));
 		postCode = new JTextField(30);
 		postCodePanel.add(postCode);

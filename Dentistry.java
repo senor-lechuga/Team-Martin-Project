@@ -25,12 +25,11 @@ public class Dentistry extends JFrame {
 		this.addWindowListener(quitListener);
 		
 		Container pane = this.getContentPane();
-		pane.setLayout(new GridLayout(3,1));
+		pane.setLayout(new GridLayout(2,1));
 
 		createUserBtn = new JButton("Register a new patient");
 		displayCalendarBtn = new JButton("Display practice calendar");
 		
-		JButton testAddressAdd = new JButton("Display the add address GUI");
 		
 		// Add all elements to the panel
 		pane.add(displayCalendarBtn);
@@ -41,7 +40,6 @@ public class Dentistry extends JFrame {
 
 		// Add function listeners
 		createUserBtn.addActionListener(startUserCreation);
-		testAddressAdd.addActionListener(displayAddGUI);
 		this.setVisible( true );
 	}
 
@@ -50,13 +48,6 @@ public class Dentistry extends JFrame {
 		public void actionPerformed(ActionEvent e)
 		{
 			AddPatientDialogue d = new AddPatientDialogue(handler);
-		}
-	};
-	private ActionListener displayAddGUI = new ActionListener()
-	{
-		public void actionPerformed(ActionEvent e)
-		{
-			AddAddressDialogue d = new AddAddressDialogue(handler);
 		}
 	};
 

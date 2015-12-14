@@ -42,6 +42,9 @@ public class Appointment {
 	public Date getDate() {
 		return date;
 	}
+	public String dateToString() {
+		return ("00:00:00");
+	}
 	public void setDate(Date date) {
 		this.date = date;
 	}
