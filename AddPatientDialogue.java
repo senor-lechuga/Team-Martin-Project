@@ -2,6 +2,8 @@ import java.awt.*;
 import javax.swing.*;
 import java.awt.event.*;
 import java.sql.SQLException;
+import java.util.Date;
+import java.text.*;
 
 public class AddPatientDialogue extends JFrame {
 	
@@ -160,12 +162,45 @@ public class AddPatientDialogue extends JFrame {
 	{
 		public void actionPerformed(ActionEvent e)
 		{
+			String errorMessage = "";
 			String sFirstName = firstName.getText().replaceAll("\\s+", "");
 			String sLastName = lastName.getText().replaceAll("\\s+", "");
 			String sPhoneNumber = phoneNumber.getText().replaceAll("\\s+", "");
-			if(sPhoneNumber.length > 3 && sPhoneNumber.substring(0,3) == "+44")
-				System.out.println("+44 detected");
-			//if(sPhoneNumber.length() == 11 
+			if(sPhoneNumber.length() > 3 && sPhoneNumber.substring(0,3).equals("+44"))
+				sPhoneNumber = "0"+sPhoneNumber.substring(3);
+			if(sPhoneNumber.length() == 11 && sPhoneNumber.matches("[0-9]+"))
+				System.out.println("The phoneNumber is Valid");
+			else if(sPhoneNumber.length() != 11)
+				errorMessage += "\nThe phone number is not the correct length.";
+			else
+				errorMessage +="\nThe phone number contains non-numbers.";
+			String dateString = String.valueOf(birthDay.getValue()) + String.valueOf(birthMonth.getValue()) + String.valueOf(birthYear.getValue());
+			if(!isValid(dateString))
+			{
+				errorMessage += "\nPlease enter a valid birth day.";
+				/*try{
+					DateFormat date = new SimpleDateFormat(DATE_FORMAT);
+					Date formattedDate = date.parse(dateString);
+					long ageMillis = System.currentTimeMillis() - formattedDate.getTime();*/
+					
+			}
+			if(errorMessage != "")// There is a formatting error
+				JOptionPane.showMessageDialog(null, errorMessage, "Incorrect Data", JOptionPane.WARNING_MESSAGE);
+			else{
+				// Make a new patient here
+			}
+			
+		}
+		private boolean isValid(String dateString) 
+		{
+			try {
+			    DateFormat date = new SimpleDateFormat();
+			    date.setLenient(false);
+			    date.parse(dateString);
+			    return true;
+			} catch (ParseException e) {
+			    return false;
+			}
 		}
 	};
 
