@@ -161,7 +161,7 @@ public class SqlHandler {
 		statement.setString (2, p.getFirstName());
 		statement.setString (3, p.getLastName());
 		statement.setDate (4, p.getBirthDate());
-		statement.setLong (5, p.getPhone());
+		statement.setString (5, p.getPhone());
 		statement.setString (6, p.getAddress().getHouseNumber());
 		statement.setString	(7, p.getAddress().getPostCode());
 		statement.setString (8, p.getHealthcarePlan().getName());
@@ -185,9 +185,24 @@ public class SqlHandler {
 			return null;
 		}else{
 				res.first();
-				return( new Patient(res.getString("title"),res.getString("firstname"),res.getString("lastname"),res.getDate("birthDate"),res.getLong("phone"),getHealthcarePlan(res.getString("healthPlan")),getAddressNumPC(res.getString("houseNumber"),res.getString("postCode")),res.getInt("patientID")));	
+				return( new Patient(res.getString("title"),res.getString("firstname"),res.getString("lastname"),res.getDate("birthDate"),res.getString("phone"),getHealthcarePlan(res.getString("healthPlan")),getAddressNumPC(res.getString("houseNumber"),res.getString("postCode")),res.getInt("patientID")));	
 		}
 	}
+	
+	public Patient[] getAllPatients() throws SQLException {
+		PreparedStatement statement;
+		String data = "SELECT * FROM patients";
+		statement = con.prepareStatement(data);
+		ResultSet res = statement.executeQuery();
+		ArrayList<Patient> result = new ArrayList<Patient>();
+		res.first();
+		while (res.next())
+		{
+			result.add(new Patient(res.getString("title"),res.getString("firstname"),res.getString("lastname"),res.getDate("birthDate"),res.getString("phone"),getHealthcarePlan(res.getString("healthPlan")),getAddressNumPC(res.getString("houseNumber"),res.getString("postCode")),res.getInt("patientID")));
+		}
+		return result.toArray(new Patient[result.size()]);
+	}
+	
 //---------------------APPOINTMENTS METHODS-----------------------------------
 
 	//maybe add can't overlap appointments
@@ -221,13 +236,10 @@ public class SqlHandler {
 		PreparedStatement statement;
 		String getAppointments = "SELECT * FROM appointments WHERE date = ?";
 		statement = con.prepareStatement(getAppointments);
-		System.out.print("date " +date);
 		java.sql.Date formatDate = new java.sql.Date (date.getYear()-1900, date.getMonth()-1, date.getDate());
 		statement.setDate(1, formatDate);
-		System.out.println("date "+formatDate);
 		ResultSet res = statement.executeQuery();
 		ArrayList<Appointment> result = new ArrayList<Appointment>();
-		System.out.println("result " +result);
 		while(res.next())
 		{
 			result.add(new Appointment(getPatientById(res.getInt("patientID")),res.getDate("date"),res.getTime("startTime"),res.getTime("endTime"),res.getString("partner"),res.getBoolean("paid"),getTreatmentByTimeDatePartner(res.getTime("startTime"),res.getDate("date"),res.getString("partner"))));
@@ -248,21 +260,23 @@ public class SqlHandler {
 		}
 		return result.toArray(new Appointment[result.size()]);
 	}
-	
-	// Note to Rebecca: This method is trying to use patientID, which is not defined within it's scope. Should you be passing partner name and date, and then use that in the where statement?
-	/*public Appointment[] getAppointmentsByDayPartner() throws SQLException {
+
+	public Appointment[] getAppointmentsByDayPartner(java.sql.Date date, String partner) throws SQLException {
 		PreparedStatement statement;
-		String getAppointments = "SELECT * FROM appointments WHERE patientID = ?";
+		String getAppointments = "SELECT * FROM appointments WHERE date = ? AND partner = ?";
 		statement = con.prepareStatement(getAppointments);
-		statement.setInt(1, patientID);
+		java.sql.Date formatDate = new java.sql.Date (date.getYear()-1900, date.getMonth()-1, date.getDate());
+		statement.setDate(1, formatDate);
+		statement.setString(2, partner);
 		ResultSet res = statement.executeQuery();
 		ArrayList<Appointment> result = new ArrayList<Appointment>();
+		System.out.println("result " +result);
 		while(res.next())
-		{		
+		{
 			result.add(new Appointment(getPatientById(res.getInt("patientID")),res.getDate("date"),res.getTime("startTime"),res.getTime("endTime"),res.getString("partner"),res.getBoolean("paid"),getTreatmentByTimeDatePartner(res.getTime("startTime"),res.getDate("date"),res.getString("partner"))));
 		}
 		return result.toArray(new Appointment[result.size()]);
-	}*/
+	}
 	
 	
 //---------------------HEALTHCAREPLAN METHODS-----------------------------------
@@ -360,12 +374,16 @@ public class SqlHandler {
 
 
 	try{
+	//Patient p = (new SqlHandler().getPatientById(7));
+	//System.out.println(p);
+	Patient[] p = (new SqlHandler().getAllPatients());
 	//HealthcarePlan test = (new SqlHandler().getHealthcarePlan("NHS"));
 	//new SqlHandler().addHealthcarePlan(plan);
 	//new SqlHandler().addPatient(patient);
-	Appointment[] a = new SqlHandler().getAppointmentsByPatientID(7);
-	System.out.println(a[0]);
-	System.out.println(a[1]);
+	//Appointment[] a = new SqlHandler().getAppointmentsByDayPartner(date1,"Dentist");
+	System.out.println(p[0]);
+	System.out.println(p[1]);
+	
 	//System.out.println(test);
 	}catch (SQLException ex){
 	ex.printStackTrace();
