@@ -49,7 +49,7 @@ public class AddPatientDialogue extends JFrame {
 		birthDay = new JSpinner(new SpinnerNumberModel(1,1,31,1));
 		birthMonth = new JSpinner(new SpinnerNumberModel(1,1,12,1));
 		Date currentD = new Date();
-		birthYear = new JSpinner(new SpinnerNumberModel(2015, 1800, currentD.getYear()+1900, 1));//TODO: Make the upper bound of this spinner to be the current year.
+		birthYear = new JSpinner(new SpinnerNumberModel(2015, 1800, currentD.getYear()+1900, 1));
 		datePanel.add(birthDay);
 		datePanel.add(birthMonth);
 		datePanel.add(birthYear);
