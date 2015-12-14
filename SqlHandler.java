@@ -161,7 +161,7 @@ public class SqlHandler {
 		statement.setString (2, p.getFirstName());
 		statement.setString (3, p.getLastName());
 		statement.setDate (4, p.getBirthDate());
-		statement.setLong (5, p.getPhone());
+		statement.setString (5, p.getPhone());
 		statement.setString (6, p.getAddress().getHouseNumber());
 		statement.setString	(7, p.getAddress().getPostCode());
 		statement.setString (8, p.getHealthcarePlan().getName());
@@ -185,7 +185,7 @@ public class SqlHandler {
 			return null;
 		}else{
 				res.first();
-				return( new Patient(res.getString("title"),res.getString("firstname"),res.getString("lastname"),res.getDate("birthDate"),res.getLong("phone"),getHealthcarePlan(res.getString("healthPlan")),getAddressNumPC(res.getString("houseNumber"),res.getString("postCode")),res.getInt("patientID")));	
+				return( new Patient(res.getString("title"),res.getString("firstname"),res.getString("lastname"),res.getDate("birthDate"),res.getString("phone"),getHealthcarePlan(res.getString("healthPlan")),getAddressNumPC(res.getString("houseNumber"),res.getString("postCode")),res.getInt("patientID")));	
 		}
 	}
 //---------------------APPOINTMENTS METHODS-----------------------------------
@@ -351,7 +351,7 @@ public class SqlHandler {
 
 	//HealthcarePlan plan = new HealthcarePlan("NHS",6,5,6,50.00);
 	//java.sql.Date date = new java.sql.Date(1994,06,05);
-	java.sql.Date date1 = new java.sql.Date(2015,12,01);
+	//java.sql.Date date1 = new java.sql.Date(2015,12,01);
 	//System.out.println(date1);
 	
 	//(String name,int checks,int hygienes,int repairs, double cost)
@@ -359,12 +359,14 @@ public class SqlHandler {
 
 
 	try{
+	Patient p = (new SqlHandler().getPatientById(7));
+	System.out.println(p);
 	//HealthcarePlan test = (new SqlHandler().getHealthcarePlan("NHS"));
 	//new SqlHandler().addHealthcarePlan(plan);
 	//new SqlHandler().addPatient(patient);
-	Appointment[] a = new SqlHandler().getAppointmentsByDayPartner(date1,"Dentist");
-	System.out.println(a[0]);
-	System.out.println(a[1]);
+	//Appointment[] a = new SqlHandler().getAppointmentsByDayPartner(date1,"Dentist");
+	//System.out.println(a[0]);
+	//System.out.println(a[1]);
 	
 	//System.out.println(test);
 	}catch (SQLException ex){

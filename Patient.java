@@ -7,14 +7,14 @@ public class Patient {
 	private String firstName;
 	private String lastName;
 	private java.sql.Date birthDate;
-	private long phone;
+	private String phone;
 	private int patientID;
 	private HealthcarePlan healthPlan;
 	private Address address;
 	private int checkUpsHad;
 	private int hygienesHad;
 	private int repairsHad;
-	public Patient (String title, String firstName, String lastName, java.sql.Date birthDate, long phone, HealthcarePlan healthPlan, Address address,int patientID){
+	public Patient (String title, String firstName, String lastName, java.sql.Date birthDate, String phone, HealthcarePlan healthPlan, Address address,int patientID){
 		this.title = title;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -28,7 +28,7 @@ public class Patient {
 		repairsHad = 0;
 	}
 	
-	public Patient (String title, String firstName, String lastName, java.sql.Date birthDate, long phone, HealthcarePlan healthPlan, Address address){
+	public Patient (String title, String firstName, String lastName, java.sql.Date birthDate, String phone, HealthcarePlan healthPlan, Address address){
 		this(title,firstName,lastName,birthDate,phone,healthPlan,address,0);
 	}
 	
@@ -56,10 +56,10 @@ public class Patient {
 	public void setBirthDate(java.sql.Date birthDate) {
 		this.birthDate = birthDate;
 	}
-	public long getPhone() {
+	public String getPhone() {
 		return phone;
 	}
-	public void setPhone(long phone) {
+	public void setPhone(String phone) {
 		this.phone = phone;
 	}
 	public int getPatientID() {
@@ -108,7 +108,8 @@ public class Patient {
 	str += this.title + " , ";
 	str += this.firstName + " , ";
 	str += this.lastName + " , ";
-	str += this.birthDate;
+	str += this.birthDate + " , ";
+	str += this.phone;
 	
 	return str;
 	}
