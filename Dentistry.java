@@ -82,6 +82,7 @@ public class Dentistry extends JFrame {
 		handler.closeConnection();
 		this.setVisible(false);
 		this.dispose();
+		System.exit(0);
 	}
 
 	public static void main(String[] args)

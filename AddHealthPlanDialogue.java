@@ -76,6 +76,7 @@ public class AddHealthPlanDialogue extends JFrame {
 		cancelBtn.addActionListener(cancelListener);
 		createBtn.addActionListener(createListener);
 		this.setVisible( true );
+		setResizable(false);
 	}
 	
 	public void addPatientReference(AddPatientDialogue p)

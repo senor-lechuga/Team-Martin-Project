@@ -105,6 +105,7 @@ public class AddPatientDialogue extends JFrame {
 		cancelBtn.addActionListener(cancelListener);
 		createBtn.addActionListener(createListener);
 		this.setVisible( true );
+		setResizable(false);
 	}
 
 	public void setupAddressBox()
