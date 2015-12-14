@@ -188,6 +188,21 @@ public class SqlHandler {
 				return( new Patient(res.getString("title"),res.getString("firstname"),res.getString("lastname"),res.getDate("birthDate"),res.getString("phone"),getHealthcarePlan(res.getString("healthPlan")),getAddressNumPC(res.getString("houseNumber"),res.getString("postCode")),res.getInt("patientID")));	
 		}
 	}
+	
+	public Patient[] getAllPatients() throws SQLException {
+		PreparedStatement statement;
+		String data = "SELECT * FROM patients";
+		statement = con.prepareStatement(data);
+		ResultSet res = statement.executeQuery();
+		ArrayList<Patient> result = new ArrayList<Patient>();
+		res.first();
+		while (res.next())
+		{
+			result.add(new Patient(res.getString("title"),res.getString("firstname"),res.getString("lastname"),res.getDate("birthDate"),res.getString("phone"),getHealthcarePlan(res.getString("healthPlan")),getAddressNumPC(res.getString("houseNumber"),res.getString("postCode")),res.getInt("patientID")));
+		}
+		return result.toArray(new Patient[result.size()]);
+	}
+	
 //---------------------APPOINTMENTS METHODS-----------------------------------
 
 	//maybe add can't overlap appointments
@@ -359,14 +374,15 @@ public class SqlHandler {
 
 
 	try{
-	Patient p = (new SqlHandler().getPatientById(7));
-	System.out.println(p);
+	//Patient p = (new SqlHandler().getPatientById(7));
+	//System.out.println(p);
+	Patient[] p = (new SqlHandler().getAllPatients());
 	//HealthcarePlan test = (new SqlHandler().getHealthcarePlan("NHS"));
 	//new SqlHandler().addHealthcarePlan(plan);
 	//new SqlHandler().addPatient(patient);
 	//Appointment[] a = new SqlHandler().getAppointmentsByDayPartner(date1,"Dentist");
-	//System.out.println(a[0]);
-	//System.out.println(a[1]);
+	System.out.println(p[0]);
+	System.out.println(p[1]);
 	
 	//System.out.println(test);
 	}catch (SQLException ex){
