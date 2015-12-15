@@ -3,13 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
+import javax.swing.*;
 /**
  *
  * @author aca14mc
  */
 public class BookAppointment extends javax.swing.JFrame {
-
+private String inputTreatment;
     /**
      * Creates new form BookAppointment
      */
@@ -71,9 +71,9 @@ public class BookAppointment extends javax.swing.JFrame {
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "DENTIST", "HYGIENIST" }));
 
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Checkup", "Hygiene", "Silver Amalgam Filling", "White Composite Resin Filling", "Gold Crown"}));
 
-        jButton2.setText("jButton2");
+        jButton2.setText("Add Treatment");
         jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jButton2MouseClicked(evt);
@@ -141,8 +141,8 @@ public class BookAppointment extends javax.swing.JFrame {
     }//GEN-LAST:event_jTextField4MouseClicked
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
-        AddTreatmentTypeDialogue a = new AddTreatmentTypeDialogue();
-        a.setVisible(true);
+        String inputTreatment = JOptionPane.showInputDialog("Please input a treatment");
+        jComboBox2.addItem(inputTreatment);
     }//GEN-LAST:event_jButton2MouseClicked
 
     /**
