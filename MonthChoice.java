@@ -130,7 +130,7 @@ public class MonthChoice extends javax.swing.JFrame {
                 jButton12MouseClicked(evt);
             }
         });
-
+        
         jComboBox1.setBackground(new java.awt.Color(204, 255, 255));
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "2015", "2016", "2017" }));
         jComboBox1.addActionListener(new java.awt.event.ActionListener() {

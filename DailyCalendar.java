@@ -33,32 +33,57 @@ private SqlHandler handler = null;
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-
-        jCheckBox1 = new javax.swing.JCheckBox();
-        jCheckBox2 = new javax.swing.JCheckBox();
-        jCheckBox3 = new javax.swing.JCheckBox();
-        jCheckBox4 = new javax.swing.JCheckBox();
-        jCheckBox5 = new javax.swing.JCheckBox();
-        jCheckBox6 = new javax.swing.JCheckBox();
-        jCheckBox7 = new javax.swing.JCheckBox();
-        jCheckBox8 = new javax.swing.JCheckBox();
-        jCheckBox9 = new javax.swing.JCheckBox();
-        jCheckBox10 = new javax.swing.JCheckBox();
-        jCheckBox11 = new javax.swing.JCheckBox();
-        jCheckBox12 = new javax.swing.JCheckBox();
-        jCheckBox13 = new javax.swing.JCheckBox();
-        jCheckBox14 = new javax.swing.JCheckBox();
-        jCheckBox15 = new javax.swing.JCheckBox();
-        jCheckBox16 = new javax.swing.JCheckBox();
-        jCheckBox17 = new javax.swing.JCheckBox();
-        jCheckBox18 = new javax.swing.JCheckBox();
-        jCheckBox19 = new javax.swing.JCheckBox();
-        jCheckBox20 = new javax.swing.JCheckBox();
-        jCheckBox21 = new javax.swing.JCheckBox();
-        jCheckBox22 = new javax.swing.JCheckBox();
-        jCheckBox23 = new javax.swing.JCheckBox();
-        jCheckBox25 = new javax.swing.JCheckBox();
-        jButton1 = new javax.swing.JButton();
+        ArrayList<jCheckBox> checkBoxList = new ArrayList<jCheckBox>();
+        ArrayList<jCheckBox> checkedBoxes = new ArrayList<jCheckBox>();
+            jCheckBox1 = new javax.swing.JCheckBox();
+            checkBoxList.add(jCheckBox1);
+            jCheckBox2 = new javax.swing.JCheckBox();
+            checkBoxList.add(jCheckBox2);
+            jCheckBox3 = new javax.swing.JCheckBox();
+            checkBoxList.add(jCheckBox3);
+            jCheckBox4 = new javax.swing.JCheckBox();
+            checkBoxList.add(jCheckBox4);
+            jCheckBox5 = new javax.swing.JCheckBox();
+            checkBoxList.add(jCheckBox5);
+            jCheckBox6 = new javax.swing.JCheckBox();
+            checkBoxList.add(jCheckBox6);
+            jCheckBox7 = new javax.swing.JCheckBox();
+            checkBoxList.add(jCheckBox7);
+            jCheckBox8 = new javax.swing.JCheckBox();
+            checkBoxList.add(jCheckBox8);
+            jCheckBox9 = new javax.swing.JCheckBox();
+            checkBoxList.add(jCheckBox9);
+            jCheckBox10 = new javax.swing.JCheckBox();
+            checkBoxList.add(jCheckBox10);
+            jCheckBox11 = new javax.swing.JCheckBox();
+            checkBoxList.add(jCheckBox11);
+            jCheckBox12 = new javax.swing.JCheckBox();
+            checkBoxList.add(jCheckBox12);
+            jCheckBox13 = new javax.swing.JCheckBox();
+            checkBoxList.add(jCheckBox13);
+            jCheckBox14 = new javax.swing.JCheckBox();
+            checkBoxList.add(jCheckBox14);
+            jCheckBox15 = new javax.swing.JCheckBox();
+            checkBoxList.add(jCheckBox15);
+            jCheckBox16 = new javax.swing.JCheckBox();
+            checkBoxList.add(jCheckBox16);
+            jCheckBox17 = new javax.swing.JCheckBox();
+            checkBoxList.add(jCheckBox17);
+            jCheckBox18 = new javax.swing.JCheckBox();
+            checkBoxList.add(jCheckBox18);
+            jCheckBox19 = new javax.swing.JCheckBox();
+            checkBoxList.add(jCheckBox19);
+            jCheckBox20 = new javax.swing.JCheckBox();
+            checkBoxList.add(jCheckBox20);
+            jCheckBox21 = new javax.swing.JCheckBox();
+            checkBoxList.add(jCheckBox21);
+            jCheckBox22 = new javax.swing.JCheckBox();
+            checkBoxList.add(jCheckBox22);
+            jCheckBox23 = new javax.swing.JCheckBox();
+            checkBoxList.add(jCheckBox23);
+            jCheckBox25 = new javax.swing.JCheckBox();
+            checkBoxList.add(jCheckBox24);
+            jButton1 = new javax.swing.JButton();
 
         jCheckBox1.setText("9:00-9:20");
 
@@ -79,6 +104,8 @@ private SqlHandler handler = null;
                 jCheckBox6ActionPerformed(evt);
             }
         });
+
+        boxChecker(checkBoxList);
 
         jCheckBox7.setText("11:00-11:20");
 
@@ -132,6 +159,8 @@ private SqlHandler handler = null;
                 jButton1ActionPerformed(evt);
             }
         });
+
+
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -227,6 +256,12 @@ private SqlHandler handler = null;
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        while(checkedBoxes.isEmpty() == false)
+            jCheckbox.setEnabled(false);
+            //ADD APPOINTMENT WITH GIVEN TIMES TO DATABASE
+    }
+
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -234,6 +269,13 @@ private SqlHandler handler = null;
     private void jCheckBox6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckBox6ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jCheckBox6ActionPerformed
+
+    public static void boxChecker(ArrayList<jCheckBox> a){
+         for (jCheckBox checkBoxList : checkBox){
+                if(checkBox.isSelected())
+                    checkedBoxes.add(checkBox);
+            }
+    }
 
     /**
      * @param args the command line arguments
