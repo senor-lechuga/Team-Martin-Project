@@ -87,7 +87,7 @@ public class DisplayCalendar extends JFrame{
         String dayInfo = "";
         Appointment[] sqlApps = handler.getAppointmentsByDay(sqlDate);
         if(sqlApps.length<=0){
-          dayInfo = "No Appointment for the day"
+          dayInfo = "No Appointment for the day";
         }
         else{
           for(Appointment a : sqlApps){
