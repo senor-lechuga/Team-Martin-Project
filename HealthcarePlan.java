@@ -1,4 +1,4 @@
-public class HealthcarePlan {
+public class HealthcarePlan{
 	private String name;
 	private int checkups;
 	private int hygienes;
@@ -41,5 +41,8 @@ public class HealthcarePlan {
 	}
 	public void setMonthlyCost(double monthlyCost) {
 		this.monthlyCost = monthlyCost;
+	}
+	public String toString() {
+		return (this.name);
 	}
 }

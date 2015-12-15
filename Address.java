@@ -41,4 +41,7 @@ public class Address {
 	public void setPostCode(String postCode) {
 		this.postCode = postCode;
 	}
+	public String toString() {
+		return(this.houseNumber + ", " + this.streetName + ", " + this.postCode);
+	}
 }
