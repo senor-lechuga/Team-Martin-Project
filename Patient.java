@@ -104,14 +104,8 @@ public class Patient {
 	}
 	
 	public String toString() {
-	String str = "";
-	str += this.title + " , ";
-	str += this.firstName + " , ";
-	str += this.lastName + " , ";
-	str += this.birthDate + " , ";
-	str += this.phone;
-	
-	return str;
+		java.sql.Date properDate = new java.sql.Date(birthDate.getYear() - 1900, birthDate.getMonth(), birthDate.getDay());
+		return(title+". "+firstName+" "+lastName+", "+properDate);
 	}
 	
 	/*public static void main (String [] args)

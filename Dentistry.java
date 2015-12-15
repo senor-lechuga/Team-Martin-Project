@@ -75,7 +75,7 @@ public class Dentistry extends JFrame {
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			//PatientSelectorDialogue d = new PatientSelectorDialogue(handler);
+			PatientSelectorDialogue d = new PatientSelectorDialogue(handler);
 		}
 	};
 
