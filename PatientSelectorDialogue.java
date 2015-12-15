@@ -72,7 +72,11 @@ public class PatientSelectorDialogue extends JFrame {
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			
+			Patient selected = (Patient)patientList.getSelectedValue();
+			if(selected != null)
+			{
+				EditPlanDialogue d = new EditPlanDialogue(selected,handler);
+			}
 		}
 	};
 	private ActionListener showBillListener = new ActionListener()

@@ -12,7 +12,7 @@ public class AddHealthPlanDialogue extends JFrame {
 	private String name;
 	private int checkup,hygiene,repairs;
 	private double cost;
-	private AddPatientDialogue patientCreator;
+	private IPlanEditor patientCreator;
 	private SqlHandler handler;
 
 	public AddHealthPlanDialogue (SqlHandler h)
@@ -79,7 +79,7 @@ public class AddHealthPlanDialogue extends JFrame {
 		setResizable(false);
 	}
 	
-	public void addPatientReference(AddPatientDialogue p)
+	public void addPlanEditorReference(IPlanEditor p)
 	{
 		patientCreator = p;
 	}
