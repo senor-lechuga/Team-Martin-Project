@@ -4,7 +4,7 @@ import java.awt.event.*;
 import java.sql.SQLException;
 
 public class Dentistry extends JFrame {
-	private JButton createUserBtn, displayCalendarBtn, exitBtn;
+	private JButton createUserBtn, displayCalendarBtn, viewPatientInfoBtn, exitBtn;
 	private SqlHandler handler = null;
 
 	public Dentistry ()
@@ -24,15 +24,17 @@ public class Dentistry extends JFrame {
 		this.addWindowListener(quitListener);
 		
 		Container pane = this.getContentPane();
-		pane.setLayout(new GridLayout(3,1));
+		pane.setLayout(new GridLayout(4,1));
 
 		createUserBtn = new JButton("Register a new patient");
 		displayCalendarBtn = new JButton("Display practice calendar");
+		viewPatientInfoBtn = new JButton("View Patient Information");
 		exitBtn = new JButton("Exit");
 		
 		// Add all elements to the panel
 		pane.add(displayCalendarBtn);
 		pane.add(createUserBtn);
+		pane.add(viewPatientInfoBtn);
 		pane.add(exitBtn);
 		this.pack();
 		setLocationRelativeTo(null);// Display in the centre of the screen
@@ -40,6 +42,7 @@ public class Dentistry extends JFrame {
 		// Add function listeners
 		createUserBtn.addActionListener(startUserCreation);
 		displayCalendarBtn.addActionListener(displayCalendar);
+		viewPatientInfoBtn.addActionListener(editPatientInfo);
 		exitBtn.addActionListener(exitSystem); 
 		this.setVisible(true);
 	}
@@ -66,6 +69,13 @@ public class Dentistry extends JFrame {
 			int warn = JOptionPane.showOptionDialog(null, "Do you really want to quit?", "Quit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null); 
 			if(warn == 0)
 				closeWindow();
+		}
+	};
+	private ActionListener editPatientInfo = new ActionListener()
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			//PatientSelectorDialogue d = new PatientSelectorDialogue(handler);
 		}
 	};
 
