@@ -28,7 +28,7 @@ public class Dentistry extends JFrame {
 
 		createUserBtn = new JButton("Register a new patient");
 		displayCalendarBtn = new JButton("Display practice calendar");
-		viewPatientInfoBtn = new JButton("View Patient Information");
+		viewPatientInfoBtn = new JButton("Edit Patient Information");
 		exitBtn = new JButton("Exit");
 		
 		// Add all elements to the panel
