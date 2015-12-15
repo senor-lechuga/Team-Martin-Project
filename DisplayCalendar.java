@@ -10,7 +10,7 @@ import java.awt.event.*;
 import java.sql.SQLException;
 
 public class DisplayCalendar extends JFrame{
-  private JButton leftButton,rightButton, exitButton;
+  private JButton leftButton,rightButton, exitButton, dentistButton, hygienistButton,bothButton;
   private JTextField weekField;
   private String[] days = {"Monday","Tuesday","Wednesday","Thursday","Friday"};
   private java.util.Date today = new java.util.Date();
@@ -42,20 +42,27 @@ public class DisplayCalendar extends JFrame{
     JPanel weekDisplay = new JPanel(new BorderLayout());
     weekDisplay.setPreferredSize(new Dimension(950,500));
     table = new JTable();
-    table.setModel(new DefaultTableModel(getWeeklyApps(mon),days));
+    table.setModel(new DefaultTableModel(getWeeklyApps(mon,"both"),days));
     table.setPreferredSize(new Dimension(950,500));
     JScrollPane scrollPane = new JScrollPane(table);
     weekDisplay.add(scrollPane,BorderLayout.CENTER);
 
     // Exit button display button
-    JPanel exitPanel = new JPanel(new BorderLayout());
+    JPanel downPanel = new JPanel(new FlowLayout());
     exitButton = new JButton("EXIT");
-    exitPanel.add(exitButton,BorderLayout.CENTER);
+    dentistButton = new JButton("View Dentis Appointments");
+    hygienistButton = new JButton("View Hygienist Appintments");
+    bothButton = new JButton("Show All Appointments");
+    downPanel.add(bothButton);
+    downPanel.add(dentistButton);
+    downPanel.add(hygienistButton);
+    downPanel.add(exitButton);
+    downPanel.setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
 
     // Adds everything to main panel
     pane.add(weekSelect,BorderLayout.NORTH);
     pane.add((new JScrollPane(weekDisplay)),BorderLayout.CENTER);
-    pane.add(exitPanel,BorderLayout.SOUTH);
+    pane.add(downPanel,BorderLayout.SOUTH);
     this.pack();
 		setLocationRelativeTo(null);// Display in the centre of the screen
 
@@ -63,12 +70,15 @@ public class DisplayCalendar extends JFrame{
     exitButton.addActionListener(exitListener);
     leftButton.addActionListener(previousListener);
     rightButton.addActionListener(nextListener);
+    dentistButton.addActionListener(dentistListener);
+    hygienistButton.addActionListener(hygienistListener);
+    bothButton.addActionListener(bothListener);
     this.setVisible(true);
     setDefaultCloseOperation(EXIT_ON_CLOSE);
   }
 
   // Method to get weekly information
-  private String[][] getWeeklyApps (java.util.Date date) throws SQLException{
+  private String[][] getWeeklyApps (java.util.Date date, String s) throws SQLException{
     Calendar c = Calendar.getInstance();
     c.setTime(date);
     String[] apps = new String[5];
@@ -76,12 +86,35 @@ public class DisplayCalendar extends JFrame{
       java.sql.Date sqlDate = new java.sql.Date(c.getTime().getTime());
         String dayInfo = "";
         Appointment[] sqlApps = handler.getAppointmentsByDay(sqlDate);
-        for(Appointment a : sqlApps){
-            String info = "";
-            info += "Patient: " +a.getPatient().getTitle() + " " + a.getPatient().getFirstName() + " " + a.getPatient().getLastName()+"\n";
-            info += "Time: " + a.getStartTime() + "-" + a.getEndTime() + "\n";
-            info += "Partner: " + a.getPartner() + "\n";
-            dayInfo += info + "\n";
+        if(sqlApps.length<=0){
+          dayInfo = "No Appointment for the day";
+        }
+        else{
+          for(Appointment a : sqlApps){
+              String info = "";
+              if(s == "Dentist"){
+                  if(a.getPartner() == "Dentist"){
+                    info += "Patient: " +a.getPatient().getTitle() + " " + a.getPatient().getFirstName() + " " + a.getPatient().getLastName()+"\n";
+                    info += "Time: " + a.getStartTime() + "-" + a.getEndTime() + "\n";
+                    info += "Partner: " + a.getPartner() + "\n";
+                    dayInfo += info + "\n";
+                  }
+              }
+              else if(s == "Hygienist"){
+                  if(a.getPartner() == "Hygienist"){
+                    info += "Patient: " +a.getPatient().getTitle() + " " + a.getPatient().getFirstName() + " " + a.getPatient().getLastName()+"\n";
+                    info += "Time: " + a.getStartTime() + "-" + a.getEndTime() + "\n";
+                    info += "Partner: " + a.getPartner() + "\n";
+                    dayInfo += info + "\n";
+                  }
+              }
+              else{
+                info += "Patient: " +a.getPatient().getTitle() + " " + a.getPatient().getFirstName() + " " + a.getPatient().getLastName()+"\n";
+                info += "Time: " + a.getStartTime() + "-" + a.getEndTime() + "\n";
+                info += "Partner: " + a.getPartner() + "\n";
+                dayInfo += info + "\n";
+              }
+          }
         }
         apps[i] = dayInfo;
         c.add(Calendar.DATE,1);
@@ -137,7 +170,7 @@ public class DisplayCalendar extends JFrame{
         //String[][] apps = getWeeklyApps(mon);
         //for(int i=0;i<5;i++){
         //  String values = apps[0][i];
-          table.setModel(new DefaultTableModel(getWeeklyApps(mon),days));
+          table.setModel(new DefaultTableModel(getWeeklyApps(mon,"both"),days));
         //}
       } catch (SQLException s){
           s.printStackTrace();
@@ -159,13 +192,43 @@ public class DisplayCalendar extends JFrame{
         //String[][] apps = getWeeklyApps(mon);
         //for(int i=0;i<5;i++){
         //    String values = apps[0][i];
-            table.setModel(new DefaultTableModel(getWeeklyApps(mon),days));
+            table.setModel(new DefaultTableModel(getWeeklyApps(mon,"both"),days));
         //}
       } catch (SQLException s){
             s.printStackTrace();
       }
 		}
 	};
+
+  private ActionListener dentistListener = new ActionListener(){
+		public void actionPerformed(ActionEvent e){
+      try{
+        table.setModel(new DefaultTableModel(getWeeklyApps(mon,"Dentist"),days));
+      } catch (SQLException s){
+            s.printStackTrace();
+      }
+		}
+	};
+
+  private ActionListener hygienistListener = new ActionListener(){
+    public void actionPerformed(ActionEvent e){
+      try{
+        table.setModel(new DefaultTableModel(getWeeklyApps(mon,"Hygienist"),days));
+      } catch (SQLException s){
+            s.printStackTrace();
+      }
+    }
+  };
+
+  private ActionListener bothListener = new ActionListener(){
+    public void actionPerformed(ActionEvent e){
+      try{
+        table.setModel(new DefaultTableModel(getWeeklyApps(mon,"both"),days));
+      } catch (SQLException s){
+            s.printStackTrace();
+      }
+    }
+  };
 
   // Close window method
   private void closeWindow()
