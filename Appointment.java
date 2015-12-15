@@ -94,6 +94,7 @@ public class Appointment {
 
 	public java.sql.Date formatTime(java.util.Date time){
 	//	SimpleDateFormat dForm = new SimpleDateFormat("HH:mm:ss");
+	
 		//java.util.Date formDate = dForm.parse(time);
 		return new java.sql.Date(time.getTime());
 	}*/
