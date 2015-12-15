@@ -46,7 +46,6 @@ public class DisplayCalendar extends JFrame{
     table.setModel(new DefaultTableModel(getWeeklyApps(mon,"both"),days));
     table.setPreferredSize(new Dimension(950,500));
     table.setRowHeight(490);
-    table.setDefaultRenderer(String.class, new MultiLineCellRenderer());
     JScrollPane scrollPane = new JScrollPane(table);
     weekDisplay.add(scrollPane,BorderLayout.CENTER);
 
