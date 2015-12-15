@@ -86,32 +86,36 @@ public class DisplayCalendar extends JFrame{
       java.sql.Date sqlDate = new java.sql.Date(c.getTime().getTime());
         String dayInfo = "";
         Appointment[] sqlApps = handler.getAppointmentsByDay(sqlDate);
-        for(Appointment a : sqlApps){
-            String info = "";
-            if(s == "Dentist"){
-                if(a.getPartner() == "Dentist"){
-                  info += "Patient: " +a.getPatient().getTitle() + " " + a.getPatient().getFirstName() + " " + a.getPatient().getLastName()+"\n";
-                  info += "Time: " + a.getStartTime() + "-" + a.getEndTime() + "\n";
-                  info += "Partner: " + a.getPartner() + "\n";
-                  dayInfo += info + "\n";
-                }
-            }
-            else if(s == "Hygienist"){
-                if(a.getPartner() == "Hygienist"){
-                  info += "Patient: " +a.getPatient().getTitle() + " " + a.getPatient().getFirstName() + " " + a.getPatient().getLastName()+"\n";
-                  info += "Time: " + a.getStartTime() + "-" + a.getEndTime() + "\n";
-                  info += "Partner: " + a.getPartner() + "\n";
-                  dayInfo += info + "\n";
-                }
-            }
-            else{
-              info += "Patient: " +a.getPatient().getTitle() + " " + a.getPatient().getFirstName() + " " + a.getPatient().getLastName()+"\n";
-              info += "Time: " + a.getStartTime() + "-" + a.getEndTime() + "\n";
-              info += "Partner: " + a.getPartner() + "\n";
-              dayInfo += info + "\n";
-            }
+        if(sqlApps.length<=0){
+          dayInfo = "No Appointment for the day"
+        }
+        else{
+          for(Appointment a : sqlApps){
+              String info = "";
+              if(s == "Dentist"){
+                  if(a.getPartner() == "Dentist"){
+                    info += "Patient: " +a.getPatient().getTitle() + " " + a.getPatient().getFirstName() + " " + a.getPatient().getLastName()+"\n";
+                    info += "Time: " + a.getStartTime() + "-" + a.getEndTime() + "\n";
+                    info += "Partner: " + a.getPartner() + "\n";
+                    dayInfo += info + "\n";
+                  }
+              }
+              else if(s == "Hygienist"){
+                  if(a.getPartner() == "Hygienist"){
+                    info += "Patient: " +a.getPatient().getTitle() + " " + a.getPatient().getFirstName() + " " + a.getPatient().getLastName()+"\n";
+                    info += "Time: " + a.getStartTime() + "-" + a.getEndTime() + "\n";
+                    info += "Partner: " + a.getPartner() + "\n";
+                    dayInfo += info + "\n";
+                  }
+              }
+              else{
+                info += "Patient: " +a.getPatient().getTitle() + " " + a.getPatient().getFirstName() + " " + a.getPatient().getLastName()+"\n";
+                info += "Time: " + a.getStartTime() + "-" + a.getEndTime() + "\n";
+                info += "Partner: " + a.getPartner() + "\n";
+                dayInfo += info + "\n";
+              }
           }
-
+        }
         apps[i] = dayInfo;
         c.add(Calendar.DATE,1);
     }
