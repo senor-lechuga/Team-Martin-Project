@@ -12,7 +12,7 @@ public class AddAddressDialogue extends JFrame {
 
 	public AddAddressDialogue (SqlHandler h)
 	{
-		super("Add new treatment type");
+		super("Add new address");
 		//Set up the SQL stuff
 		handler = h;
 
@@ -72,6 +72,7 @@ public class AddAddressDialogue extends JFrame {
 		cancelBtn.addActionListener(cancelListener);
 		createBtn.addActionListener(createListener);
 		this.setVisible( true );
+		setResizable(false);
 	}
 
 	public void addPatientReference(AddPatientDialogue d)

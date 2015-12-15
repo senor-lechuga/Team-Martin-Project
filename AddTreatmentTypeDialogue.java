@@ -47,6 +47,7 @@ public class AddTreatmentTypeDialogue extends JFrame {
 		cancelBtn.addActionListener(cancelListener);
 		createBtn.addActionListener(createListener);
 		this.setVisible( true );
+		setResizable(false);
 	}
 	private ActionListener cancelListener = new ActionListener()
 	{
