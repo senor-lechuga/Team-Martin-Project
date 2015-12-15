@@ -16,7 +16,7 @@ public class AddPatientDialogue extends JFrame implements IAddressEditor, IPlanE
 
 	public AddPatientDialogue (SqlHandler h)
 	{
-		super("Register a new user");
+		super("Register a new patient");
 		//Set up sql handler
 		handler = h;
 
