@@ -7,8 +7,8 @@ import java.sql.SQLException;
 public class AddHealthPlanDialogue extends JFrame {
 
 	private JButton createBtn, cancelBtn;
-	private JTextField planNameField,costCount;
-	private JSpinner checkupCount, hygienesCount, repairsCount;
+	private JTextField planNameField;
+	private JSpinner checkupCount, hygienesCount, repairsCount, costCount;
 	private String name;
 	private int checkup,hygiene,repairs;
 	private double cost;
@@ -25,7 +25,7 @@ public class AddHealthPlanDialogue extends JFrame {
 		pane.setLayout(new GridLayout(6,1));
 
 		JPanel planName = new JPanel();
-		planName.setLayout(new FlowLayout()/* new GridLayout(2,1)*/);
+		planName.setLayout(new FlowLayout());
 		planName.add(new JLabel("Plan Name:"));
 		planNameField = new JTextField(30);
 		planName.add(planNameField);
@@ -52,7 +52,7 @@ public class AddHealthPlanDialogue extends JFrame {
 		JPanel monthlyCost = new JPanel();
 		monthlyCost.setLayout(new FlowLayout());
 		monthlyCost.add(new JLabel("Monthly cost of plan:"));
-		costCount = new JTextField(5);
+		costCount = new JSpinner(new SpinnerNumberModel(0,0,1000,0.01));
 		monthlyCost.add(costCount);
 
 		JPanel bottomButtons = new JPanel();
@@ -75,10 +75,11 @@ public class AddHealthPlanDialogue extends JFrame {
 		// Add function listeners
 		cancelBtn.addActionListener(cancelListener);
 		createBtn.addActionListener(createListener);
-		this.setVisible( true );
+		this.setVisible(true);
+		setResizable(false);
 	}
 	
-	public void addPlanEditorReference(AddPatientDialogue p)
+	public void addPlanEditorReference(IPlanEditor p)
 	{
 		patientCreator = p;
 	}
@@ -102,14 +103,12 @@ public class AddHealthPlanDialogue extends JFrame {
 			else
 			{
 				//Perform SQL stuff here to create the new entry
-				/*System.out.println("Add a new healthcare plan with these details:");
-				System.out.println("|Name: " + planNameField.getText() + "\n|# of Checkups: " + checkupCount.getValue() + "\n|# of Hygiene checks: " + hygienesCount.getValue() + "\n|# of repairs: " + repairsCount.getValue() + "\n|Monthly cost: " + costCount.getText());*/
 				//Creates Healthplan object
 				name = planNameField.getText();
 				checkup = Integer.valueOf((Integer)checkupCount.getValue());
 				hygiene = Integer.valueOf((Integer)hygienesCount.getValue());
 				repairs = Integer.valueOf((Integer)repairsCount.getValue());
-				cost = Double.parseDouble(costCount.getText());
+				cost = Double.valueOf((Double)costCount.getValue());
 				HealthcarePlan plan = new HealthcarePlan(name,checkup,hygiene,repairs,cost);
 				try{
 					handler.addHealthcarePlan(plan);

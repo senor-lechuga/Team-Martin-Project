@@ -87,12 +87,12 @@ public class EditPlanDialogue extends JFrame implements IPlanEditor {
 		public void actionPerformed(ActionEvent e)
 		{
 			patient.setHealthcarePlan((HealthcarePlan)healthcarePlan.getSelectedItem());
-			/*try{
+			try{
 				handler.updatePatient(patient);
 			}catch(SQLException ex){	
 				JOptionPane.showMessageDialog(null, "Error registering patient.", "ERROR", JOptionPane.ERROR_MESSAGE);
 			}
-			closeWindow();*/
+			closeWindow();
 		}
 	};
 	private ActionListener planPopup = new ActionListener()
