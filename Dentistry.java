@@ -24,7 +24,7 @@ public class Dentistry extends JFrame {
 		this.addWindowListener(quitListener);
 
 		Container pane = this.getContentPane();
-		pane.setLayout(new GridLayout(4,1));
+		pane.setLayout(new GridLayout(5,1));
 
 		createUserBtn = new JButton("Register a new patient");
 		displayCalendarBtn = new JButton("Display practice calendar");

@@ -19,10 +19,6 @@ public class Treatment {
 	}
 	
 	public String toString() {
-	String str = "";
-	str += this.treatmentType + " , ";
-	str += this.cost;
-	
-	return str;
+		return (treatmentType + ": £" + cost);
 	}
 }

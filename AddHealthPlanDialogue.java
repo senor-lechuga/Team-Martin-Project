@@ -7,8 +7,8 @@ import java.sql.SQLException;
 public class AddHealthPlanDialogue extends JFrame {
 
 	private JButton createBtn, cancelBtn;
-	private JTextField planNameField;
-	private JSpinner checkupCount, hygienesCount, repairsCount, costCount;
+	private JTextField planNameField,costCount;
+	private JSpinner checkupCount, hygienesCount, repairsCount;
 	private String name;
 	private int checkup,hygiene,repairs;
 	private double cost;
@@ -25,7 +25,7 @@ public class AddHealthPlanDialogue extends JFrame {
 		pane.setLayout(new GridLayout(6,1));
 
 		JPanel planName = new JPanel();
-		planName.setLayout(new FlowLayout());
+		planName.setLayout(new FlowLayout()/* new GridLayout(2,1)*/);
 		planName.add(new JLabel("Plan Name:"));
 		planNameField = new JTextField(30);
 		planName.add(planNameField);
@@ -52,7 +52,7 @@ public class AddHealthPlanDialogue extends JFrame {
 		JPanel monthlyCost = new JPanel();
 		monthlyCost.setLayout(new FlowLayout());
 		monthlyCost.add(new JLabel("Monthly cost of plan:"));
-		costCount = new JSpinner(new SpinnerNumberModel(0,0,1000,0.01));
+		costCount = new JTextField(5);
 		monthlyCost.add(costCount);
 
 		JPanel bottomButtons = new JPanel();
@@ -76,7 +76,6 @@ public class AddHealthPlanDialogue extends JFrame {
 		cancelBtn.addActionListener(cancelListener);
 		createBtn.addActionListener(createListener);
 		this.setVisible( true );
-		setResizable(false);
 	}
 	
 	public void addPatientReference(AddPatientDialogue p)
@@ -110,7 +109,7 @@ public class AddHealthPlanDialogue extends JFrame {
 				checkup = Integer.valueOf((Integer)checkupCount.getValue());
 				hygiene = Integer.valueOf((Integer)hygienesCount.getValue());
 				repairs = Integer.valueOf((Integer)repairsCount.getValue());
-				cost = Double.valueOf((Double)costCount.getValue());
+				cost = Double.parseDouble(costCount.getText());
 				HealthcarePlan plan = new HealthcarePlan(name,checkup,hygiene,repairs,cost);
 				try{
 					handler.addHealthcarePlan(plan);
