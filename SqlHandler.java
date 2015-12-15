@@ -169,6 +169,23 @@ public class SqlHandler {
 		statement.execute();
 	}
 	
+	public void updatePatient (Patient p) throws SQLException{
+		PreparedStatement statement;
+		String update = "UPDATE patients SET title = ?, firstName = ?, lastName = ?, birthDate = ?, phone = ?, houseNumber = ?, postCode = ?, healthPlan = ? WHERE patientID = ?";
+		statement = con.prepareStatement(update);
+		statement.setString (1, p.getTitle());
+		statement.setString (2, p.getFirstName());
+		statement.setString (3, p.getLastName());
+		statement.setDate (4, p.getBirthDate());
+		statement.setString (5, p.getPhone());
+		statement.setString (6, p.getAddress().getHouseNumber());
+		statement.setString	(7, p.getAddress().getPostCode());
+		statement.setString (8, p.getHealthcarePlan().getName());
+		statement.setInt(9, p.getPatientID());
+		statement.execute();
+	}
+		
+	
 	public Patient getPatientById(int pId) throws SQLException {
 		PreparedStatement statement;
 		String data = "SELECT * FROM patients WHERE patientID = ?";
@@ -361,27 +378,28 @@ public class SqlHandler {
 
 	public static void main (String[]args){
 
-	//Address address = new Address("egg","poop","eggs","poop","eggs");
+	Address address = new Address("egg","poop","eggs","poop","eggs");
 
-	//HealthcarePlan plan = new HealthcarePlan("NHS",6,5,6,50.00);
-	//java.sql.Date date = new java.sql.Date(1994,06,05);
+	HealthcarePlan plan = new HealthcarePlan("NHS",6,5,6,50.00);
+	java.sql.Date date = new java.sql.Date(1994,06,05);
 	//java.sql.Date date1 = new java.sql.Date(2015,12,01);
 	//System.out.println(date1);
 	
 	//(String name,int checks,int hygienes,int repairs, double cost)
-	//Patient patient = new Patient("Miss","Piggy","Frog",date,87881402011L,plan,address);
+	Patient patient = new Patient("Miss","Frog","Piggy",date,"87881402011",plan,address,7);
 
 
 	try{
 	//Patient p = (new SqlHandler().getPatientById(7));
 	//System.out.println(p);
-	Patient[] p = (new SqlHandler().getAllPatients());
+	//Patient[] p = (new SqlHandler().getAllPatients());
 	//HealthcarePlan test = (new SqlHandler().getHealthcarePlan("NHS"));
 	//new SqlHandler().addHealthcarePlan(plan);
 	//new SqlHandler().addPatient(patient);
+	new SqlHandler().updatePatient(patient);
 	//Appointment[] a = new SqlHandler().getAppointmentsByDayPartner(date1,"Dentist");
-	System.out.println(p[0]);
-	System.out.println(p[1]);
+	//System.out.println(p[0]);
+	//System.out.println(p[1]);
 	
 	//System.out.println(test);
 	}catch (SQLException ex){

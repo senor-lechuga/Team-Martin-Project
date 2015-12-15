@@ -11,14 +11,18 @@ public class Appointment {
 	private boolean paid;
 	private ArrayList<Treatment> treatments;
 
-	public Appointment (Patient p, java.sql.Date dates,java.sql.Time sTime,java.sql.Time eTime, String partners, boolean paid, ArrayList<Treatment> ts) {
-		patient = p;
-		date = dates;
-		startTime = sTime;
-		endTime = eTime;
-		partner = partners;
-		paid = paid;
-		treatments = ts;
+	public Appointment (Patient patient, java.sql.Date date,java.sql.Time startTime,java.sql.Time endTime, String partner, boolean paid, ArrayList<Treatment> treatmentss) {
+		this.patient = patient;
+		this.date = date;
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.partner = partner;
+		this.paid = paid;
+		this.treatments = treatments;
+	}
+	
+	public Appointment (Patient patient, java.sql.Date date,java.sql.Time startTime,java.sql.Time endTime, String partner, ArrayList<Treatment> treatments) {
+		this(patient,date,startTime,endTime,partner,false, treatments);
 	}
 
 	public Patient getPatient(){
