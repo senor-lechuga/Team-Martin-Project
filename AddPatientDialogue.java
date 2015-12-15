@@ -6,7 +6,7 @@ import java.sql.*;
 import java.util.Date;
 import java.text.*;
 
-public class AddPatientDialogue extends JFrame {
+public class AddPatientDialogue extends JFrame implements IAddressEditor, IPlanEditor {
 	
 	private JButton createBtn, cancelBtn, addAddressBtn, addPlanBtn;
 	private JTextField firstName, lastName, phoneNumber;
@@ -136,7 +136,7 @@ public class AddPatientDialogue extends JFrame {
 		public void actionPerformed(ActionEvent e)
 		{
 			AddAddressDialogue d = new AddAddressDialogue(handler);
-			d.addPatientReference(AddPatientDialogue.this);
+			d.addAddressEditorReference(AddPatientDialogue.this);
 		}
 	};
 	private ActionListener planPopup = new ActionListener()
@@ -144,7 +144,7 @@ public class AddPatientDialogue extends JFrame {
 		public void actionPerformed(ActionEvent e)
 		{
 			AddHealthPlanDialogue d = new AddHealthPlanDialogue(handler);
-			d.addPatientReference(AddPatientDialogue.this);
+			d.addPlanEditorReference(AddPatientDialogue.this);
 		}
 	};
 	private ActionListener cancelListener = new ActionListener()

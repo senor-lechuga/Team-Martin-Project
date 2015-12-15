@@ -8,7 +8,7 @@ public class AddAddressDialogue extends JFrame {
 	private JButton createBtn, cancelBtn;
 	private JTextField number, street, district, city, postCode;
 	private SqlHandler handler;
-	private AddPatientDialogue patientCreator;
+	private IAddressEditor patientCreator;
 
 	public AddAddressDialogue (SqlHandler h)
 	{
@@ -75,7 +75,7 @@ public class AddAddressDialogue extends JFrame {
 		setResizable(false);
 	}
 
-	public void addPatientReference(AddPatientDialogue d)
+	public void addAddressEditorReference(IAddressEditor d)
 	{
 		patientCreator = d;
 	}
