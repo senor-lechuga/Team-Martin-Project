@@ -4,12 +4,14 @@
  * and open the template in the editor.
  */
 import javax.swing.*;
+import java.awt.*;
 /**
  *
  * @author aca14mc
  */
 public class BookAppointment extends javax.swing.JFrame {
 private String inputTreatment;
+private String costField;
     /**
      * Creates new form BookAppointment
      */
@@ -141,8 +143,9 @@ private String inputTreatment;
     }//GEN-LAST:event_jTextField4MouseClicked
 
     private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
-        String inputTreatment = JOptionPane.showInputDialog("Please input a treatment");
-        jComboBox2.addItem(inputTreatment);
+        AddTreatmentTypeDialogue add = new AddTreatmentTypeDialogue();
+        add.setVisible(true);
+        jComboBox2.addItem(add.nameField.getText());
     }//GEN-LAST:event_jButton2MouseClicked
 
     /**
