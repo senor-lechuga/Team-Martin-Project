@@ -20,7 +20,7 @@ public class Appointment {
 		this.paid = paid;
 		this.treatments = treatments;
 	}
-	
+
 	public Appointment (Patient patient, java.sql.Date date,java.sql.Time startTime,java.sql.Time endTime, String partner, ArrayList<Treatment> treatments) {
 		this(patient,date,startTime,endTime,partner,false, treatments);
 	}
@@ -95,12 +95,12 @@ public class Appointment {
 		//return sqlDate;
 		return new java.sql.Date(date.getTime());
 	}
-*/
-	public String formatTime(java.util.Date time){
+
+	public String formatTime(java.sql.Time time){
 		SimpleDateFormat dForm = new SimpleDateFormat("HH:mm");
 		String formDate = dForm.format(time);
 		return formDate;
-	}
+	}*/
 
 	/*public static void main (String [] args)
 						throws SQLException,NullPointerException{

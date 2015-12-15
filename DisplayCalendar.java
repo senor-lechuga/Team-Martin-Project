@@ -150,8 +150,10 @@ public class DisplayCalendar extends JFrame{
                 info += "Partner: " + a.getPartner() + "\n";
                 dayInfo = info + "\n";
               }
-              String sTime = a.formatTime(a.getStartTime());
-              String eTime = a.formatTime(a.getEndTime());
+              String sTime = a.getStartTime().toString();
+              sTime = sTime.substring(0,sTime.length()-3)
+              String eTime = a.getEndTime();
+              eTime = eTime.substring(0,eTime.length()-3)
               for(int j=1;j<25;j++){
                 if(appButtons[j][i].getText().equals(sTime))
                     weeklyApps[j-1][i] += dayInfo;
