@@ -19,6 +19,8 @@ public class DisplayCalendar extends JFrame{
   private String selectedWeek;
   private JTable table;
   private SqlHandler handler;
+  private String [][] appointments= new String[24][5];
+  private JButton[][] appButtons = new JButton[25][5];
   public DisplayCalendar(SqlHandler h) throws SQLException{
     handler = h;
     // Main panel
@@ -42,12 +44,41 @@ public class DisplayCalendar extends JFrame{
     // Calendar display panel
     JPanel weekDisplay = new JPanel(new BorderLayout());
     weekDisplay.setPreferredSize(new Dimension(950,500));
-    table = new JTable();
-    table.setModel(new DefaultTableModel(getWeeklyApps(mon,"both"),days));
-    table.setPreferredSize(new Dimension(950,500));
-    table.setRowHeight(490);
-    JScrollPane scrollPane = new JScrollPane(table);
-    weekDisplay.add(scrollPane,BorderLayout.CENTER);
+    //table = new JTable();
+    //table.setModel(new DefaultTableModel(getWeeklyApps(mon,"both"),days));
+    //table.setPreferredSize(new Dimension(950,500));
+    //table.setRowHeight(490);
+    //JScrollPane scrollPane = new JScrollPane(table);
+    JPanel table = new JPanel(new GridLayout(25,5));
+    for(int i=0;i<days.length;i++){
+        JButton a = new JButton(days[i]);
+        table.add(a);
+        appButtons[0][i] = a;
+        appButtons[0][i].setBorderPainted(false);
+        appButtons[0][i].setFocusPainted(false);
+    }
+    int hour = 9;
+    int mins = 0;
+    for(int j=1;j<25;j++){
+      for(int i=0;i<5;i++){
+        String time;
+          if(hour<10)
+            time = "0" + hour +":"+ mins + "0";
+          else
+            time = hour +":"+ mins + "0";
+          JButton a = new JButton(time);
+          table.add(a);
+          appButtons[j][i] = a;
+          appButtons[j][i].addActionListener(appListener);
+          appointments[j-1][i] = "No appointments this day";
+      }
+      mins += 2;
+      if(mins>=6){
+        hour++;
+        mins = 0;
+      }
+    }
+    weekDisplay.add(table,BorderLayout.CENTER);
 
     // Exit button display button
     JPanel downPanel = new JPanel(new FlowLayout());
@@ -83,15 +114,14 @@ public class DisplayCalendar extends JFrame{
   private String[][] getWeeklyApps (java.util.Date date, String s) throws SQLException{
     Calendar c = Calendar.getInstance();
     c.setTime(date);
-    String[] apps = new String[5];
+    String[][] weeklyApps = new String[24][5];
     for(int i=0; i<5;i++){
       java.sql.Date sqlDate = new java.sql.Date(c.getTime().getTime());
         String dayInfo = "";
         Appointment[] sqlApps = handler.getAppointmentsByDay(sqlDate);
-
         if(sqlApps.length<=0){
           if(s=="both")
-            dayInfo = "No Appointments \nfor the day";
+            dayInfo = "No Appointments for the day";
           else
             dayInfo = "No " + s + " Appointments";
         }
@@ -103,7 +133,7 @@ public class DisplayCalendar extends JFrame{
                     info += "Patient: " +a.getPatient().getTitle() + " " + a.getPatient().getFirstName() + " " + a.getPatient().getLastName()+"\n";
                     info += "Time: " + a.getStartTime() + "-" + a.getEndTime() + "\n";
                     info += "Partner: " + a.getPartner() + "\n";
-                    dayInfo += info + "\n";
+                    dayInfo = info + "\n";
                   }
               }
               else if(s == "Hygienist"){
@@ -111,24 +141,27 @@ public class DisplayCalendar extends JFrame{
                     info += "Patient: " +a.getPatient().getTitle() + " " + a.getPatient().getFirstName() + " " + a.getPatient().getLastName()+"\n";
                     info += "Time: " + a.getStartTime() + "-" + a.getEndTime() + "\n";
                     info += "Partner: " + a.getPartner() + "\n";
-                    dayInfo += info + "\n";
+                    dayInfo = info + "\n";
                   }
               }
               else{
                 info += "Patient: " +a.getPatient().getTitle() + " " + a.getPatient().getFirstName() + " " + a.getPatient().getLastName()+"\n";
                 info += "Time: " + a.getStartTime() + "-" + a.getEndTime() + "\n";
                 info += "Partner: " + a.getPartner() + "\n";
-                dayInfo += info + "\n";
+                dayInfo = info + "\n";
+              }
+              String sTime = a.formatTime(a.getStartTime());
+              String eTime = a.formatTime(a.getEndTime());
+              for(int j=1;j<25;j++){
+                if(appButtons[j][i].getText().equals(sTime))
+                    weeklyApps[j-1][i] += dayInfo;
+                    appButtons[j][i].setBackground(Color.RED);
               }
           }
         }
-        apps[i] = dayInfo;
         c.add(Calendar.DATE,1);
     }
-    String [][] weekDays = new String [1][5];
-    for(int i=0;i<5;i++)
-      weekDays[0][i] = apps[i];
-    return weekDays;
+    return weeklyApps;
   }
 
   // Method that prints the current week
@@ -164,7 +197,7 @@ public class DisplayCalendar extends JFrame{
 
   private ActionListener nextListener = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
-      try{
+
         Calendar c = Calendar.getInstance();
         c.setTime(mon);
         c.add(Calendar.DATE,7);
@@ -173,20 +206,13 @@ public class DisplayCalendar extends JFrame{
         sun = c.getTime();
         selectedWeek = weekToString(mon,sun);
         weekField.setText(selectedWeek);
-        //String[][] apps = getWeeklyApps(mon);
-        //for(int i=0;i<5;i++){
-        //  String values = apps[0][i];
-          table.setModel(new DefaultTableModel(getWeeklyApps(mon,"both"),days));
-        //}
-      } catch (SQLException s){
-          s.printStackTrace();
-      }
+
 		}
 	};
 
   private ActionListener previousListener = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
-      try{
+
         Calendar c = Calendar.getInstance();
         c.setTime(mon);
         c.add(Calendar.DATE,-7);
@@ -195,43 +221,36 @@ public class DisplayCalendar extends JFrame{
         sun = c.getTime();
         selectedWeek = weekToString(mon,sun);
         weekField.setText(selectedWeek);
-        //String[][] apps = getWeeklyApps(mon);
-        //for(int i=0;i<5;i++){
-        //    String values = apps[0][i];
-            table.setModel(new DefaultTableModel(getWeeklyApps(mon,"both"),days));
-        //}
-      } catch (SQLException s){
-            s.printStackTrace();
-      }
+
 		}
 	};
 
   private ActionListener dentistListener = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
-      try{
-        table.setModel(new DefaultTableModel(getWeeklyApps(mon,"Dentist"),days));
-      } catch (SQLException s){
-            s.printStackTrace();
-      }
+
 		}
 	};
 
   private ActionListener hygienistListener = new ActionListener(){
     public void actionPerformed(ActionEvent e){
-      try{
-        table.setModel(new DefaultTableModel(getWeeklyApps(mon,"Hygienist"),days));
-      } catch (SQLException s){
-            s.printStackTrace();
-      }
+
     }
   };
 
   private ActionListener bothListener = new ActionListener(){
     public void actionPerformed(ActionEvent e){
-      try{
-        table.setModel(new DefaultTableModel(getWeeklyApps(mon,"both"),days));
-      } catch (SQLException s){
-            s.printStackTrace();
+
+    }
+  };
+  private ActionListener appListener = new ActionListener(){
+    public void actionPerformed(ActionEvent ae){
+      for(int i=0;i<25;i++){
+        for(int j=0;j<5;j++){
+          if(ae.getSource()==appButtons[i][j]){
+            JFrame frame = new JFrame();
+            JOptionPane.showMessageDialog(frame,appointments[i][j]);
+          }
+        }
       }
     }
   };

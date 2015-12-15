@@ -80,7 +80,7 @@ public class Appointment {
 	str += this.partner+ " , ";
 	str += this.paid + " , ";
 	str += this.treatments;
-	
+
 	return str;
 	}
 
@@ -91,13 +91,12 @@ public class Appointment {
 		//return sqlDate;
 		return new java.sql.Date(date.getTime());
 	}
-
-	public java.sql.Date formatTime(java.util.Date time){
-	//	SimpleDateFormat dForm = new SimpleDateFormat("HH:mm:ss");
-	
-		//java.util.Date formDate = dForm.parse(time);
-		return new java.sql.Date(time.getTime());
-	}*/
+*/
+	public String formatTime(java.util.Date time){
+		SimpleDateFormat dForm = new SimpleDateFormat("HH:mm");
+		String formDate = dForm.format(time);
+		return formDate;
+	}
 
 	/*public static void main (String [] args)
 						throws SQLException,NullPointerException{
