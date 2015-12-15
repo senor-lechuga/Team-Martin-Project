@@ -4,7 +4,7 @@ import java.awt.event.*;
 import java.sql.SQLException;
 
 public class Dentistry extends JFrame {
-	private JButton createUserBtn, displayCalendarBtn, exitBtn;
+	private JButton createUserBtn, displayCalendarBtn, viewPatientInfoBtn, exitBtn, weeklyButton;
 	private SqlHandler handler = null;
 
 	public Dentistry ()
@@ -22,17 +22,21 @@ public class Dentistry extends JFrame {
 
 		//Set up the panel
 		this.addWindowListener(quitListener);
-		
+
 		Container pane = this.getContentPane();
-		pane.setLayout(new GridLayout(3,1));
+		pane.setLayout(new GridLayout(4,1));
 
 		createUserBtn = new JButton("Register a new patient");
 		displayCalendarBtn = new JButton("Display practice calendar");
+		viewPatientInfoBtn = new JButton("Edit Patient Information");
+		weeklyButton = new JButton("View weekly Appointments");
 		exitBtn = new JButton("Exit");
-		
+
 		// Add all elements to the panel
 		pane.add(displayCalendarBtn);
+		pane.add(weeklyButton);
 		pane.add(createUserBtn);
+		pane.add(viewPatientInfoBtn);
 		pane.add(exitBtn);
 		this.pack();
 		setLocationRelativeTo(null);// Display in the centre of the screen
@@ -40,10 +44,13 @@ public class Dentistry extends JFrame {
 		// Add function listeners
 		createUserBtn.addActionListener(startUserCreation);
 		displayCalendarBtn.addActionListener(displayCalendar);
-		exitBtn.addActionListener(exitSystem); 
+		viewPatientInfoBtn.addActionListener(editPatientInfo);
+		weeklyButton.addActionListener(weeklyListener);
+		exitBtn.addActionListener(exitSystem);
 		this.setVisible(true);
 	}
 
+	// Action performed button
 	private ActionListener startUserCreation = new ActionListener()
 	{
 		public void actionPerformed(ActionEvent e)
@@ -63,9 +70,16 @@ public class Dentistry extends JFrame {
 	{
 		public void actionPerformed(ActionEvent e)
 		{
-			int warn = JOptionPane.showOptionDialog(null, "Do you really want to quit?", "Quit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null); 
+			int warn = JOptionPane.showOptionDialog(null, "Do you really want to quit?", "Quit", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 			if(warn == 0)
 				closeWindow();
+		}
+	};
+	private ActionListener editPatientInfo = new ActionListener()
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			PatientSelectorDialogue d = new PatientSelectorDialogue(handler);
 		}
 	};
 
@@ -75,6 +89,20 @@ public class Dentistry extends JFrame {
 		{
 			handler.closeConnection();
 			System.exit(0);
+		}
+	};
+
+	private ActionListener weeklyListener = new ActionListener()
+	{
+		public void actionPerformed(ActionEvent e)
+		{
+			try{
+				DisplayCalendar weeklyCal = new DisplayCalendar(handler);
+			//	weeklyCal.setVisible(true);
+			}
+			catch (SQLException s){
+				s.printStackTrace();
+			}
 		}
 	};
 	private void closeWindow()
