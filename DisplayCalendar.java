@@ -5,6 +5,7 @@ import java.util.Calendar;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.*;
 import java.awt.event.*;
 import java.sql.SQLException;
@@ -44,6 +45,7 @@ public class DisplayCalendar extends JFrame{
     table = new JTable();
     table.setModel(new DefaultTableModel(getWeeklyApps(mon,"both"),days));
     table.setPreferredSize(new Dimension(950,500));
+    table.setRowHeight(490);
     JScrollPane scrollPane = new JScrollPane(table);
     weekDisplay.add(scrollPane,BorderLayout.CENTER);
 
@@ -86,8 +88,12 @@ public class DisplayCalendar extends JFrame{
       java.sql.Date sqlDate = new java.sql.Date(c.getTime().getTime());
         String dayInfo = "";
         Appointment[] sqlApps = handler.getAppointmentsByDay(sqlDate);
+
         if(sqlApps.length<=0){
-          dayInfo = "No Appointment for the day";
+          if(s=="both")
+            dayInfo = "No Appointments \nfor the day";
+          else
+            dayInfo = "No " + s + " Appointments";
         }
         else{
           for(Appointment a : sqlApps){
