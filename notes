@@ -1,2 +1,16 @@
 NOTE:
 - Make monthly cost in Healthcare plan a spinner
+
+
+Things to do:
+1 - View all appointments for a *given week*, Calendars.
+2 - *Book*, *cancel* and *find* appointments for a given patient
+3 - *Book* empty appointment for holiday reasons
+4 - *Subscribe* and *unsubscribe* patient to healthcare plan
+5 - *show* all *unpaid* treatments for a given patient
+6 - *Modify* the total cost owed by a patient on a healthcare plan
+7 - *Record* when a patient has paid their outstanding bill
+
+
+Who'll do it:
+Blayze - 4 (then working downwards)
