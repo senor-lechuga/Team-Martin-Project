@@ -344,7 +344,6 @@ public class SqlHandler {
 	}
 
 
-
 	public void closeConnection ()
 	{
 		if(con != null)
