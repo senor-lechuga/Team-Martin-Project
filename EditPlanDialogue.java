@@ -40,7 +40,7 @@ public class EditPlanDialogue extends JFrame implements IPlanEditor {
 		selectorPanel.add(addPlanBtn);
 
 		bottomButtons.setLayout(new FlowLayout());
-		createBtn = new JButton("Create");
+		createBtn = new JButton("Apply");
 		cancelBtn = new JButton("Cancel");	
 		bottomButtons.add(createBtn);
 		bottomButtons.add(cancelBtn);
@@ -86,6 +86,13 @@ public class EditPlanDialogue extends JFrame implements IPlanEditor {
 	{
 		public void actionPerformed(ActionEvent e)
 		{
+			patient.setHealthcarePlan((HealthcarePlan)healthcarePlan.getSelectedItem());
+			/*try{
+				handler.updatePatient(patient);
+			}catch(SQLException ex){	
+				JOptionPane.showMessageDialog(null, "Error registering patient.", "ERROR", JOptionPane.ERROR_MESSAGE);
+			}
+			closeWindow();*/
 		}
 	};
 	private ActionListener planPopup = new ActionListener()
