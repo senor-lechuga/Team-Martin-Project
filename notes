@@ -24,3 +24,4 @@ THINGS NEEDED TO BE DONE DESPERATELY:
 - addAppointment needs to work
 - updateAppointment needs to be added, or 'addAppointment' changed to make sure it updates if the appointment is already there.
         '-> NOTE: A 'setAppointmentToPaid(Appointment a)' method would also work
+   - when done, uncomment line 116 in PatientSelector, and look at addStuff.java to test it

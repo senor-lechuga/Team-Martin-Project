@@ -61,7 +61,8 @@ public class ShowBillDialogue extends JFrame {
 		}
 		ArrayList<Treatment> treatments = new ArrayList<Treatment>();
 		for (Appointment app:allAppointments)
-			treatments.addAll(app.getTreatments());
+			if(!app.isPaid())// Only add appointments that have not been paid yet to the bill
+				treatments.addAll(app.getTreatments());
 		Treatment[] treatmentsArray = new Treatment[treatments.size()];
 		treatmentsArray = treatments.toArray(treatmentsArray);
 		billList.setListData(treatmentsArray);

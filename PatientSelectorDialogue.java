@@ -3,6 +3,7 @@ import javax.swing.*;
 import java.awt.event.*;
 import java.sql.*;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 public class PatientSelectorDialogue extends JFrame {
 
@@ -93,8 +94,28 @@ public class PatientSelectorDialogue extends JFrame {
 	private ActionListener payBillListener = new ActionListener()
 	{
 		public void actionPerformed(ActionEvent e)
-		{
-			
+		{	
+			Patient selected = (Patient)patientList.getSelectedValue();
+			if(selected != null)
+			{
+				int warn = JOptionPane.showOptionDialog(null, "Are you sure you want to mark this patient's bills as paid?", "Yes", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+				if(warn == 0)
+				{
+					Appointment[] allAppointments;
+					try{
+						allAppointments = handler.getAppointmentsByPatientID(selected.getPatientID());
+					}catch(SQLException ex) {
+						allAppointments = new Appointment[0];
+					}
+					ArrayList<Treatment> treatments = new ArrayList<Treatment>();
+					for (Appointment app:allAppointments)
+						if(app.isPaid())
+							treatments.remove(app);
+					for (Appointment app:allAppointments)
+						app.setPaid(true);
+						//handler.updateAppointment(app);
+				}
+			}
 		}
 	};
 
