@@ -15,11 +15,11 @@ public class SqlHandler {
 		//Class.forName("com.mysql.jdbc.Driver");
 		con = DriverManager.getConnection("jdbc:mysql://stusql.dcs.shef.ac.uk/team017?user=team017&password=33b55883");
 	}
-	
-	
-	
+
+
+
 //----------------------TREATMENT METHODS---------------------------------------
-	
+
 	/**
 	 * Attempts to get an instance of a treatment type from the database, given a treatment type name.
 	 * @return TreatmentType	the wanted treatment type, or null if not found.
@@ -34,11 +34,9 @@ public class SqlHandler {
 		if(res.getFetchSize() == 0)
 			return null;
 		else{
-			return (new Treatment(res.getString("type"), res.getDouble("cost"),res.getString("paymentType")));
+			return (new Treatment(res.getString("type"), res.getDouble("cost")));
 		}
 	}
-	
-
 	public void setTreatmentType (Treatment t) throws SQLException{
 		PreparedStatement statement;
 		if (t.getTreatmentType() == null)
@@ -46,28 +44,14 @@ public class SqlHandler {
 			statement = con.prepareStatement("INSERT INTO treatmentTypes (type, cost) VALUES (?,?)");
 			statement.setString(1, t.getTreatmentType());
 			statement.setDouble(2, t.getCost());
-			statement.setString(3, t.getPaymentType());
 		}else{
 			statement = con.prepareStatement("UPDATE treatmentTypes SET (cost) = ? WHERE type = ?");
 			statement.setDouble(1, t.getCost());
 			statement.setString(2, t.getTreatmentType());
-			statement.setString(3, t.getPaymentType());
 		}
 		statement.execute();
 	}
-	
-	public Treatment[] getAllTreatmentTypes() throws SQLException{
-		PreparedStatement statement = con.prepareStatement("SELECT * FROM treatmentTypes");
-		ResultSet res = statement.executeQuery();
-		ArrayList<Treatment> result = new ArrayList<Treatment>();
-		while(res.next())
-		{ 
-			result.add(new Treatment(res.getString("type"),res.getDouble("cost"),res.getString("paymentType")));
-			
-		}
-		return result.toArray(new Treatment[result.size()]);
-	}
-	
+
 	/*public Treatment getTreatment(Treatment t,java.sql.Date date, java.sql.Time startTime, String partner) throws SQLException {
 		PreparedStatement statement;
 		String getTreatment = "SELECT * FROM treatments WHERE type =? AND date = ? AND startTime = ? AND partner = ?";
@@ -77,7 +61,7 @@ public class SqlHandler {
 		statement.setTime(3,startTime);
 		statement.setString(4,partner);
 		ResultSet res = statement.executeQuery();
-		
+
 		String getCount = "SELECT COUNT(*) AS count FROM treatments WHERE type =? AND date = ? AND startTime = ? AND partner = ?";
 		PreparedStatement countState;
 		countState = con.prepareStatement(getCount);
@@ -90,8 +74,8 @@ public class SqlHandler {
 		if(count.getInt("count") == 0){
 			return null;
 		}
-		return (new Treatment(res.getString("type"),00)); 
-		//haven't returned treatment properly yet	
+		return (new Treatment(res.getString("type"),00));
+		//haven't returned treatment properly yet
 	}*/
 
 	public ArrayList<Treatment> getTreatmentByTimeDatePartner(java.sql.Time time,java.sql.Date date, String partner) throws SQLException {
@@ -105,7 +89,7 @@ public class SqlHandler {
 		ArrayList<Treatment> result = new ArrayList<Treatment>();
 		while(res.next())
 		{
-			result.add(new Treatment(res.getString("type"),res.getDouble("cost"),res.getString("paymentType")));
+			result.add(new Treatment(res.getString("type"),res.getDouble("cost")));
 		}
 		return result;
 	}
@@ -171,7 +155,7 @@ public class SqlHandler {
 			statement.setString (7, a.getPostCode());
 		}
 	}
-	
+
 	public Address getAddressNumPC(String num, String postC) throws SQLException{
 		PreparedStatement statement;
 		String getData = "SELECT * FROM addresses WHERE number = ? AND postCode = ?";
@@ -207,10 +191,10 @@ public class SqlHandler {
 		statement.setString (6, p.getAddress().getHouseNumber());
 		statement.setString	(7, p.getAddress().getPostCode());
 		statement.setString (8, p.getHealthcarePlan().getName());
-	
+
 		statement.execute();
 	}
-	
+
 	public void updatePatient (Patient p) throws SQLException{
 		PreparedStatement statement;
 		String update = "UPDATE patients SET title = ?, firstName = ?, lastName = ?, birthDate = ?, phone = ?, houseNumber = ?, postCode = ?, healthPlan = ? WHERE patientID = ?";
@@ -226,10 +210,8 @@ public class SqlHandler {
 		statement.setInt(9, p.getPatientID());
 		statement.execute();
 	}
-	
-	//update patient with vvost crap
-		
-	
+
+
 	public Patient getPatientById(int pId) throws SQLException {
 		PreparedStatement statement;
 		String data = "SELECT * FROM patients WHERE patientID = ?";
@@ -246,10 +228,10 @@ public class SqlHandler {
 			return null;
 		}else{
 				res.first();
-				return( new Patient(res.getString("title"),res.getString("firstname"),res.getString("lastname"),res.getDate("birthDate"),res.getString("phone"),getHealthcarePlan(res.getString("healthPlan")),getAddressNumPC(res.getString("houseNumber"),res.getString("postCode")),res.getInt("patientID")));	
+				return( new Patient(res.getString("title"),res.getString("firstname"),res.getString("lastname"),res.getDate("birthDate"),res.getString("phone"),getHealthcarePlan(res.getString("healthPlan")),getAddressNumPC(res.getString("houseNumber"),res.getString("postCode")),res.getInt("patientID")));
 		}
 	}
-	
+
 	public Patient[] getAllPatients() throws SQLException {
 		PreparedStatement statement;
 		String data = "SELECT * FROM patients";
@@ -263,7 +245,7 @@ public class SqlHandler {
 		}
 		return result.toArray(new Patient[result.size()]);
 	}
-	
+
 //---------------------APPOINTMENTS METHODS-----------------------------------
 
 	//maybe add can't overlap appointments
@@ -294,7 +276,7 @@ public class SqlHandler {
 			s.execute();
 		}
 	}
-	
+
 	public void setAppointmentToPaid(Appointment a) throws SQLException {
 		PreparedStatement statement;
 		String add = "UPDATE appointments SET patientID = ?, date = ?, startTime = ?, endTime = ?,partner = ?,paid = ? WHERE date = ?, startTime = ? partner = ?";
@@ -337,7 +319,7 @@ public class SqlHandler {
 		}
 		return result.toArray(new Appointment[result.size()]);
 	}
-	
+
 	public Appointment[] getAppointmentsByPatientID(int patientID) throws SQLException {
 		PreparedStatement statement;
 		String getAppointments = "SELECT * FROM appointments WHERE patientID = ?";
@@ -346,7 +328,7 @@ public class SqlHandler {
 		ResultSet res = statement.executeQuery();
 		ArrayList<Appointment> result = new ArrayList<Appointment>();
 		while(res.next())
-		{		
+		{
 			result.add(new Appointment(getPatientById(res.getInt("patientID")),res.getDate("date"),res.getTime("startTime"),res.getTime("endTime"),res.getString("partner"),res.getBoolean("paid"),getTreatmentByTimeDatePartner(res.getTime("startTime"),res.getDate("date"),res.getString("partner"))));
 		}
 		return result.toArray(new Appointment[result.size()]);
@@ -356,7 +338,7 @@ public class SqlHandler {
 		PreparedStatement statement;
 		String getAppointments = "SELECT * FROM appointments WHERE date = ? AND partner = ?";
 		statement = con.prepareStatement(getAppointments);
-		java.sql.Date formatDate = new java.sql.Date (date.getYear()-1900, date.getMonth()-1, date.getDate());
+		java.sql.Date formatDate = new java.sql.Date (date.getYear(), date.getMonth(), date.getDate());
 		statement.setDate(1, formatDate);
 		statement.setString(2, partner);
 		ResultSet res = statement.executeQuery();
@@ -368,8 +350,8 @@ public class SqlHandler {
 		}
 		return result.toArray(new Appointment[result.size()]);
 	}
-	
-	
+
+
 //---------------------HEALTHCAREPLAN METHODS-----------------------------------
 
 	public HealthcarePlan[] getAllHealthcarePlans() throws SQLException {
@@ -452,51 +434,8 @@ public class SqlHandler {
 
 /*	public static void main (String[]args){
 
-<<<<<<< HEAD
-	//Address address = new Address("egg","poop","eggs","poop","eggs");
-	
-	//HealthcarePlan plan = new HealthcarePlan("NHS",6,5,6,50.00);
-	//java.sql.Date date = new java.sql.Date(1994,06,05);
-	//java.sql.Time st = new java.sql.Time(10,0,0);
-	//java.sql.Time et = new java.sql.Time(10,20,0);
-	//Treatment treat = new Treatment("brush",100.00);
-	//ArrayList<Treatment>  tt = new ArrayList<Treatment>();
-	//tt.add(treat);
-	//Patient patient = new Patient("Miss","Frog","Piggy",date,"87881402011",plan,address,7);
-	//Appointment app = new Appointment(patient,date,st,et,"Dentist",false,tt);
-	
-	//java.sql.Date date1 = new java.sql.Date(2015,12,01);
-	//System.out.println(date1);
-	
-	//(String name,int checks,int hygienes,int repairs, double cost)
-
-
-	try{
-	Treatment[] treat = (new SqlHandler().getAllTreatmentTypes());
-	System.out.println(treat[0]);
-	System.out.println(treat[1]);
-	//System.out.println(treat[4]);
-	//Patient p = (new SqlHandler().getPatientById(7));
-	//System.out.println(p);
-	//Patient[] p = (new SqlHandler().getAllPatients());
-	//HealthcarePlan test = (new SqlHandler().getHealthcarePlan("NHS"));
-	//new SqlHandler().addHealthcarePlan(plan);
-	//new SqlHandler().addPatient(patient);
-	//new SqlHandler().updatePatient(patient);
-	//new SqlHandler().updateAppointment(app);
-	//Appointment[] a = new SqlHandler().getAppointmentsByDayPartner(date1,"Dentist");
-	//System.out.println(p[0]);
-	//System.out.println(p[1]);
-	
-	//System.out.println(test);
-	}catch (SQLException ex){
-	ex.printStackTrace();
-	System.out.println("error"+ ex);
-	}
-	}
-=======
 		Address address = new Address("egg","poop","eggs","poop","eggs");
-		
+
 		HealthcarePlan plan = new HealthcarePlan("NHS",6,5,6,50.00);
 		java.sql.Date date = new java.sql.Date(1994,06,05);
 		java.sql.Time st = new java.sql.Time(10,0,0);
@@ -506,12 +445,12 @@ public class SqlHandler {
 		tt.add(treat);
 		Patient patient = new Patient("Miss","Frog","Piggy",date,"87881402011",plan,address,7);
 		Appointment app = new Appointment(patient,date,st,et,"Dentist",false,tt);
-		
+
 		//java.sql.Date date1 = new java.sql.Date(2015,12,01);
 		//System.out.println(date1);
-		
+
 		//(String name,int checks,int hygienes,int repairs, double cost)
-	
+
 
 
 		try{
@@ -526,12 +465,11 @@ public class SqlHandler {
 			//Appointment[] a = new SqlHandler().getAppointmentsByDayPartner(date1,"Dentist");
 			//System.out.println(p[0]);
 			//System.out.println(p[1]);
-			
+
 			//System.out.println(test);
 		}catch (SQLException ex){
 			ex.printStackTrace();
 			System.out.println("error"+ ex);
 		}
 	}*/
->>>>>>> d86235af8649a878a94e66c1c4956454173a5dd5
 }
