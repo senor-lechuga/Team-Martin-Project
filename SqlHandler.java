@@ -209,7 +209,7 @@ public class SqlHandler {
 		statement.execute();
 	}
 
-	/*public void updatePatient (Patient p) throws SQLException{
+	public void updatePatient (Patient p) throws SQLException{
 		PreparedStatement statement;
 		String update = "UPDATE patients SET title = ?, firstName = ?, lastName = ?, birthDate = ?, phone = ?, houseNumber = ?, postCode = ?, healthPlan = ?, checkupsHad = ?, hygienesHad = ?, repairsHad = ? WHERE patientID = ?";
 		statement = con.prepareStatement(update);
@@ -221,12 +221,14 @@ public class SqlHandler {
 		statement.setString (6, p.getAddress().getHouseNumber());
 		statement.setString	(7, p.getAddress().getPostCode());
 		statement.setString (8, p.getHealthcarePlan().getName());
-		statement.setInt(9,p.getCheckupsHad
+		statement.setInt(9,p.getCheckupsHad());
+		statement.setInt(10,p.getHygienesHad());
+		statement.setInt(11,p.getRepairsHad());
 		statement.setInt(9, p.getPatientID());
 
 		state
 		statement.execute();
-	}*/
+	}
 
 	public Patient getPatientById(int pId) throws SQLException {
 		PreparedStatement statement;
