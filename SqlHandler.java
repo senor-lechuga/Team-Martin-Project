@@ -51,6 +51,32 @@ public class SqlHandler {
 		}
 		statement.execute();
 	}
+	
+	/*public Treatment getTreatment(Treatment t,java.sql.Date date, java.sql.Time startTime, String partner) throws SQLException {
+		PreparedStatement statement;
+		String getTreatment = "SELECT * FROM treatments WHERE type =? AND date = ? AND startTime = ? AND partner = ?";
+		statement = con.prepareStatement(getTreatment);
+		statement.setString(1,t.getTreatmentType());
+		statement.setDate(2,date);
+		statement.setTime(3,startTime);
+		statement.setString(4,partner);
+		ResultSet res = statement.executeQuery();
+		
+		String getCount = "SELECT COUNT(*) AS count FROM treatments WHERE type =? AND date = ? AND startTime = ? AND partner = ?";
+		PreparedStatement countState;
+		countState = con.prepareStatement(getCount);
+		countState.setString(1,t.getTreatmentType());
+		countState.setDate(2,date);
+		countState.setTime(3,startTime);
+		countState.setString(4,partner);
+		ResultSet count = countState.executeQuery();
+		count.first();
+		if(count.getInt("count") == 0){
+			return null;
+		}
+		return (new Treatment(res.getString("type"),00)); 
+		//haven't returned treatment properly yet	
+	}*/
 
 	public ArrayList<Treatment> getTreatmentByTimeDatePartner(java.sql.Time time,java.sql.Date date, String partner) throws SQLException {
 		PreparedStatement statement;
@@ -250,6 +276,24 @@ public class SqlHandler {
 			s.execute();
 		}
 	}
+	
+	public void setAppointmentToPaid(Appointment a) throws SQLException {
+		PreparedStatement statement;
+		String add = "UPDATE appointments SET patientID = ?, date = ?, startTime = ?, endTime = ?,partner = ?,paid = ? WHERE date = ?, startTime = ? partner = ?";
+
+		statement = con.prepareStatement(add);
+		statement.setInt (1, a.getPatient().getPatientID());
+		statement.setDate (2, a.getDate());
+		statement.setTime(3, a.getStartTime());
+		statement.setTime (4, a.getEndTime());
+		statement.setString (5, a.getPartner());
+		statement.setBoolean (6, a.isPaid());
+		statement.setDate (7, a.getDate());
+		statement.setTime(8, a.getStartTime());
+		statement.setString (9, a.getPartner());
+		statement.execute();
+		}
+	}
 
 	public void removeAppointment(Appointment a) throws SQLException{
 		String removeApp = "DELETE FROM appointments WHERE type = (?,?,?)";
@@ -418,7 +462,7 @@ public class SqlHandler {
 	//new SqlHandler().addHealthcarePlan(plan);
 	//new SqlHandler().addPatient(patient);
 	//new SqlHandler().updatePatient(patient);
-	new SqlHandler().addAppointment(app);
+	new SqlHandler().updateAppointment(app);
 	//Appointment[] a = new SqlHandler().getAppointmentsByDayPartner(date1,"Dentist");
 	//System.out.println(p[0]);
 	//System.out.println(p[1]);

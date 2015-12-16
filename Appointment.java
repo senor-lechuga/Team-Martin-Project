@@ -21,9 +21,9 @@ public class Appointment {
 		this.treatments = treatments;
 	}
 
-	/*public Appointment (Patient patient, java.sql.Date date,java.sql.Time startTime,java.sql.Time endTime, String partner) {
+	public Appointment (Patient patient, java.sql.Date date,java.sql.Time startTime,java.sql.Time endTime, String partner) {
 		this(patient,date,startTime,endTime,partner,false, new ArrayList<Treatment>());
-	}*/
+	}
 
 	public Patient getPatient(){
 		return patient;
