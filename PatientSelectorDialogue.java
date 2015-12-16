@@ -28,6 +28,7 @@ public class PatientSelectorDialogue extends JFrame {
 		Patient[] sqlPatientList;
 		try{
 			sqlPatientList = handler.getAllPatients();
+			System.out.println(Arrays.toString(sqlPatientList));
 		}catch(SQLException ex){
 			sqlPatientList = new Patient[0];
 		}
