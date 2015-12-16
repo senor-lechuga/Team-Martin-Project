@@ -144,6 +144,7 @@ public class PatientSelectorDialogue extends JFrame {
 						JOptionPane.showMessageDialog(null, "Patient payment information updated.");
 					}catch(SQLException ex) {
 						JOptionPane.showMessageDialog(null, "Error updating payment information", "ERROR", JOptionPane.ERROR_MESSAGE);
+						ex.printStackTrace();
 					}	
 				}
 			}

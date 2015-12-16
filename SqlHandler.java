@@ -297,8 +297,7 @@ public class SqlHandler {
 
 	public void setAppointmentToPaid(Appointment a) throws SQLException {
 		PreparedStatement statement;
-		String add = "UPDATE appointments SET patientID = ?, date = ?, startTime = ?, endTime = ?,partner = ?,paid = ? WHERE date = ?, startTime = ? partner = ?";
-
+		String add = "UPDATE appointments SET patientID = ?, date = ?, startTime = ?, endTime = ?,partner = ?,paid = ? WHERE date = ? AND startTime = ? AND partner = ?";
 		statement = con.prepareStatement(add);
 		statement.setInt (1, a.getPatient().getPatientID());
 		statement.setDate (2, a.getDate());
