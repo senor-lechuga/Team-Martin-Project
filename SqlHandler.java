@@ -244,8 +244,9 @@ public class SqlHandler {
 			PreparedStatement s;
 			s = con.prepareStatement("INSERT INTO treatments (type,date,startTime,partner) VALUES (?,?,?,?)");
 			s.setString(1, t.getTreatmentType());
-			s.setTime(2, a.getStartTime());
-			s.setString(3, a.getPartner());
+			s.setDate(2, a.getDate());
+			s.setTime(3, a.getStartTime());
+			s.setString(4, a.getPartner());
 			s.execute();
 		}
 	}
@@ -391,14 +392,22 @@ public class SqlHandler {
 	public static void main (String[]args){
 
 	Address address = new Address("egg","poop","eggs","poop","eggs");
-
+	
 	HealthcarePlan plan = new HealthcarePlan("NHS",6,5,6,50.00);
 	java.sql.Date date = new java.sql.Date(1994,06,05);
+	java.sql.Time st = new java.sql.Time(10,0,0);
+	java.sql.Time et = new java.sql.Time(10,20,0);
+	Treatment treat = new Treatment("brush",100.00);
+	ArrayList<Treatment>  tt = new ArrayList<Treatment>();
+	tt.add(treat);
+	Patient patient = new Patient("Miss","Frog","Piggy",date,"87881402011",plan,address,7);
+	Appointment app = new Appointment(patient,date,st,et,"Dentist",false,tt);
+	
 	//java.sql.Date date1 = new java.sql.Date(2015,12,01);
 	//System.out.println(date1);
 	
 	//(String name,int checks,int hygienes,int repairs, double cost)
-	Patient patient = new Patient("Miss","Frog","Piggy",date,"87881402011",plan,address,7);
+	
 
 
 	try{
@@ -408,7 +417,8 @@ public class SqlHandler {
 	//HealthcarePlan test = (new SqlHandler().getHealthcarePlan("NHS"));
 	//new SqlHandler().addHealthcarePlan(plan);
 	//new SqlHandler().addPatient(patient);
-	new SqlHandler().updatePatient(patient);
+	//new SqlHandler().updatePatient(patient);
+	new SqlHandler().addAppointment(app);
 	//Appointment[] a = new SqlHandler().getAppointmentsByDayPartner(date1,"Dentist");
 	//System.out.println(p[0]);
 	//System.out.println(p[1]);
