@@ -166,7 +166,7 @@ protected String costField;
             if (jTextField4.getText().equals(""))
                 errorMessage += "\nPlease enter an end time";
 
-            BookAppointment b = (jTextField1.getText(), jTextField2.getText(), jTextField3.getText(), jTextField4.getText(), String.valueOf(jComboBox2.getSelectedItem()));
+            BookAppointment b = new BookAppointment(jTextField1.getText(), jTextField2.getText(), jTextField3.getText(), jTextField4.getText(), String.valueOf(jComboBox2.getSelectedItem()));
             try{
                 handler.addAppointment(b);
             }
