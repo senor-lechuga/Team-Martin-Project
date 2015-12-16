@@ -100,7 +100,7 @@ public class PatientSelectorDialogue extends JFrame {
 			Patient selected = (Patient)patientList.getSelectedValue();
 			if(selected != null)
 			{
-				int warn = JOptionPane.showOptionDialog(null, "Are you sure you want to mark this patient's bills as paid?", "Yes", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
+				int warn = JOptionPane.showOptionDialog(null, "Are you sure you want to mark this patient's bills as paid?", "Are you sure?", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 				if(warn == 0)
 				{
 					Appointment[] pulledAppointments;
