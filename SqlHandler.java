@@ -34,7 +34,7 @@ public class SqlHandler {
 		if(res.getFetchSize() == 0)
 			return null;
 		else{
-			return (new Treatment(res.getString("type"), res.getDouble("cost")));
+			return (new Treatment(res.getString("type"), res.getDouble("cost"),res.getString("paymentType")));
 		}
 	}
 	public void setTreatmentType (Treatment t) throws SQLException{
@@ -44,12 +44,26 @@ public class SqlHandler {
 			statement = con.prepareStatement("INSERT INTO treatmentTypes (type, cost) VALUES (?,?)");
 			statement.setString(1, t.getTreatmentType());
 			statement.setDouble(2, t.getCost());
+			statement.setString(3, t.getPaymentType());
 		}else{
 			statement = con.prepareStatement("UPDATE treatmentTypes SET (cost) = ? WHERE type = ?");
 			statement.setDouble(1, t.getCost());
 			statement.setString(2, t.getTreatmentType());
+			statement.setString(3, t.getPaymentType());
 		}
 		statement.execute();
+	}
+	
+	public Treatment[] getAllTreatmentTypes() throws SQLException{
+		PreparedStatement statement = con.prepareStatement("SELECT * FROM treatmentTypes");
+		ResultSet res = statement.executeQuery();
+		ArrayList<Treatment> result = new ArrayList<Treatment>();
+		while(res.next())
+		{ 
+			result.add(new Treatment(res.getString("type"),res.getDouble("cost"),res.getString("paymentType")));
+		
+		}
+				return result.toArray(new Treatment[result.size()]);
 	}
 
 	/*public Treatment getTreatment(Treatment t,java.sql.Date date, java.sql.Time startTime, String partner) throws SQLException {
@@ -89,7 +103,7 @@ public class SqlHandler {
 		ArrayList<Treatment> result = new ArrayList<Treatment>();
 		while(res.next())
 		{
-			result.add(new Treatment(res.getString("type"),res.getDouble("cost")));
+			result.add(new Treatment(res.getString("type"),res.getDouble("cost"),res.getString("paymentType")));
 		}
 		return result;
 	}
@@ -195,9 +209,9 @@ public class SqlHandler {
 		statement.execute();
 	}
 
-	public void updatePatient (Patient p) throws SQLException{
+	/*public void updatePatient (Patient p) throws SQLException{
 		PreparedStatement statement;
-		String update = "UPDATE patients SET title = ?, firstName = ?, lastName = ?, birthDate = ?, phone = ?, houseNumber = ?, postCode = ?, healthPlan = ? WHERE patientID = ?";
+		String update = "UPDATE patients SET title = ?, firstName = ?, lastName = ?, birthDate = ?, phone = ?, houseNumber = ?, postCode = ?, healthPlan = ?, checkupsHad = ?, hygienesHad = ?, repairsHad = ? WHERE patientID = ?";
 		statement = con.prepareStatement(update);
 		statement.setString (1, p.getTitle());
 		statement.setString (2, p.getFirstName());
@@ -207,9 +221,12 @@ public class SqlHandler {
 		statement.setString (6, p.getAddress().getHouseNumber());
 		statement.setString	(7, p.getAddress().getPostCode());
 		statement.setString (8, p.getHealthcarePlan().getName());
+		statement.setInt(9,p.getCheckupsHad
 		statement.setInt(9, p.getPatientID());
+
+		state
 		statement.execute();
-	}
+	}*/
 
 	public Patient getPatientById(int pId) throws SQLException {
 		PreparedStatement statement;
