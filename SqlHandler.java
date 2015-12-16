@@ -258,7 +258,8 @@ public class SqlHandler {
 		res.first();
 		while (res.next())
 		{
-			result.add(new Patient(res.getString("title"),res.getString("firstname"),res.getString("lastname"),res.getDate("birthDate"),res.getString("phone"),getHealthcarePlan(res.getString("healthPlan")),getAddressNumPC(res.getString("houseNumber"),res.getString("postCode")),res.getInt("patientID")));
+			result.add(new Patient(res.getString("title"),res.getString("firstname"),res.getString("lastname"),res.getDate("birthDate"),res.getString("phone"),getHealthcarePlan(res.getString("healthPlan")),getAddressNumPC(res.getString("houseNumber"),res.getString("postCode")),res.getInt("patientID"),res.getInt("checkupsHad"),res.getInt("hygienesHad"),res.getInt("repairsHad")));
+			
 		}
 		return result.toArray(new Patient[result.size()]);
 	}
