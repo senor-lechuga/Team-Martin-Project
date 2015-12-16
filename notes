@@ -21,7 +21,7 @@ Things Partners should be able to do:
 
 THINGS NEEDED TO BE DONE DESPERATELY:
 - addAppointment needs to work
-- updateAppointment needs to be added, or 'addAppointment' changed to make sure it updates if the appointment is already there.
+- updateAppointment needs to be added, or 'addAppointment' changed to make sure it updates if the appointment is already there (paid or not)
         '-> NOTE: A 'setAppointmentToPaid(Appointment a)' method would also work
    - when done, uncomment line 116 in PatientSelector, and look at addStuff.java to test it
 - add a type (or 'paymentType') field to the treatments table, so that each treatment can be classed as either a "hygiene", "checkup" or "repair" treatment, so that number 6 can be done.
