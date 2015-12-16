@@ -66,7 +66,7 @@ public class DisplayCalendar extends JFrame{
           table.add(a);
           appButtons[j][i] = a;
           appButtons[j][i].addActionListener(appListener);
-          appointments[j-1][i] = "No appointments this day!";
+          appointments[j-1][i] = "No appointments this slot!";
           takenSlot[j-1][i] = false;
       }
       mins += 2;
@@ -163,7 +163,7 @@ public class DisplayCalendar extends JFrame{
                       }
                       else{
                         takenSlot[j-1][i] = true;
-                        weeklyApps[j-1][i] = dayInfo;
+                        weeklyApps[j-1][i] = info;
                         appButtons[j][i].setBackground(Color.RED);
                       }
                     }
