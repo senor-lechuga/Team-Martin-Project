@@ -19,6 +19,6 @@ public class Treatment {
 	}
 	
 	public String toString() {
-		return (treatmentType + ": £" + cost);
+		return (treatmentType + ": " + cost + " pounds");
 	}
 }

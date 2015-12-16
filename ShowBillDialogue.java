@@ -69,7 +69,7 @@ public class ShowBillDialogue extends JFrame {
 		totalCost = 0;
 		for (Treatment t:treatmentsArray)
 			totalCost += t.getCost();
-		totalCostInfo.setText("Total: £" + totalCost);
+		totalCostInfo.setText("Total: " + totalCost + " pounds");
 		if(treatmentsArray.length == 0)
 			return false;
 		else
