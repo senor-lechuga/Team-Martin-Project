@@ -34,9 +34,11 @@ public class SqlHandler {
 		if(res.getFetchSize() == 0)
 			return null;
 		else{
-			return (new Treatment(res.getString("type"), res.getDouble("cost")));
+			return (new Treatment(res.getString("type"), res.getDouble("cost"),res.getString("paymentType")));
 		}
 	}
+	
+
 	public void setTreatmentType (Treatment t) throws SQLException{
 		PreparedStatement statement;
 		if (t.getTreatmentType() == null)
@@ -44,12 +46,26 @@ public class SqlHandler {
 			statement = con.prepareStatement("INSERT INTO treatmentTypes (type, cost) VALUES (?,?)");
 			statement.setString(1, t.getTreatmentType());
 			statement.setDouble(2, t.getCost());
+			statement.setString(3, t.getPaymentType());
 		}else{
 			statement = con.prepareStatement("UPDATE treatmentTypes SET (cost) = ? WHERE type = ?");
 			statement.setDouble(1, t.getCost());
 			statement.setString(2, t.getTreatmentType());
+			statement.setString(3, t.getPaymentType());
 		}
 		statement.execute();
+	}
+	
+	public Treatment[] getAllTreatmentTypes() throws SQLException{
+		PreparedStatement statement = con.prepareStatement("SELECT * FROM treatmentTypes");
+		ResultSet res = statement.executeQuery();
+		ArrayList<Treatment> result = new ArrayList<Treatment>();
+		while(res.next())
+		{ 
+			result.add(new Treatment(res.getString("type"),res.getDouble("cost"),res.getString("paymentType")));
+			
+		}
+		return result.toArray(new Treatment[result.size()]);
 	}
 	
 	/*public Treatment getTreatment(Treatment t,java.sql.Date date, java.sql.Time startTime, String partner) throws SQLException {
@@ -89,7 +105,7 @@ public class SqlHandler {
 		ArrayList<Treatment> result = new ArrayList<Treatment>();
 		while(res.next())
 		{
-			result.add(new Treatment(res.getString("type"),res.getDouble("cost")));
+			result.add(new Treatment(res.getString("type"),res.getDouble("cost"),res.getString("paymentType")));
 		}
 		return result;
 	}
@@ -210,6 +226,8 @@ public class SqlHandler {
 		statement.setInt(9, p.getPatientID());
 		statement.execute();
 	}
+	
+	//update patient with vvost crap
 		
 	
 	public Patient getPatientById(int pId) throws SQLException {
@@ -293,7 +311,7 @@ public class SqlHandler {
 		statement.setString (9, a.getPartner());
 		statement.execute();
 		}
-	}
+	
 
 	public void removeAppointment(Appointment a) throws SQLException{
 		String removeApp = "DELETE FROM appointments WHERE type = (?,?,?)";
@@ -435,26 +453,29 @@ public class SqlHandler {
 
 	public static void main (String[]args){
 
-	Address address = new Address("egg","poop","eggs","poop","eggs");
+	//Address address = new Address("egg","poop","eggs","poop","eggs");
 	
-	HealthcarePlan plan = new HealthcarePlan("NHS",6,5,6,50.00);
-	java.sql.Date date = new java.sql.Date(1994,06,05);
-	java.sql.Time st = new java.sql.Time(10,0,0);
-	java.sql.Time et = new java.sql.Time(10,20,0);
-	Treatment treat = new Treatment("brush",100.00);
-	ArrayList<Treatment>  tt = new ArrayList<Treatment>();
-	tt.add(treat);
-	Patient patient = new Patient("Miss","Frog","Piggy",date,"87881402011",plan,address,7);
-	Appointment app = new Appointment(patient,date,st,et,"Dentist",false,tt);
+	//HealthcarePlan plan = new HealthcarePlan("NHS",6,5,6,50.00);
+	//java.sql.Date date = new java.sql.Date(1994,06,05);
+	//java.sql.Time st = new java.sql.Time(10,0,0);
+	//java.sql.Time et = new java.sql.Time(10,20,0);
+	//Treatment treat = new Treatment("brush",100.00);
+	//ArrayList<Treatment>  tt = new ArrayList<Treatment>();
+	//tt.add(treat);
+	//Patient patient = new Patient("Miss","Frog","Piggy",date,"87881402011",plan,address,7);
+	//Appointment app = new Appointment(patient,date,st,et,"Dentist",false,tt);
 	
 	//java.sql.Date date1 = new java.sql.Date(2015,12,01);
 	//System.out.println(date1);
 	
 	//(String name,int checks,int hygienes,int repairs, double cost)
-	
 
 
 	try{
+	Treatment[] treat = (new SqlHandler().getAllTreatmentTypes());
+	System.out.println(treat[0]);
+	System.out.println(treat[1]);
+	//System.out.println(treat[4]);
 	//Patient p = (new SqlHandler().getPatientById(7));
 	//System.out.println(p);
 	//Patient[] p = (new SqlHandler().getAllPatients());
@@ -462,7 +483,7 @@ public class SqlHandler {
 	//new SqlHandler().addHealthcarePlan(plan);
 	//new SqlHandler().addPatient(patient);
 	//new SqlHandler().updatePatient(patient);
-	new SqlHandler().updateAppointment(app);
+	//new SqlHandler().updateAppointment(app);
 	//Appointment[] a = new SqlHandler().getAppointmentsByDayPartner(date1,"Dentist");
 	//System.out.println(p[0]);
 	//System.out.println(p[1]);
