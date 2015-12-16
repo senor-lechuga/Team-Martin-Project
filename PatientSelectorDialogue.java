@@ -109,11 +109,42 @@ public class PatientSelectorDialogue extends JFrame {
 					}
 					ArrayList<Treatment> treatments = new ArrayList<Treatment>();
 					for (Appointment app:allAppointments)
+					{
 						if(app.isPaid())
+						{
 							treatments.remove(app);
+						}
+					}
+
+					ArrayList<Treatment> treatments = new ArrayList<Treatment>();
 					for (Appointment app:allAppointments)
-						app.setPaid(true);
-						//handler.updateAppointment(app);
+						if(!app.isPaid())// Only add appointments that have not been paid yet to the bill
+							treatments.addAll(app.getTreatments());
+					Treatment[] treatmentsArray = new Treatment[treatments.size()];
+					treatmentsArray = treatments.toArray(treatmentsArray);
+					HealthPlan selectedsPlan = selected.getHealthcarePlan();
+					for (Treatment t:treatmentsArray)
+					{
+						if(t.getPaymentType().equals("hygiene") && selected.getHygienesHad() < selectedsPlan.getHygienes()) {
+							selected.setHygienesHad(selected.getHygienesHad() + 1);
+						}else if(t.getPaymentType().equals("repair") && selected.getRepairsHad() < selectedsPlan.getRepairs()) {
+							selected.setRepairsHad(selected.getRepairsHad() + 1);
+						}else if(t.getPaymentType().equals("checkup") && selected.getCheckUpsHad() < selectedsPlan.getCheckups()) {
+							selected.setCheckUpsHad(selected.getCheckUpsHad() + 1);
+						}
+					}
+
+					try{
+						for (Appointment app:allAppointments)
+						{
+							app.setPaid(true);
+							handler.setAppointmentToPaid(app);
+						}
+						handler.updatePatient(selected);
+						JOptionPane.showMessageDialog(null, "Patient payment information updated.");
+					}catch(SQLException ex) {
+						JOptionPane.showMessageDialog(null, "Error updating payment information", "ERROR", JOptionPane.ERROR_MESSAGE);
+					}	
 				}
 			}
 		}
