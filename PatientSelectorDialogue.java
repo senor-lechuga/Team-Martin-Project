@@ -4,6 +4,7 @@ import java.awt.event.*;
 import java.sql.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class PatientSelectorDialogue extends JFrame {
 
@@ -101,28 +102,27 @@ public class PatientSelectorDialogue extends JFrame {
 				int warn = JOptionPane.showOptionDialog(null, "Are you sure you want to mark this patient's bills as paid?", "Yes", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, null, null);
 				if(warn == 0)
 				{
-					Appointment[] allAppointments;
+					Appointment[] pulledAppointments;
 					try{
-						allAppointments = handler.getAppointmentsByPatientID(selected.getPatientID());
+						pulledAppointments = handler.getAppointmentsByPatientID(selected.getPatientID());
 					}catch(SQLException ex) {
-						allAppointments = new Appointment[0];
+						pulledAppointments = new Appointment[0];
 					}
-					ArrayList<Treatment> treatments = new ArrayList<Treatment>();
+					ArrayList<Appointment> allAppointments = new ArrayList<Appointment>(Arrays.asList(pulledAppointments));
 					for (Appointment app:allAppointments)
 					{
-						if(app.isPaid())
+						if(app.isPaid())// Don't count appointments that are already paid for
 						{
-							treatments.remove(app);
+							allAppointments.remove(app);
 						}
 					}
 
 					ArrayList<Treatment> treatments = new ArrayList<Treatment>();
 					for (Appointment app:allAppointments)
-						if(!app.isPaid())// Only add appointments that have not been paid yet to the bill
-							treatments.addAll(app.getTreatments());
+						treatments.addAll(app.getTreatments());
 					Treatment[] treatmentsArray = new Treatment[treatments.size()];
 					treatmentsArray = treatments.toArray(treatmentsArray);
-					HealthPlan selectedsPlan = selected.getHealthcarePlan();
+					HealthcarePlan selectedsPlan = selected.getHealthcarePlan();
 					for (Treatment t:treatmentsArray)
 					{
 						if(t.getPaymentType().equals("hygiene") && selected.getHygienesHad() < selectedsPlan.getHygienes()) {

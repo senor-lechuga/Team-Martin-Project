@@ -69,7 +69,7 @@ public class ShowBillDialogue extends JFrame {
 		billList.setListData(treatmentsArray);
 		totalCost = 0;
 		double modifiedCost = 0;
-		HealthPlan patientsPlan = patient.getHealthcarePlan();
+		HealthcarePlan patientsPlan = patient.getHealthcarePlan();
 		for (Treatment t:treatmentsArray)
 		{
 			totalCost += t.getCost();
