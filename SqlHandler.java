@@ -236,6 +236,18 @@ public class SqlHandler {
 		statement.setString (5, a.getPartner());
 		statement.setBoolean (6, a.isPaid());
 		statement.execute();
+
+		// Make sure that each treatment within this appointment is also added:
+		ArrayList<Treatment> treatments = a.getTreatments();
+		for (Treatment t:treatments)
+		{
+			PreparedStatement s;
+			s = con.prepareStatement("INSERT INTO treatments (type,date,startTime,partner) VALUES (?,?,?,?)");
+			s.setString(1, t.getTreatmentType());
+			s.setTime(2, a.getStartTime());
+			s.setString(3, a.getPartner());
+			s.execute();
+		}
 	}
 
 	public void removeAppointment(Appointment a) throws SQLException{

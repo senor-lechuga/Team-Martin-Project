@@ -11,7 +11,7 @@ public class Appointment {
 	private boolean paid;
 	private ArrayList<Treatment> treatments;
 
-	public Appointment (Patient patient, java.sql.Date date,java.sql.Time startTime,java.sql.Time endTime, String partner, boolean paid, ArrayList<Treatment> treatmentss) {
+	public Appointment (Patient patient, java.sql.Date date,java.sql.Time startTime,java.sql.Time endTime, String partner, boolean paid, ArrayList<Treatment> treatments) {
 		this.patient = patient;
 		this.date = date;
 		this.startTime = startTime;

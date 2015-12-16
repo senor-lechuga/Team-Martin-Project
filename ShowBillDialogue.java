@@ -9,8 +9,10 @@ public class ShowBillDialogue extends JFrame {
 
 	private JButton leaveBtn, payBtn;
 	private JList billList;
+	private JLabel totalCostInfo;
 	private Patient patient;
 	private SqlHandler handler;
+	private double totalCost;
 
 	public ShowBillDialogue (Patient p, SqlHandler h)
 	{
@@ -31,20 +33,13 @@ public class ShowBillDialogue extends JFrame {
 		JPanel infoPanel = new JPanel();
 		infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
 		infoPanel.add(new JLabel(p.getFullName()+":"));
-
-		Appointment[] allAppointments;
-		try{
-			allAppointments = handler.getAppointmentsByPatientID(patient.getPatientID());
-		}catch(SQLException ex) {
-			allAppointments = new Appointment[0];
-		}
-		ArrayList<Treatment> treatments = new ArrayList<Treatment>();
-		for (Appointment app:allAppointments)
-			treatments.addAll(app.getTreatments());
-		if(treatments.size() == 0)
+		billList = new JList(new String[]{""});
+		totalCostInfo = new JLabel("");
+		if (!populateBillList())
 			infoPanel.add(new JLabel("No treatments"));
-		billList = new JList(treatments.toArray());
+		infoPanel.setBorder(BorderFactory.createEmptyBorder(5,5,5,5));
 		infoPanel.add(billList);
+		infoPanel.add(totalCostInfo);
 
 		pane.add(infoPanel, BorderLayout.CENTER);
 		this.pack();
@@ -54,6 +49,30 @@ public class ShowBillDialogue extends JFrame {
 
 		this.setVisible(true);
 		setResizable(false);
+	}
+
+	private boolean populateBillList ()
+	{	
+		Appointment[] allAppointments;
+		try{
+			allAppointments = handler.getAppointmentsByPatientID(patient.getPatientID());
+		}catch(SQLException ex) {
+			allAppointments = new Appointment[0];
+		}
+		ArrayList<Treatment> treatments = new ArrayList<Treatment>();
+		for (Appointment app:allAppointments)
+			treatments.addAll(app.getTreatments());
+		Treatment[] treatmentsArray = new Treatment[treatments.size()];
+		treatmentsArray = treatments.toArray(treatmentsArray);
+		billList.setListData(treatmentsArray);
+		totalCost = 0;
+		for (Treatment t:treatmentsArray)
+			totalCost += t.getCost();
+		totalCostInfo.setText("Total: £" + totalCost);
+		if(treatmentsArray.length == 0)
+			return false;
+		else
+			return true;
 	}
 
 	private ActionListener cancelListener = new ActionListener()
