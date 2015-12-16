@@ -5,8 +5,8 @@ import java.awt.event.*;
 public class AddTreatmentTypeDialogue extends JFrame {
 	
 	private JButton createBtn, cancelBtn;
-	private JTextField nameField;
-	private JSpinner costField;
+	protected JTextField nameField;
+	protected JSpinner costField;
 
 	public AddTreatmentTypeDialogue ()
 	{
