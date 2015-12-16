@@ -14,7 +14,9 @@ public class Patient {
 	private int checkUpsHad;
 	private int hygienesHad;
 	private int repairsHad;
-	public Patient (String title, String firstName, String lastName, java.sql.Date birthDate, String phone, HealthcarePlan healthPlan, Address address,int patientID){
+	
+	public Patient (String title, String firstName, String lastName, java.sql.Date birthDate, String phone, HealthcarePlan healthPlan, Address address,int patientID,int checkUpsHad,int hygienesHad, int repairsHad){
+		
 		this.title = title;
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -23,9 +25,13 @@ public class Patient {
 		this.address = address;
 		this.healthPlan = healthPlan;
 		this.patientID = patientID;
-		checkUpsHad = 0;
-		hygienesHad = 0;
-		repairsHad = 0;
+		this.checkUpsHad = checkUpsHad;
+		this.hygienesHad = hygienesHad;
+		this.repairsHad = repairsHad;
+	}
+	
+	public Patient (String title, String firstName, String lastName, java.sql.Date birthDate, String phone, HealthcarePlan healthPlan, Address address,int patientID){
+		this(title,firstName,lastName,birthDate,phone,healthPlan,address,patientID,0,0,0);
 	}
 	
 	public Patient (String title, String firstName, String lastName, java.sql.Date birthDate, String phone, HealthcarePlan healthPlan, Address address){

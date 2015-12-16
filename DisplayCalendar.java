@@ -66,7 +66,7 @@ public class DisplayCalendar extends JFrame{
           table.add(a);
           appButtons[j][i] = a;
           appButtons[j][i].addActionListener(appListener);
-          appointments[j-1][i] = "No appointments this day!";
+          appointments[j-1][i] = "No appointments this slot!";
           takenSlot[j-1][i] = false;
       }
       mins += 2;
@@ -119,7 +119,7 @@ public class DisplayCalendar extends JFrame{
         Appointment[] sqlApps = handler.getAppointmentsByDay(sqlDate);
         if(sqlApps.length<=0){
           if(s=="both")
-            dayInfo = "No Appointments for the day";
+            dayInfo = "No Appointments for this slot!";
           else
             dayInfo = "No " + s + " Appointments";
         }
@@ -145,22 +145,40 @@ public class DisplayCalendar extends JFrame{
                 info += "Time: " + a.getStartTime() + "-" + a.getEndTime() + "\n";
                 info += "Partner: " + a.getPartner() + "\n";
               }
+
               String sTime = a.getStartTime().toString();
               sTime = sTime.substring(0,sTime.length()-3);
+              int startHour = Integer.valueOf(sTime.substring(0,2));
+              int startMinutes = Integer.valueOf(sTime.substring(3));
               String eTime = a.getEndTime().toString();
               eTime = eTime.substring(0,eTime.length()-3);
-              for(int j=1;j<25;j++){
-                  if(appButtons[j][i].getText().equals(sTime)){
-                    if(takenSlot[j-1][i]){
-                      weeklyApps[j-1][i] += "\n" + info;
-                      appButtons[j][i].setBackground(Color.RED);
+              int endHour = Integer.valueOf(sTime.substring(0,2));
+              int endMinutes = Integer.valueOf(sTime.substring(3));
+              while(startHour != endHour && startMinutes == endMinutes){
+                for(int j=1;j<25;j++){
+                    if(appButtons[j][i].getText().equals(sTime)){
+                      if(takenSlot[j-1][i]){
+                        weeklyApps[j-1][i] += "\n" + info;
+                        appButtons[j][i].setBackground(Color.RED);
+                      }
+                      else{
+                        takenSlot[j-1][i] = true;
+                        weeklyApps[j-1][i] = info;
+                        appButtons[j][i].setBackground(Color.RED);
+                      }
                     }
-                    else{
-                      takenSlot[j-1][i] = true;
-                      weeklyApps[j-1][i] = dayInfo;
-                      appButtons[j][i].setBackground(Color.RED);
-                    }
-                  }
+                }
+                if(startHour<endHour){
+                  if(startMinutes < 60)
+                    startMinutes += 20;
+                  else
+                    startHour += 1;
+                    startMinutes = 0;
+                }
+                else{
+                  if(startMinutes<endMinutes)
+                    startMinutes += 20;
+                }
               }
           }
         }
@@ -169,10 +187,13 @@ public class DisplayCalendar extends JFrame{
     return weeklyApps;
   }
 
-  public void reset(){
+  public void reset(String p){
     for(int i=0;i<24;i++){
       for(int j=0;j<5;j++){
-        appointments[i][j]= "No appointments for this slot!";
+        if(p=="both")
+          appointments[i][j]= "No appointments for this slot!";
+        else
+          appointments[i][j]= "No "+p+" appointments for this slot!";
         takenSlot[i][j] = false;
       }
     }
@@ -220,7 +241,7 @@ public class DisplayCalendar extends JFrame{
         sun = c.getTime();
         selectedWeek = weekToString(mon,sun);
         weekField.setText(selectedWeek);
-        reset();
+        reset("both");
         getWeeklyApps(mon,"both");
       } catch (SQLException s){
         s.printStackTrace();
@@ -239,7 +260,7 @@ public class DisplayCalendar extends JFrame{
         sun = c.getTime();
         selectedWeek = weekToString(mon,sun);
         weekField.setText(selectedWeek);
-        reset();
+        reset("both");
         getWeeklyApps(mon,"both");
       } catch (SQLException s){
         s.printStackTrace();
@@ -251,7 +272,7 @@ public class DisplayCalendar extends JFrame{
   private ActionListener dentistListener = new ActionListener(){
 		public void actionPerformed(ActionEvent e){
       try{
-        reset();
+        reset("Dentist");
         getWeeklyApps(mon,"Dentist");
       } catch(SQLException s){
         s.printStackTrace();
@@ -262,7 +283,7 @@ public class DisplayCalendar extends JFrame{
   private ActionListener hygienistListener = new ActionListener(){
     public void actionPerformed(ActionEvent e){
       try{
-        reset();
+        reset("Hygienist");
         getWeeklyApps(mon,"Hygienist");
       } catch(SQLException s){
         s.printStackTrace();
@@ -273,7 +294,7 @@ public class DisplayCalendar extends JFrame{
   private ActionListener bothListener = new ActionListener(){
     public void actionPerformed(ActionEvent e){
       try{
-        reset();
+        reset("both");
         getWeeklyApps(mon,"both");
       } catch(SQLException s){
         s.printStackTrace();
