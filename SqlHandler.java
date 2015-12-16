@@ -221,12 +221,11 @@ public class SqlHandler {
 		statement.setString (6, p.getAddress().getHouseNumber());
 		statement.setString	(7, p.getAddress().getPostCode());
 		statement.setString (8, p.getHealthcarePlan().getName());
-		statement.setInt(9,p.getCheckupsHad());
-		statement.setInt(10,p.getHygienesHad());
-		statement.setInt(11,p.getRepairsHad());
-		statement.setInt(9, p.getPatientID());
+		statement.setInt(9, p.getCheckUpsHad());
+		statement.setInt(10, p.getHygienesHad());
+		statement.setInt(11, p.getRepairsHad());
+		statement.setInt(12, p.getPatientID());
 
-		state
 		statement.execute();
 	}
 
