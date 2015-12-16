@@ -5,18 +5,17 @@ Things to do:
 1 - View all appointments for a *given week*, Calendars.
 2 - *Book*, *cancel* and *find* appointments for a given patient
 3 - *Book* empty appointment for holiday reasons
-//4 - *Subscribe* and *unsubscribe* patient to healthcare plan
-5 - *show* all *unpaid* treatments for a given patient
-6 - *Modify* the total cost owed by a patient on a healthcare plan
-7 - *Record* when a patient has paid their outstanding bill
+[DONE] 4 - *Subscribe* and *unsubscribe* patient to healthcare plan
+[DONE] 5 - *show* all *unpaid* treatments for a given patient
+[DOABLE PENDING SQL] 6 - *Modify* the total cost owed by a patient on a healthcare plan
+[DONE PENDING SQL] 7 - *Record* when a patient has paid their outstanding bill
 
 Things Partners should be able to do:
 8 - View their appointments for a given week (Similar to 1)
 9 - Record when they have seen a patient, and what treatments were given.
 
-
-Who'll do it:
-Blayze - 4 (then working downwards)
+10 - Finish the report
+11 - Comment the code?
 
 
 
@@ -25,3 +24,4 @@ THINGS NEEDED TO BE DONE DESPERATELY:
 - updateAppointment needs to be added, or 'addAppointment' changed to make sure it updates if the appointment is already there.
         '-> NOTE: A 'setAppointmentToPaid(Appointment a)' method would also work
    - when done, uncomment line 116 in PatientSelector, and look at addStuff.java to test it
+- add a type (or 'paymentType') field to the treatments table, so that each treatment can be classed as either a "hygiene", "checkup" or "repair" treatment, so that number 6 can be done.
