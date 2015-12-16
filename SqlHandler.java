@@ -310,8 +310,7 @@ public class SqlHandler {
 		statement.setTime(8, a.getStartTime());
 		statement.setString (9, a.getPartner());
 		statement.execute();
-		}
-	
+	}
 
 	public void removeAppointment(Appointment a) throws SQLException{
 		String removeApp = "DELETE FROM appointments WHERE type = (?,?,?)";
@@ -451,8 +450,9 @@ public class SqlHandler {
 		}
 	}
 
-	public static void main (String[]args){
+/*	public static void main (String[]args){
 
+<<<<<<< HEAD
 	//Address address = new Address("egg","poop","eggs","poop","eggs");
 	
 	//HealthcarePlan plan = new HealthcarePlan("NHS",6,5,6,50.00);
@@ -494,4 +494,44 @@ public class SqlHandler {
 	System.out.println("error"+ ex);
 	}
 	}
+=======
+		Address address = new Address("egg","poop","eggs","poop","eggs");
+		
+		HealthcarePlan plan = new HealthcarePlan("NHS",6,5,6,50.00);
+		java.sql.Date date = new java.sql.Date(1994,06,05);
+		java.sql.Time st = new java.sql.Time(10,0,0);
+		java.sql.Time et = new java.sql.Time(10,20,0);
+		Treatment treat = new Treatment("brush",100.00);
+		ArrayList<Treatment>  tt = new ArrayList<Treatment>();
+		tt.add(treat);
+		Patient patient = new Patient("Miss","Frog","Piggy",date,"87881402011",plan,address,7);
+		Appointment app = new Appointment(patient,date,st,et,"Dentist",false,tt);
+		
+		//java.sql.Date date1 = new java.sql.Date(2015,12,01);
+		//System.out.println(date1);
+		
+		//(String name,int checks,int hygienes,int repairs, double cost)
+	
+
+
+		try{
+			//Patient p = (new SqlHandler().getPatientById(7));
+			//System.out.println(p);
+			//Patient[] p = (new SqlHandler().getAllPatients());
+			//HealthcarePlan test = (new SqlHandler().getHealthcarePlan("NHS"));
+			//new SqlHandler().addHealthcarePlan(plan);
+			//new SqlHandler().addPatient(patient);
+			//new SqlHandler().updatePatient(patient);
+			new SqlHandler().updateAppointment(app);
+			//Appointment[] a = new SqlHandler().getAppointmentsByDayPartner(date1,"Dentist");
+			//System.out.println(p[0]);
+			//System.out.println(p[1]);
+			
+			//System.out.println(test);
+		}catch (SQLException ex){
+			ex.printStackTrace();
+			System.out.println("error"+ ex);
+		}
+	}*/
+>>>>>>> d86235af8649a878a94e66c1c4956454173a5dd5
 }
