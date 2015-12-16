@@ -227,7 +227,7 @@ public class SqlHandler {
 		statement.execute();
 	}
 	
-	//update patient with vvost crap
+	
 		
 	
 	public Patient getPatientById(int pId) throws SQLException {
@@ -452,7 +452,7 @@ public class SqlHandler {
 
 /*	public static void main (String[]args){
 
-<<<<<<< HEAD
+
 	//Address address = new Address("egg","poop","eggs","poop","eggs");
 	
 	//HealthcarePlan plan = new HealthcarePlan("NHS",6,5,6,50.00);
@@ -494,7 +494,7 @@ public class SqlHandler {
 	System.out.println("error"+ ex);
 	}
 	}
-=======
+
 		Address address = new Address("egg","poop","eggs","poop","eggs");
 		
 		HealthcarePlan plan = new HealthcarePlan("NHS",6,5,6,50.00);
@@ -533,5 +533,4 @@ public class SqlHandler {
 			System.out.println("error"+ ex);
 		}
 	}*/
->>>>>>> d86235af8649a878a94e66c1c4956454173a5dd5
 }
