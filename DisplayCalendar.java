@@ -19,6 +19,7 @@ public class DisplayCalendar extends JFrame{
   private String selectedWeek;
   private JTable table;
   private SqlHandler handler;
+  private String [][] butTimes = new String[24][5];
   private String [][] appointments= new String[24][5];
   private Boolean[][] takenSlot = new Boolean[24][5];
   private JButton[][] appButtons = new JButton[25][5];
@@ -63,10 +64,11 @@ public class DisplayCalendar extends JFrame{
           else
             time = hour +":"+ mins + "0";
           JButton a = new JButton(time);
-          table.add(a);
+	  butTimes[j-1][i] = time;
+	  table.add(a);
           appButtons[j][i] = a;
           appButtons[j][i].addActionListener(appListener);
-          appointments[j-1][i] = "No appointments this slot!";
+          appointments[j-1][i] = "No appointments this day!";
           takenSlot[j-1][i] = false;
       }
       mins += 2;
@@ -75,7 +77,7 @@ public class DisplayCalendar extends JFrame{
         mins = 0;
       }
     }
-    getWeeklyApps(getMonday(today),"both");
+    appointments = getWeeklyApps(getMonday(today),"both");
     weekDisplay.add(table,BorderLayout.CENTER);
 
     // Exit button display button
@@ -113,17 +115,11 @@ public class DisplayCalendar extends JFrame{
     Calendar c = Calendar.getInstance();
     c.setTime(date);
     String[][] weeklyApps = new String[24][5];
+    weeklyApps = appointments;
     for(int i=0; i<5;i++){
       java.sql.Date sqlDate = new java.sql.Date(c.getTime().getTime());
-        String dayInfo = "";
         Appointment[] sqlApps = handler.getAppointmentsByDay(sqlDate);
-        if(sqlApps.length<=0){
-          if(s=="both")
-            dayInfo = "No Appointments for this slot!";
-          else
-            dayInfo = "No " + s + " Appointments";
-        }
-        else{
+        if(sqlApps.length>=0){
           for(Appointment a : sqlApps){
               String info = "";
               if(s == "Dentist"){
@@ -154,9 +150,10 @@ public class DisplayCalendar extends JFrame{
               eTime = eTime.substring(0,eTime.length()-3);
               int endHour = Integer.valueOf(sTime.substring(0,2));
               int endMinutes = Integer.valueOf(sTime.substring(3));
-              while(startHour != endHour && startMinutes == endMinutes){
+             // while(startHour != endHour || startMinutes != endMinutes){
                 for(int j=1;j<25;j++){
-                    if(appButtons[j][i].getText().equals(sTime)){
+                  if(sTime != eTime){
+                    if(butTimes[j-1][i].equals(sTime)){
                       if(takenSlot[j-1][i]){
                         weeklyApps[j-1][i] += "\n" + info;
                         appButtons[j][i].setBackground(Color.RED);
@@ -166,20 +163,23 @@ public class DisplayCalendar extends JFrame{
                         weeklyApps[j-1][i] = info;
                         appButtons[j][i].setBackground(Color.RED);
                       }
+                      if(startHour<endHour){
+                        if(startMinutes < 60)
+                          startMinutes += 20;
+                        else
+                          startHour += 1;
+                          startMinutes = 0;
+                      }
+                      else{
+                        if(startMinutes<endMinutes)
+                          startMinutes += 20;
+                      }
+                      sTime = startHour +":"+ startMinutes;
                     }
+                  }
                 }
-                if(startHour<endHour){
-                  if(startMinutes < 60)
-                    startMinutes += 20;
-                  else
-                    startHour += 1;
-                    startMinutes = 0;
-                }
-                else{
-                  if(startMinutes<endMinutes)
-                    startMinutes += 20;
-                }
-              }
+
+            // }
           }
         }
         c.add(Calendar.DATE,1);
@@ -194,7 +194,8 @@ public class DisplayCalendar extends JFrame{
           appointments[i][j]= "No appointments for this slot!";
         else
           appointments[i][j]= "No "+p+" appointments for this slot!";
-        takenSlot[i][j] = false;
+	        appButtons[i+1][j].setBackground(Color.GREEN);
+          takenSlot[i][j] = false;
       }
     }
   }
@@ -242,7 +243,7 @@ public class DisplayCalendar extends JFrame{
         selectedWeek = weekToString(mon,sun);
         weekField.setText(selectedWeek);
         reset("both");
-        getWeeklyApps(mon,"both");
+        appointments = getWeeklyApps(mon,"both");
       } catch (SQLException s){
         s.printStackTrace();
       }
@@ -261,7 +262,7 @@ public class DisplayCalendar extends JFrame{
         selectedWeek = weekToString(mon,sun);
         weekField.setText(selectedWeek);
         reset("both");
-        getWeeklyApps(mon,"both");
+        appointments = getWeeklyApps(mon,"both");
       } catch (SQLException s){
         s.printStackTrace();
       }
@@ -303,11 +304,11 @@ public class DisplayCalendar extends JFrame{
   };
   private ActionListener appListener = new ActionListener(){
     public void actionPerformed(ActionEvent ae){
-      for(int i=0;i<25;i++){
+      for(int i=1;i<25;i++){
         for(int j=0;j<5;j++){
           if(ae.getSource()==appButtons[i][j]){
             JFrame frame = new JFrame();
-            JOptionPane.showMessageDialog(frame,appointments[i][j]);
+            JOptionPane.showMessageDialog(frame,appointments[i-1][j]);
           }
         }
       }
